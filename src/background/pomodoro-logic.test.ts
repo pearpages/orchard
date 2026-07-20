@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { BADGE_COLOR, badgeViewOf, nextPhase } from './pomodoro-logic';
+import { BADGE_COLOR, badgeViewOf, nextPhase, phaseEndNotification } from './pomodoro-logic';
 
 const NOW = 1_000_000;
 
@@ -11,6 +11,26 @@ describe('Feature: Pomodoro session flow', () => {
 
     it('Given a break ends, When the next phase is chosen, Then it is a focus session', () => {
       expect(nextPhase('break')).toBe('focus');
+    });
+  });
+});
+
+describe('Feature: Desktop notification when a phase ends', () => {
+  describe('Scenario: a focus session finishes', () => {
+    it('Given focus just ended, When the notification is derived, Then it celebrates and announces the break', () => {
+      expect(phaseEndNotification('focus')).toEqual({
+        title: 'Focus session complete',
+        message: 'Nice work. Break starts now.',
+      });
+    });
+  });
+
+  describe('Scenario: a break finishes', () => {
+    it('Given the break just ended, When the notification is derived, Then it calls back to focus', () => {
+      expect(phaseEndNotification('break')).toEqual({
+        title: 'Break is over',
+        message: 'Back to it — a new focus session just started.',
+      });
     });
   });
 });

@@ -91,6 +91,67 @@ test.describe('Feature: Tabs keep their state across popup openings', () => {
   });
 });
 
+test.describe('Feature: Site count badge on the Blocklist tab', () => {
+  test('Scenario: Given sites added and removed, When the list changes, Then the tab badge tracks the count', async ({
+    context,
+    extensionId,
+  }) => {
+    const popup = await openPopup(context, extensionId);
+    const badge = popup.locator('#tab-blocklist-count');
+    await expect(badge).toBeHidden();
+
+    await popup.fill('#blocklist-input', 'one.test');
+    await popup.click('.blocklist__form button[type="submit"]');
+    await expect(badge).toHaveText('1');
+
+    await popup.fill('#blocklist-input', 'two.test');
+    await popup.click('.blocklist__form button[type="submit"]');
+    await expect(badge).toHaveText('2');
+
+    await popup.click('button[data-site="one.test"]');
+    await expect(badge).toHaveText('1');
+
+    await popup.click('button[data-site="two.test"]');
+    await expect(badge).toBeHidden();
+  });
+});
+
+test.describe('Feature: Announcing the end of a pomodoro phase', () => {
+  test('Scenario: Given a running focus session, When its end alarm fires, Then a celebration tab opens, Chrome gets a notification, and the break starts', async ({
+    context,
+    extensionId,
+    serviceWorker,
+  }) => {
+    const popup = await openPopup(context, extensionId);
+    await popup.click('button[data-tab="pomodoro"]');
+    await popup.click('button[data-action="start-focus"]');
+    await expect(popup.locator('#dial-phase')).toHaveText('Focus');
+
+    // Fast-forward: re-arm the real end alarm to fire now (unpacked extensions
+    // are exempt from the 30s minimum), driving the genuine handleAlarm path.
+    const celebrationPage = context.waitForEvent('page', (page) => page.url().includes('phase-end'));
+    await serviceWorker.evaluate(() => chrome.alarms.create('pomodoro-end', { when: Date.now() }));
+
+    const celebration = await celebrationPage;
+    expect(celebration.url()).toBe(
+      `chrome-extension://${extensionId}/phase-end/phase-end.html?finished=focus&minutes=25`,
+    );
+    await expect(celebration.locator('#phase-title')).toHaveText('Break time!');
+    await expect(celebration.locator('#phase-detail')).toHaveText(
+      '25 minutes of focus done. The break is running.',
+    );
+
+    await expect
+      .poll(() =>
+        serviceWorker.evaluate(() =>
+          chrome.notifications.getAll().then((all) => Object.keys(all).length),
+        ),
+      )
+      .toBe(1);
+    await expect(popup.locator('#dial-phase')).toHaveText('Break');
+  });
+});
+
 test.describe('Feature: Pomodoro badge on the toolbar icon', () => {
   test('Scenario: Given a focus session, When it starts, pauses, and resets, Then the badge shows 25m, then the pause glyph, then clears', async ({
     context,

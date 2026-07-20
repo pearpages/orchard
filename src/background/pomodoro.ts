@@ -1,6 +1,6 @@
 import { getBlockerState, getPomodoroState, setPomodoroState } from '../shared/storage';
 import type { PomodoroPhase } from '../shared/types';
-import { badgeViewOf, nextPhase } from './pomodoro-logic';
+import { badgeViewOf, nextPhase, phaseEndNotification } from './pomodoro-logic';
 
 const END_ALARM = 'pomodoro-end';
 const TICK_ALARM = 'pomodoro-tick';
@@ -53,22 +53,27 @@ export async function handleAlarm(name: string): Promise<void> {
   if (name !== END_ALARM) return;
   const state = await getPomodoroState();
   if (state.status !== 'running') return;
-  const next = nextPhase(state.phase);
-  notifyPhaseEnd(state.phase, next);
-  await startPhase(next);
+  notifyPhaseEnd(state.phase);
+  openPhaseEndTab(state.phase, state.totalMs);
+  await startPhase(nextPhase(state.phase));
 }
 
-function notifyPhaseEnd(finished: PomodoroPhase, next: PomodoroPhase): void {
-  chrome.notifications.create({
-    type: 'basic',
-    iconUrl: chrome.runtime.getURL('icons/icon128.png'),
-    title: finished === 'focus' ? 'Focus session complete' : 'Break is over',
-    message:
-      next === 'break'
-        ? 'Nice work. Break starts now.'
-        : 'Back to it — a new focus session just started.',
-    priority: 2,
-  });
+function openPhaseEndTab(finished: PomodoroPhase, totalMs: number): void {
+  const minutes = Math.round(totalMs / 60_000);
+  chrome.tabs
+    .create({ url: chrome.runtime.getURL(`phase-end/phase-end.html?finished=${finished}&minutes=${minutes}`) })
+    .catch((error: unknown) => console.error('Pomodoro phase-end tab failed:', error));
+}
+
+function notifyPhaseEnd(finished: PomodoroPhase): void {
+  chrome.notifications
+    .create({
+      type: 'basic',
+      iconUrl: chrome.runtime.getURL('icons/icon128.png'),
+      ...phaseEndNotification(finished),
+      priority: 2,
+    })
+    .catch((error: unknown) => console.error('Pomodoro notification failed:', error));
 }
 
 export async function refreshBadge(): Promise<void> {

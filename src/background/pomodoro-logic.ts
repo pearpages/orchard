@@ -9,6 +9,18 @@ export function nextPhase(phase: PomodoroPhase): PomodoroPhase {
   return phase === 'focus' ? 'break' : 'focus';
 }
 
+export interface PhaseEndNotification {
+  title: string;
+  message: string;
+}
+
+/** What the desktop notification should say when a phase runs out. */
+export function phaseEndNotification(finished: PomodoroPhase): PhaseEndNotification {
+  return finished === 'focus'
+    ? { title: 'Focus session complete', message: 'Nice work. Break starts now.' }
+    : { title: 'Break is over', message: 'Back to it — a new focus session just started.' };
+}
+
 export interface BadgeView {
   text: string;
   color?: string;

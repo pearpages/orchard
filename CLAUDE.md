@@ -16,6 +16,20 @@ Chrome extension (Manifest V3): site blocklist with master on/off switch + Pomod
 
 ## Session log
 
+### 2026-07-20 — Celebration tab on phase end (BDD)
+- User wanted an in-browser announcement (system banner too missable). Chosen over a page-injected toast to avoid `scripting` + all-sites permissions: the worker now opens `phase-end/phase-end.html?finished=…&minutes=…` via `chrome.tabs.create` (no new permissions) alongside the system notification.
+- New page follows the blocked-page pattern: hanging sign ("Break time!" green-themed / "Focus time!"), pure `shared/phase-end-view.ts` view model, thin `phase-end/page.ts` (`initPhaseEnd(search)` so jsdom tests can drive it), "Carry on" button closes the tab. Build script gained the entry + static copies.
+- e2e scenario extended: after the fast-forwarded alarm it asserts the celebration tab URL + sign text, the notification, and the auto-started break. 72 unit + 7 e2e green.
+
+### 2026-07-20 — Pomodoro end notification: proven by e2e, banner is OS-side
+- User saw no desktop notification; the code already existed (`pomodoro.ts` → `chrome.notifications.create` on the end alarm). New e2e proves it: start focus, re-arm `pomodoro-end` with `when: Date.now()` (unpacked extensions skip the 30s alarm minimum), poll `chrome.notifications.getAll()` → 1, dial flips to Break. So a missing banner is macOS settings (Chrome allowed in System Settings → Notifications, Focus/DND off), not the extension.
+- BDD extraction: pure `phaseEndNotification(finished)` in `pomodoro-logic.ts` with Gherkin specs; `notifyPhaseEnd` is now a thin spread and logs `create` rejections instead of failing silently. 61 unit + 7 e2e green.
+
+### 2026-07-20 — Blocklist count badge on the tab (BDD)
+- The site list scrolls after ~4 items, so the total was invisible; the Blocklist tab button now shows a pill badge with the live site count (hidden at 0).
+- Specs first: pure `siteCountBadge` view model in `shared/tabs.ts`, jsdom DOM specs in `popup/blocklist.test.ts` (fresh dynamic import per test — `blocklist.ts` grabs refs at module load), badge updated from `renderBlocklist`. One new e2e scenario tracks the badge through add/remove.
+- Gotcha the e2e caught: an author `display` rule beats the UA `[hidden]{display:none}`, so `.tabs__count[hidden]` needs an explicit `display:none`. 59 unit + 6 e2e green.
+
 ### 2026-07-20 — README: development & testing story
 - Rewrote the README's Development section as "How we develop and test": BDD workflow, testability architecture (pure logic + thin chrome wrappers), plain-page style iteration via dev-mock, and the three verification layers (unit / mocked preview / disposable-Chromium e2e).
 
@@ -40,9 +54,11 @@ Chrome extension (Manifest V3): site blocklist with master on/off switch + Pomod
 ## TODOs
 
 ### Pending
-- [ ] Verify desktop notifications by eye once in real Chrome (only piece the e2e suite can't assert — OS-level UI).
+- [ ] Verify the notification *banner* by eye once in real Chrome — the e2e now proves Chrome receives the notification (`getAll` = 1); only the OS-level rendering remains manual (macOS: System Settings → Notifications → Chrome allowed, Focus/DND off).
 - [ ] Optional ideas parked: integrate Pomodoro with blocking (force-block during focus), long-break cycles, per-site schedules, export/import of the blocklist.
 
 ### Done
+- [x] Celebration tab when a phase ends — in-browser announcement alongside the system notification (2026-07-20)
+- [x] Site count badge on the Blocklist tab — list scroll hid the total (2026-07-20)
 - [x] End-to-end verification without manual install: redirect rules, switch, tabs, badge (Playwright, 2026-07-20)
 - [x] Popup (toggle, blocklist form, Pomodoro dial), background worker, blocked page, README (2026-07-20)

@@ -1,11 +1,13 @@
 import { normalizeSite } from '../shared/sites';
 import { getBlockerState, patchBlockerState } from '../shared/storage';
+import { siteCountBadge } from '../shared/tabs';
 import type { BlockerState } from '../shared/types';
 
 const form = document.querySelector<HTMLFormElement>('#blocklist-form')!;
 const input = document.querySelector<HTMLInputElement>('#blocklist-input')!;
 const error = document.querySelector<HTMLParagraphElement>('#blocklist-error')!;
 const list = document.querySelector<HTMLUListElement>('#blocklist-items')!;
+const tabCount = document.querySelector<HTMLSpanElement>('#tab-blocklist-count')!;
 
 export function initBlocklist(): void {
   form.addEventListener('submit', (event) => {
@@ -20,6 +22,10 @@ export function initBlocklist(): void {
 }
 
 export function renderBlocklist(state: BlockerState): void {
+  const badge = siteCountBadge(state.sites.length);
+  tabCount.hidden = !badge.visible;
+  tabCount.textContent = badge.text;
+
   if (state.sites.length === 0) {
     list.innerHTML = '<li class="blocklist__empty">Nothing is blocked yet. Add a site above to get started.</li>';
     return;

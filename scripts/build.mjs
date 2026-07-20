@@ -18,6 +18,7 @@ await build({
     background: join(src, 'background/index.ts'),
     'popup/popup': join(src, 'popup/index.ts'),
     'blocked/blocked': join(src, 'blocked/index.ts'),
+    'phase-end/phase-end': join(src, 'phase-end/index.ts'),
   },
   bundle: true,
   format: 'iife',
@@ -33,6 +34,8 @@ const staticFiles = [
   ['popup/css', 'popup/css'],
   ['blocked/blocked.html', 'blocked/blocked.html'],
   ['blocked/blocked.css', 'blocked/blocked.css'],
+  ['phase-end/phase-end.html', 'phase-end/phase-end.html'],
+  ['phase-end/phase-end.css', 'phase-end/phase-end.css'],
 ];
 
 for (const [from, to] of staticFiles) {
