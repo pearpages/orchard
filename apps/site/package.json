@@ -1,0 +1,15 @@
+{
+  "name": "@site-blocker/site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static promo site for the Site Blocker Chrome extension.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^7.1.1"
+  }
+}

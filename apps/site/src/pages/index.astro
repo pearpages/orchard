@@ -1,0 +1,282 @@
+---
+import '../styles/theme.css';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Site Blocker — close the internet when it's time to work</title>
+    <meta
+      name="description"
+      content="A Chrome extension with an enamel kitchen-timer soul: block distracting sites with one switch and keep focus with a built-in Pomodoro timer."
+    />
+  </head>
+  <body>
+    <div class="awning" aria-hidden="true"></div>
+
+    <header class="hero">
+      <div class="hanging">
+        <svg class="hanging__strings" viewBox="0 0 220 90" aria-hidden="true">
+          <circle cx="110" cy="8" r="4"></circle>
+          <line x1="110" y1="8" x2="34" y2="90"></line>
+          <line x1="110" y1="8" x2="186" y2="90"></line>
+        </svg>
+        <div class="sign">
+          <h1 class="sign__title">Site Blocker</h1>
+          <p class="sign__tagline">Closed for focus.</p>
+        </div>
+      </div>
+      <p class="hero__pitch">
+        A Chrome extension with an enamel kitchen-timer soul: block the sites that eat your
+        afternoons with one switch, and pace the work with a built-in Pomodoro timer.
+      </p>
+      <a class="hero__cta" href="#install">Get it running in two minutes</a>
+    </header>
+
+    <main class="features">
+      <section class="card">
+        <h2 class="card__title">One switch</h2>
+        <p class="card__body">
+          Keep a blocklist of domains and flip the master switch when it's time to work. Blocked
+          sites land on a friendly hand-painted "Closed for focus" sign instead of their feed —
+          blocking is done with Chrome's declarative rules, so nothing reads your pages.
+        </p>
+      </section>
+      <section class="card">
+        <h2 class="card__title">The tomato dial</h2>
+        <p class="card__body">
+          A Pomodoro timer with a 60-tick dial, living in the extension's background — it survives
+          closed popups and browser naps. The toolbar badge counts the minutes down so the time is
+          always in the corner of your eye.
+        </p>
+      </section>
+      <section class="card">
+        <h2 class="card__title">A proper finish</h2>
+        <p class="card__body">
+          When a session ends, a celebration tab swings in — <em>Break time!</em> — alongside a
+          desktop notification, and the next phase starts on its own. Focus, break, repeat.
+        </p>
+      </section>
+    </main>
+
+    <section class="install" id="install">
+      <h2 class="install__title">Install it</h2>
+      <p class="install__note">
+        Site Blocker isn't on the Chrome Web Store (yet) — you load it straight from the source,
+        which also means you can read every line of what runs.
+      </p>
+      <ol class="install__steps">
+        <li>
+          Clone and build:
+          <pre class="install__code">git clone &lt;this repo&gt;
+cd site-blocker
+pnpm install
+pnpm build:extension</pre>
+        </li>
+        <li>Open <code class="install__inline">chrome://extensions</code> and enable <strong>Developer mode</strong>.</li>
+        <li>
+          Click <strong>Load unpacked</strong> and pick the
+          <code class="install__inline">apps/extension/dist</code> folder.
+        </li>
+      </ol>
+    </section>
+
+    <footer class="footer">
+      <p>Built with cream, tomato, and TypeScript.</p>
+    </footer>
+  </body>
+</html>
+
+<style>
+  /* Striped shop awning across the top (same technique as the extension's blocked page) */
+  .awning {
+    height: 26px;
+    background: repeating-linear-gradient(90deg, var(--red) 0 42px, var(--paper) 42px 84px);
+    border-bottom: 3px solid var(--red-dark);
+  }
+
+  .awning::after {
+    content: '';
+    display: block;
+    height: 14px;
+    margin-top: 3px;
+    background:
+      radial-gradient(circle at 21px -7px, var(--red) 0 19px, transparent 20px) 0 0 / 84px 14px repeat-x,
+      radial-gradient(circle at 21px -7px, var(--paper) 0 19px, transparent 20px) 42px 0 / 84px 14px repeat-x;
+  }
+
+  .hero {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 24px 56px;
+    text-align: center;
+  }
+
+  .hanging {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform-origin: 50% 0;
+    animation: sway 6s ease-in-out infinite alternate;
+  }
+
+  @keyframes sway {
+    from {
+      transform: rotate(-0.7deg);
+    }
+    to {
+      transform: rotate(0.7deg);
+    }
+  }
+
+  .hanging__strings {
+    width: 220px;
+    height: 90px;
+    margin-bottom: -4px;
+  }
+
+  .hanging__strings circle {
+    fill: var(--ink-soft);
+  }
+
+  .hanging__strings line {
+    stroke: var(--ink-soft);
+    stroke-width: 2;
+  }
+
+  .sign {
+    padding: 36px 56px 30px;
+    background: var(--paper);
+    border: 4px solid var(--red-deep);
+    border-radius: 20px;
+    box-shadow:
+      0 10px 24px rgba(51, 38, 31, 0.18),
+      inset 0 0 0 3px var(--cream);
+  }
+
+  .sign__title {
+    margin: 0;
+    font-size: clamp(36px, 7vw, 52px);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    color: var(--red-deep);
+  }
+
+  .sign__tagline {
+    margin: 8px 0 0;
+    font-family: var(--font-display);
+    font-size: 17px;
+    color: var(--ink-soft);
+  }
+
+  .hero__pitch {
+    max-width: 560px;
+    margin: 32px auto 0;
+    font-size: 18px;
+  }
+
+  .hero__cta {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 12px 32px;
+    border-radius: 999px;
+    background: var(--red-deep);
+    color: var(--paper);
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 2px 0 var(--red-dark);
+  }
+
+  .hero__cta:hover {
+    background: var(--red);
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 56px;
+  }
+
+  .card {
+    padding: 26px 28px;
+    background: var(--paper);
+    border: 2px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(51, 38, 31, 0.08);
+  }
+
+  .card__title {
+    margin: 0;
+    font-size: 20px;
+    color: var(--red-deep);
+  }
+
+  .card__body {
+    margin: 10px 0 0;
+    font-size: 15px;
+  }
+
+  .install {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 24px 56px;
+  }
+
+  .install__title {
+    font-size: 28px;
+    color: var(--red-deep);
+    text-align: center;
+  }
+
+  .install__note {
+    text-align: center;
+    color: var(--ink-soft);
+  }
+
+  .install__steps {
+    margin: 24px 0 0;
+    padding-left: 22px;
+    display: grid;
+    gap: 14px;
+    font-size: 15px;
+  }
+
+  .install__code {
+    margin: 8px 0 0;
+    padding: 14px 18px;
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    overflow-x: auto;
+  }
+
+  .install__inline {
+    padding: 1px 6px;
+    background: var(--cream-deep);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  .footer {
+    padding: 20px 24px 32px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hanging {
+      animation: none;
+    }
+  }
+</style>

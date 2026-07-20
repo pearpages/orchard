@@ -4,17 +4,22 @@ Chrome extension (Manifest V3): site blocklist with master on/off switch + Pomod
 
 ## Conventions
 
-- TypeScript (strict) bundled with esbuild via `npm run build` → `dist/`; `npm run typecheck` before committing.
-- Unit tests with Vitest, run as `npm test -- --run`, colocated as `src/**/*.test.ts`, written in Gherkin style (`Feature`/`Scenario` describes, `Given … When … Then …` test names). Logic under test must be pure — chrome-API modules stay thin and delegate (`rules.ts`, `pomodoro-logic.ts`, `dial-view.ts`).
-- E2E with Playwright (`npm run test:e2e`, specs in `e2e/*.e2e.ts`, same Gherkin naming): disposable Chromium loads `dist/` via `--load-extension`, a local server plays `blocked.test` via `--host-resolver-rules`, and service-worker state is asserted with `worker.evaluate`. Vitest excludes `e2e/**` (see `vitest.config.ts`); Playwright runs `workers: 1` because each test owns the fixed site port.
+- pnpm-workspaces monorepo (pnpm + node pinned in `mise.toml`): `apps/extension` (the extension) and `apps/site` (Astro promo site, static, no deployment wiring yet; design tokens hand-copied from `blocked.css` into `apps/site/src/styles/theme.css`). Root scripts delegate via `pnpm --filter`; the same commands work from inside `apps/extension`. Always `pnpm install` from the root.
+- TypeScript (strict) bundled with esbuild via `pnpm build:extension` → `apps/extension/dist`; `pnpm typecheck` before committing.
+- Unit tests with Vitest, run as `pnpm test --run` (NEVER bare `pnpm test` — watch mode), colocated as `src/**/*.test.ts`, written in Gherkin style (`Feature`/`Scenario` describes, `Given … When … Then …` test names). Logic under test must be pure — chrome-API modules stay thin and delegate (`rules.ts`, `pomodoro-logic.ts`, `dial-view.ts`).
+- E2E with Playwright (`pnpm test:e2e`, specs in `apps/extension/e2e/*.e2e.ts`, same Gherkin naming): disposable Chromium loads the built dist via `--load-extension`, a local server plays `blocked.test` via `--host-resolver-rules`, and service-worker state is asserted with `worker.evaluate`. Vitest excludes `e2e/**` (see `vitest.config.ts`); Playwright runs `workers: 1` because each test owns the fixed site port.
 - No framework: each popup section is a module exposing `init()` + `render(state)`; state lives in `chrome.storage` and the popup re-renders on `storage.onChanged` (declarative, one-way flow).
 - Styles in plain `.css` files, one per section (`src/popup/css/`), BEM-style class names, no inline styles.
 - Blocking is done only with `declarativeNetRequest` dynamic rules, always re-derived in full from storage (`syncBlockingRules`), never edited incrementally.
 - Pomodoro timing lives in the background worker on `chrome.alarms` (survives service-worker suspension); the popup only displays state and sends commands.
 - Design language: enamel kitchen-timer — cream/tomato palette, `ui-rounded` display type, dial with 60 ticks. Blocked page is a hanging "Closed for focus" sign.
-- Node is pinned via `mise.toml` (node 24).
+- Node and pnpm are pinned via `mise.toml` (node 24, pnpm 11). pnpm 11 blocks dependency build scripts by default; approved ones live under `allowBuilds` in `pnpm-workspace.yaml` (currently esbuild).
 
 ## Session log
+
+### 2026-07-20 — Monorepo: pnpm + apps/extension + apps/site
+- Three commits, tree green at each: (1) migrated npm → pnpm (`pnpm import` preserved resolutions; `allowBuilds: esbuild` needed in `pnpm-workspace.yaml`); (2) `git mv` of the whole extension into `apps/extension` — zero source edits, since `pnpm --filter` runs scripts with cwd = package dir, all `process.cwd()`-bound test paths kept working; history follows via `git log --follow`; (3) new `apps/site`: hand-rolled minimal Astro 7 scaffold (`^7.1.1`, node ≥22 ok), kitchen-timer landing page (awning, hanging sign, three feature cards, load-unpacked install steps), verified by `pnpm build:site` + Playwright screenshot.
+- Test invocation changed everywhere: `pnpm test --run` (root and in-package) replaces `npm test -- --run`.
 
 ### 2026-07-20 — Celebration tab on phase end (BDD)
 - User wanted an in-browser announcement (system banner too missable). Chosen over a page-injected toast to avoid `scripting` + all-sites permissions: the worker now opens `phase-end/phase-end.html?finished=…&minutes=…` via `chrome.tabs.create` (no new permissions) alongside the system notification.
@@ -58,6 +63,7 @@ Chrome extension (Manifest V3): site blocklist with master on/off switch + Pomod
 - [ ] Optional ideas parked: integrate Pomodoro with blocking (force-block during focus), long-break cycles, per-site schedules, export/import of the blocklist.
 
 ### Done
+- [x] Monorepo conversion: pnpm workspaces, extension moved to apps/extension, Astro promo site in apps/site (2026-07-20)
 - [x] Celebration tab when a phase ends — in-browser announcement alongside the system notification (2026-07-20)
 - [x] Site count badge on the Blocklist tab — list scroll hid the total (2026-07-20)
 - [x] End-to-end verification without manual install: redirect rules, switch, tabs, badge (Playwright, 2026-07-20)

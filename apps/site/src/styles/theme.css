@@ -1,0 +1,39 @@
+/*
+ * Enamel kitchen-timer design tokens.
+ * Source of truth: apps/extension/src/blocked/blocked.css — keep in sync by hand.
+ */
+:root {
+  --cream: #f6eedb;
+  --paper: #fffdf4;
+  --cream-deep: #ecdfc0;
+  --line: #e3d5b2;
+  --red: #d9482b;
+  --red-deep: #b93a1f;
+  --red-dark: #96301a;
+  --green: #5b8c51;
+  --green-deep: #47703f;
+  --ink: #33261f;
+  --ink-soft: #8a7a66;
+  --font-display: ui-rounded, "Hiragino Maru Gothic ProN", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}

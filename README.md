@@ -2,6 +2,19 @@
 
 A Chrome extension that keeps you off distracting sites — with a one-click kill switch and a built-in Pomodoro timer.
 
+## Monorepo layout
+
+pnpm workspaces, one app per folder:
+
+```
+apps/
+├── extension/   The Chrome extension (source, tests, build scripts)
+└── site/        Static promo site (Astro) — pnpm dev:site / pnpm build:site
+```
+
+All commands below run from the repo root and delegate into the right workspace; they work
+equally from inside `apps/extension`. Node and pnpm versions are pinned in `mise.toml`.
+
 ## Features
 
 - **Blocklist** — add as many sites as you want from the popup form. Input is forgiving: paste `https://www.youtube.com/watch?v=…` and it is normalized to `youtube.com`. Subdomains are blocked too (`m.youtube.com`, `music.youtube.com`).
@@ -14,15 +27,15 @@ A Chrome extension that keeps you off distracting sites — with a one-click kil
 ## Install
 
 ```bash
-npm install
-npm run build
+pnpm install
+pnpm build:extension
 ```
 
 Then in Chrome:
 
 1. Open `chrome://extensions`.
 2. Enable **Developer mode** (top right).
-3. Click **Load unpacked** and select the `dist/` folder.
+3. Click **Load unpacked** and select the `apps/extension/dist` folder.
 
 ## How blocking works
 
@@ -41,50 +54,52 @@ Toggling the switch or editing the list just re-derives the rule set from storag
 ## How we develop and test
 
 ```bash
-npm run typecheck   # strict TypeScript, no emit
-npm test -- --run   # unit tests (Vitest, Gherkin-style)
-npm run test:e2e    # end-to-end in a disposable Chromium (Playwright)
-npm run build       # bundle with esbuild into dist/
+pnpm typecheck      # strict TypeScript, no emit
+pnpm test --run     # unit tests (Vitest, Gherkin-style)
+pnpm test:e2e       # end-to-end in a disposable Chromium (Playwright)
+pnpm build          # build every workspace (extension + site)
+pnpm dev:site       # promo site dev server
 ```
 
-One-time setup for the e2e suite: `npx playwright install chromium`.
+One-time setup for the e2e suite: `pnpm --filter @site-blocker/extension exec playwright install chromium`.
 
 ### The development workflow
 
 **Features are built BDD-style.** New behavior starts as failing specs — `Feature` / `Scenario`
 describe blocks with `Given … When … Then …` test names — and the implementation follows until
-they pass (the tab feature in [tabs.test.ts](src/popup/tabs.test.ts) is a good example). The same
+they pass (the tab feature in [tabs.test.ts](apps/extension/src/popup/tabs.test.ts) is a good example). The same
 Gherkin naming is used at every level, unit to e2e, so the test output reads as a living
 specification of the extension.
 
 **The code is shaped for testability.** Modules that talk to `chrome.*` APIs stay thin and delegate
-every decision to pure functions: rule derivation in [rules.ts](src/background/rules.ts), session
-flow and badge in [pomodoro-logic.ts](src/background/pomodoro-logic.ts), the dial view model in
-[dial-view.ts](src/shared/dial-view.ts), tab resolution in [tabs.ts](src/shared/tabs.ts). The pure
+every decision to pure functions: rule derivation in [rules.ts](apps/extension/src/background/rules.ts), session
+flow and badge in [pomodoro-logic.ts](apps/extension/src/background/pomodoro-logic.ts), the dial view model in
+[dial-view.ts](apps/extension/src/shared/dial-view.ts), tab resolution in [tabs.ts](apps/extension/src/shared/tabs.ts). The pure
 parts are tested without any browser; the thin wrappers are covered by the e2e suite.
 
-**Styling is iterated on a plain page.** `dist/popup/popup.html` opens in any browser —
-[dev-mock.ts](src/popup/dev-mock.ts) installs an in-memory stand-in for the few `chrome.*` APIs the
+**Styling is iterated on a plain page.** `apps/extension/dist/popup/popup.html` opens in any browser —
+[dev-mock.ts](apps/extension/src/popup/dev-mock.ts) installs an in-memory stand-in for the few `chrome.*` APIs the
 popup touches (and is a no-op inside the real extension), so CSS work needs no extension reload
 loop.
 
-**Building is one command.** esbuild bundles the three entry points (background worker, popup,
-blocked page) into `dist/`, static HTML/CSS is copied, and the icons are rasterized on the fly by
-[scripts/make-icons.mjs](scripts/make-icons.mjs) (pure Node, no image dependencies).
+**Building is one command.** esbuild bundles the entry points (background worker, popup,
+blocked page, phase-end page) into `apps/extension/dist`, static HTML/CSS is copied, and the icons
+are rasterized on the fly by [make-icons.mjs](apps/extension/scripts/make-icons.mjs) (pure Node, no
+image dependencies).
 
 ### The three verification layers
 
 From fastest to most real — none of them requires installing the extension by hand:
 
-1. **Unit tests** (`npm test -- --run`, Vitest, colocated as `src/**/*.test.ts`) — the pure logic
+1. **Unit tests** (`pnpm test --run`, Vitest, colocated as `src/**/*.test.ts`) — the pure logic
    with no browser at all: declarative rule derivation including which URLs actually match the
    generated regexes, site normalization, clock formatting, badge behavior, the dial view model,
    and tab persistence. The tab DOM specs run in jsdom **against the real `popup.html` markup**
    (read from disk), so the tab/panel contract cannot silently drift from the shipped HTML.
 2. **Mocked popup preview** — the plain-page popup described above, used for visual work; it
    exercises the real modules and render flow, just not the real extension APIs.
-3. **End-to-end** (`npm run test:e2e`, Playwright, specs in [e2e/](e2e/)) — Playwright launches a
-   **disposable Chromium** with `--load-extension=dist`, the programmatic equivalent of "Load
+3. **End-to-end** (`pnpm test:e2e`, Playwright, specs in [e2e/](apps/extension/e2e/)) — Playwright launches a
+   **disposable Chromium** with `--load-extension=apps/extension/dist`, the programmatic equivalent of "Load
    unpacked", into a throwaway profile that is deleted after each test; your own Chrome is never
    touched. A fresh build runs in global setup, so the suite always tests current code. The specs
    drive the real popup page and assert real behavior:
@@ -107,23 +122,24 @@ verified by eye in a real Chrome.
 ### Structure
 
 ```
-src/
+apps/extension/src/
 ├── manifest.json         Manifest V3
 ├── shared/               Types + storage/messaging/normalization helpers
 ├── background/           Service worker
 │   ├── blocking.ts       storage → declarativeNetRequest rule sync
-│   └── pomodoro.ts       alarms, notifications, badge
+│   └── pomodoro.ts       alarms, notifications, celebration tab, badge
 ├── popup/                Toolbar popup (one module + one CSS file per section)
 │   ├── toggle.ts         master switch
 │   ├── tabs.ts           Blocklist/Pomodoro tabs (last tab persisted)
 │   ├── blocklist.ts      form + list
 │   ├── timer.ts          dial, controls, durations
 │   └── css/              base / header / tabs / blocklist / pomodoro
-└── blocked/              The "Closed for focus" page
+├── blocked/              The "Closed for focus" page
+└── phase-end/            The celebration tab shown when a pomodoro phase ends
 ```
 
 Everything renders declaratively: state lives in `chrome.storage`, every UI module exposes a
 `render(state)` function, and the popup re-renders whenever storage changes — the same flow whether
 the change came from this popup, another window, or the background worker.
 
-Icons are rasterized at build time by [scripts/make-icons.mjs](scripts/make-icons.mjs) (pure Node, no image dependencies).
+Icons are rasterized at build time by [make-icons.mjs](apps/extension/scripts/make-icons.mjs) (pure Node, no image dependencies).
