@@ -1,5 +1,5 @@
 {
-  "name": "@site-blocker/extension",
+  "name": "@focaccia/extension",
   "version": "1.0.0",
   "private": true,
   "description": "Chrome extension: block distracting sites with one switch, and keep focus with a built-in Pomodoro timer.",

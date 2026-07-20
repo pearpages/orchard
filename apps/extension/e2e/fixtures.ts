@@ -23,7 +23,7 @@ interface ExtensionFixtures {
 export const test = base.extend<ExtensionFixtures>({
   context: async ({}, use) => {
     const distDir = join(process.cwd(), 'dist');
-    const profileDir = mkdtempSync(join(tmpdir(), 'site-blocker-e2e-'));
+    const profileDir = mkdtempSync(join(tmpdir(), 'focaccia-e2e-'));
     const server = await startSiteServer();
     const context = await chromium.launchPersistentContext(profileDir, {
       channel: 'chromium',

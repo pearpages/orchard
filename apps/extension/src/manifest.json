@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Site Blocker",
+  "name": "Focaccia",
   "version": "1.0.0",
-  "description": "Block distracting sites with one switch, and keep focus with a built-in Pomodoro timer.",
+  "description": "Closed for focus: block distracting sites with one switch, and keep the pace with a built-in Pomodoro timer.",
   "permissions": ["storage", "declarativeNetRequest", "alarms", "notifications"],
   "host_permissions": ["<all_urls>"],
   "background": {
@@ -10,7 +10,7 @@
   },
   "action": {
     "default_popup": "popup/popup.html",
-    "default_title": "Site Blocker",
+    "default_title": "Focaccia",
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png",

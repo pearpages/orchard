@@ -1,8 +1,8 @@
 {
-  "name": "@site-blocker/site",
+  "name": "@focaccia/site",
   "version": "1.0.0",
   "private": true,
-  "description": "Static promo site for the Site Blocker Chrome extension.",
+  "description": "Static promo site for the Focaccia Chrome extension.",
   "type": "module",
   "scripts": {
     "dev": "astro dev",

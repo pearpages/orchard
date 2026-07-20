@@ -1,4 +1,4 @@
-# Site Blocker — Project Notes
+# Focaccia — Project Notes
 
 Chrome extension (Manifest V3): site blocklist with master on/off switch + Pomodoro timer. See [README.md](README.md) for features, install, and architecture.
 

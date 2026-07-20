@@ -5,6 +5,6 @@ export function initPhaseEnd(search: string): void {
   document.querySelector<HTMLElement>('.sign')!.classList.toggle('sign--break', view.nextPhase === 'break');
   document.querySelector<HTMLHeadingElement>('#phase-title')!.textContent = view.title;
   document.querySelector<HTMLParagraphElement>('#phase-detail')!.textContent = view.detail;
-  document.title = `${view.title} — Site Blocker`;
+  document.title = `${view.title} — Focaccia`;
   document.querySelector<HTMLButtonElement>('#carry-on')!.addEventListener('click', () => window.close());
 }

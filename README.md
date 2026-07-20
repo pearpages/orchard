@@ -1,6 +1,6 @@
-# Site Blocker
+# Focaccia
 
-A Chrome extension that keeps you off distracting sites — with a one-click kill switch and a built-in Pomodoro timer.
+Closed for focus. A Chrome extension that keeps you off distracting sites — with a one-click kill switch and a built-in Pomodoro timer.
 
 ## Monorepo layout
 
@@ -61,7 +61,7 @@ pnpm build          # build every workspace (extension + site)
 pnpm dev:site       # promo site dev server
 ```
 
-One-time setup for the e2e suite: `pnpm --filter @site-blocker/extension exec playwright install chromium`.
+One-time setup for the e2e suite: `pnpm --filter @focaccia/extension exec playwright install chromium`.
 
 ### The development workflow
 

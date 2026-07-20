@@ -1,18 +1,18 @@
 {
-  "name": "site-blocker",
+  "name": "focaccia",
   "version": "1.0.0",
   "private": true,
-  "description": "Site Blocker monorepo: the Chrome extension and its promo site.",
+  "description": "Focaccia monorepo: the Chrome extension and its promo site.",
   "type": "module",
   "scripts": {
     "build": "pnpm -r build",
-    "build:extension": "pnpm --filter @site-blocker/extension build",
-    "build:site": "pnpm --filter @site-blocker/site build",
+    "build:extension": "pnpm --filter @focaccia/extension build",
+    "build:site": "pnpm --filter @focaccia/site build",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm --filter @site-blocker/extension test",
-    "test:extension": "pnpm --filter @site-blocker/extension test",
-    "test:e2e": "pnpm --filter @site-blocker/extension test:e2e",
-    "icons": "pnpm --filter @site-blocker/extension icons",
-    "dev:site": "pnpm --filter @site-blocker/site dev"
+    "test": "pnpm --filter @focaccia/extension test",
+    "test:extension": "pnpm --filter @focaccia/extension test",
+    "test:e2e": "pnpm --filter @focaccia/extension test:e2e",
+    "icons": "pnpm --filter @focaccia/extension icons",
+    "dev:site": "pnpm --filter @focaccia/site dev"
   }
 }
