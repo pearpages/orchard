@@ -1,19 +1,26 @@
 import { installDevMock } from './dev-mock';
-import { getBlockerState, getPomodoroState, onAnyStateChange } from '../shared/storage';
+import { getActiveTab, getBlockerState, getPomodoroState, onAnyStateChange } from '../shared/storage';
 import { initBlocklist, renderBlocklist } from './blocklist';
+import { initTabs, renderTabs } from './tabs';
 import { initTimer, renderTimer } from './timer';
 import { initToggle, renderToggle } from './toggle';
 
 installDevMock();
 
 async function refresh(): Promise<void> {
-  const [blocker, pomodoro] = await Promise.all([getBlockerState(), getPomodoroState()]);
+  const [blocker, pomodoro, activeTab] = await Promise.all([
+    getBlockerState(),
+    getPomodoroState(),
+    getActiveTab(),
+  ]);
   renderToggle(blocker);
   renderBlocklist(blocker);
   renderTimer(pomodoro, blocker.settings);
+  renderTabs(activeTab);
 }
 
 initToggle();
+initTabs();
 initBlocklist();
 initTimer();
 onAnyStateChange(() => void refresh());

@@ -1,3 +1,4 @@
+import { DEFAULT_TAB, resolveTab, type TabId } from './tabs';
 import type { BlockerState, PomodoroState } from './types';
 
 export const BLOCKER_DEFAULTS: BlockerState = {
@@ -24,6 +25,17 @@ export async function getPomodoroState(): Promise<PomodoroState> {
 
 export async function setPomodoroState(state: PomodoroState): Promise<void> {
   await chrome.storage.local.set({ [POMODORO_KEY]: state });
+}
+
+const TAB_KEY = 'activeTab';
+
+export async function getActiveTab(): Promise<TabId> {
+  const stored = await chrome.storage.local.get({ [TAB_KEY]: DEFAULT_TAB });
+  return resolveTab(stored[TAB_KEY]);
+}
+
+export async function setActiveTab(tab: TabId): Promise<void> {
+  await chrome.storage.local.set({ [TAB_KEY]: tab });
 }
 
 export function onAnyStateChange(listener: () => void): void {

@@ -1,13 +1,9 @@
 import { getBlockerState, getPomodoroState, setPomodoroState } from '../shared/storage';
 import type { PomodoroPhase } from '../shared/types';
+import { badgeViewOf, nextPhase } from './pomodoro-logic';
 
 const END_ALARM = 'pomodoro-end';
 const TICK_ALARM = 'pomodoro-tick';
-
-const BADGE_COLOR: Record<PomodoroPhase, string> = {
-  focus: '#b93a1f',
-  break: '#5b8c51',
-};
 
 export async function startPhase(phase: PomodoroPhase): Promise<void> {
   const { settings } = await getBlockerState();
@@ -57,7 +53,7 @@ export async function handleAlarm(name: string): Promise<void> {
   if (name !== END_ALARM) return;
   const state = await getPomodoroState();
   if (state.status !== 'running') return;
-  const next: PomodoroPhase = state.phase === 'focus' ? 'break' : 'focus';
+  const next = nextPhase(state.phase);
   notifyPhaseEnd(state.phase, next);
   await startPhase(next);
 }
@@ -77,14 +73,9 @@ function notifyPhaseEnd(finished: PomodoroPhase, next: PomodoroPhase): void {
 
 export async function refreshBadge(): Promise<void> {
   const state = await getPomodoroState();
-  if (state.status === 'idle') {
-    await chrome.action.setBadgeText({ text: '' });
-    return;
-  }
-  const remaining = state.status === 'running' ? state.endsAt - Date.now() : state.remainingMs;
-  const minutes = Math.max(1, Math.ceil(remaining / 60_000));
-  await chrome.action.setBadgeBackgroundColor({ color: BADGE_COLOR[state.phase] });
-  await chrome.action.setBadgeText({ text: state.status === 'paused' ? '⏸' : `${minutes}m` });
+  const badge = badgeViewOf(state, Date.now());
+  if (badge.color) await chrome.action.setBadgeBackgroundColor({ color: badge.color });
+  await chrome.action.setBadgeText({ text: badge.text });
 }
 
 async function clearAlarms(): Promise<void> {

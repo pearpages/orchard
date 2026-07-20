@@ -5,6 +5,7 @@
   <title>Site Blocker</title>
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/tabs.css">
   <link rel="stylesheet" href="css/blocklist.css">
   <link rel="stylesheet" href="css/pomodoro.css">
 </head>
@@ -27,8 +28,12 @@
       </label>
     </header>
 
-    <section class="card blocklist">
-      <h2 class="card__title">Blocklist</h2>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tabs__tab" id="tab-blocklist" type="button" role="tab" data-tab="blocklist" aria-controls="panel-blocklist" aria-selected="true">Blocklist</button>
+      <button class="tabs__tab" id="tab-pomodoro" type="button" role="tab" data-tab="pomodoro" aria-controls="panel-pomodoro" aria-selected="false">Pomodoro</button>
+    </nav>
+
+    <section class="card blocklist" id="panel-blocklist" role="tabpanel" aria-labelledby="tab-blocklist" data-panel="blocklist">
       <form class="blocklist__form" id="blocklist-form" autocomplete="off">
         <input
           class="blocklist__input"
@@ -44,8 +49,7 @@
       <ul class="blocklist__items" id="blocklist-items"></ul>
     </section>
 
-    <section class="card pomodoro">
-      <h2 class="card__title">Pomodoro</h2>
+    <section class="card pomodoro" id="panel-pomodoro" role="tabpanel" aria-labelledby="tab-pomodoro" data-panel="pomodoro" hidden>
       <div class="pomodoro__dial">
         <svg class="dial" id="dial" viewBox="0 0 120 120" aria-hidden="true">
           <g class="dial__ticks" id="dial-ticks"></g>

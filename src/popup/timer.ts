@@ -1,9 +1,10 @@
+import { dialViewOf } from '../shared/dial-view';
 import { sendCommand } from '../shared/messages';
 import { patchBlockerState } from '../shared/storage';
 import { formatClock } from '../shared/time';
-import type { PomodoroPhase, PomodoroState, Settings } from '../shared/types';
+import type { PomodoroState, Settings } from '../shared/types';
 
-const CIRCUMFERENCE = 2 * Math.PI * 45;
+const CIRCUMFERENCE = 2 * Math.PI * 45; // dial progress circle, r=45 in the 120-unit viewBox
 
 const dial = document.querySelector<SVGSVGElement>('#dial')!;
 const ticks = document.querySelector<SVGGElement>('#dial-ticks')!;
@@ -86,7 +87,7 @@ function button(action: string, label: string, primary: boolean): string {
 }
 
 function paint(): void {
-  const view = viewOf(current);
+  const view = dialViewOf(current, settings, Date.now());
   time.textContent = formatClock(view.remainingMs);
   phaseLabel.textContent = view.label;
   progress.style.strokeDasharray = String(CIRCUMFERENCE);
@@ -94,36 +95,6 @@ function paint(): void {
   dial.classList.toggle('dial--break', view.phase === 'break');
   dial.classList.toggle('dial--paused', current.status === 'paused');
   dial.classList.toggle('dial--idle', current.status === 'idle');
-}
-
-interface DialView {
-  remainingMs: number;
-  fraction: number;
-  label: string;
-  phase: PomodoroPhase;
-}
-
-function viewOf(state: PomodoroState): DialView {
-  switch (state.status) {
-    case 'running': {
-      const remainingMs = Math.max(0, state.endsAt - Date.now());
-      return {
-        remainingMs,
-        fraction: remainingMs / state.totalMs,
-        label: state.phase === 'focus' ? 'Focus' : 'Break',
-        phase: state.phase,
-      };
-    }
-    case 'paused':
-      return {
-        remainingMs: state.remainingMs,
-        fraction: state.remainingMs / state.totalMs,
-        label: 'Paused',
-        phase: state.phase,
-      };
-    default:
-      return { remainingMs: settings.focusMinutes * 60_000, fraction: 1, label: 'Ready', phase: 'focus' };
-  }
 }
 
 function buildTicks(): void {
