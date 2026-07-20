@@ -1,0 +1,23 @@
+{
+  "name": "@site-blocker/extension",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chrome extension: block distracting sites with one switch, and keep focus with a built-in Pomodoro timer.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "icons": "node scripts/make-icons.mjs",
+    "test": "vitest",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/chrome": "^0.2.2",
+    "@types/node": "^26.1.1",
+    "esbuild": "^0.28.1",
+    "jsdom": "^29.1.1",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
+  }
+}
