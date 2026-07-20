@@ -106,7 +106,10 @@ pnpm build:extension</pre>
     </section>
 
     <footer class="footer">
-      <p class="footer__credit">Made by <a href="https://pearpages.com">Pere Pages</a></p>
+      <p class="footer__credit">
+        <img class="footer__icon" src="/pearpages-icon.png" alt="" width="22" height="22" />
+        Made by <a href="https://pearpages.com">Pere Pages</a>
+      </p>
       <p>Built with cream, tomato, and TypeScript.</p>
     </footer>
   </body>
@@ -305,7 +308,17 @@ pnpm build:extension</pre>
   }
 
   .footer__credit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     margin: 0 0 4px;
+  }
+
+  .footer__icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
   }
 
   .footer__credit a {
