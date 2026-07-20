@@ -1,4 +1,4 @@
-// Generates the extension icons (no-entry ring on an enamel-red tile) as PNGs,
+// Generates the extension icons (a dimpled focaccia loaf on an enamel-red tile) as PNGs,
 // dependency-free: pixels are rasterized here and encoded with node:zlib.
 import { deflateSync } from 'node:zlib';
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -9,6 +9,7 @@ const SIZES = [16, 32, 48, 128];
 const RED_TOP = [226, 90, 58];
 const RED_BOTTOM = [178, 55, 30];
 const CREAM = [250, 242, 222];
+const DIMPLE = [186, 144, 88];
 
 const CRC_TABLE = Array.from({ length: 256 }, (_, n) => {
   let c = n;
@@ -66,43 +67,58 @@ function inTile(x, y) {
   return cu * cu + cv * cv <= radius * radius;
 }
 
-function inGlyph(x, y) {
+// Squircle loaf: a superellipse reads as bread at every size.
+function inBread(x, y) {
+  const u = Math.abs(x - 0.5) / 0.3;
+  const v = Math.abs(y - 0.5) / 0.3;
+  return u * u * u + v * v * v <= 1;
+}
+
+const DIMPLES = [
+  [0, 0],
+  [0.13, 0.13],
+  [0.13, -0.13],
+  [-0.13, 0.13],
+  [-0.13, -0.13],
+];
+
+function inDimple(x, y) {
   const u = x - 0.5;
   const v = y - 0.5;
-  const dist = Math.hypot(u, v);
-  const ring = 0.29;
-  const width = 0.095;
-  if (Math.abs(dist - ring) <= width / 2) return true;
-  // Diagonal bar of the no-entry sign, clipped to the ring's interior.
-  const rotated = (v - u) / Math.SQRT2;
-  return Math.abs(rotated) <= width / 2 && dist <= ring;
+  return DIMPLES.some(([du, dv]) => Math.hypot(u - du, v - dv) <= 0.05);
 }
 
 function drawIcon(size) {
   const rgba = Buffer.alloc(size * size * 4);
   const SS = 4;
+  const withDimples = size > 16; // sub-pixel mush at 16
   for (let y = 0; y < size; y++) {
     for (let x = 0; x < size; x++) {
       let tileHits = 0;
-      let glyphHits = 0;
+      let breadHits = 0;
+      let dimpleHits = 0;
       for (let j = 0; j < SS; j++) {
         for (let i = 0; i < SS; i++) {
           const px = (x + (i + 0.5) / SS) / size;
           const py = (y + (j + 0.5) / SS) / size;
           if (!inTile(px, py)) continue;
           tileHits++;
-          if (inGlyph(px, py)) glyphHits++;
+          if (!inBread(px, py)) continue;
+          breadHits++;
+          if (withDimples && inDimple(px, py)) dimpleHits++;
         }
       }
       const samples = SS * SS;
       const alpha = tileHits / samples;
       if (alpha === 0) continue;
       const t = (y + 0.5) / size;
-      const glyphShare = glyphHits / Math.max(tileHits, 1);
+      const breadShare = breadHits / Math.max(tileHits, 1);
+      const dimpleShare = dimpleHits / Math.max(tileHits, 1);
       const offset = (y * size + x) * 4;
       for (let c = 0; c < 3; c++) {
         const bg = RED_TOP[c] + (RED_BOTTOM[c] - RED_TOP[c]) * t;
-        rgba[offset + c] = Math.round(bg + (CREAM[c] - bg) * glyphShare);
+        const withBread = bg + (CREAM[c] - bg) * breadShare;
+        rgba[offset + c] = Math.round(withBread + (DIMPLE[c] - withBread) * dimpleShare);
       }
       rgba[offset + 3] = Math.round(alpha * 255);
     }
