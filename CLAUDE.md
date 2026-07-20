@@ -1,6 +1,6 @@
 # Focaccia — Project Notes
 
-Chrome extension (Manifest V3): site blocklist with master on/off switch + Pomodoro timer. See [README.md](README.md) for features, install, and architecture.
+Chrome extension (Manifest V3), branded **Focaccia** (slogan: "Closed for focus"): site blocklist with master on/off switch + Pomodoro timer. See [README.md](README.md) for features, install, and architecture.
 
 ## Conventions
 
@@ -12,10 +12,15 @@ Chrome extension (Manifest V3): site blocklist with master on/off switch + Pomod
 - Styles in plain `.css` files, one per section (`src/popup/css/`), BEM-style class names, no inline styles.
 - Blocking is done only with `declarativeNetRequest` dynamic rules, always re-derived in full from storage (`syncBlockingRules`), never edited incrementally.
 - Pomodoro timing lives in the background worker on `chrome.alarms` (survives service-worker suspension); the popup only displays state and sends commands.
-- Design language: enamel kitchen-timer — cream/tomato palette, `ui-rounded` display type, dial with 60 ticks. Blocked page is a hanging "Closed for focus" sign.
+- Design language: enamel kitchen-timer — cream/tomato palette, `ui-rounded` display type, dial with 60 ticks. Blocked page is a hanging "Closed for focus" sign. Icon = dimpled focaccia loaf on the enamel-red tile (`make-icons.mjs`). pearpages appears as an author credit only (popup + site footers link to pearpages.com) — an indigo blog-theme restyle was tried on 2026-07-20 and deliberately reverted; do not reintroduce it.
 - Node and pnpm are pinned via `mise.toml` (node 24, pnpm 11). pnpm 11 blocks dependency build scripts by default; approved ones live under `allowBuilds` in `pnpm-workspace.yaml` (currently esbuild).
 
 ## Session log
+
+### 2026-07-20 — Focaccia rename; indigo restyle tried and reverted
+- Renamed the project to **Focaccia** everywhere ("Closed for focus" stays as the slogan/sign line): packages `focaccia`/`@focaccia/*`, manifest name + `default_title`, HTML titles, popup h1, README, site copy, e2e tmpdir prefix. Zero test churn (72 unit + 7 e2e green).
+- A full restyle to the pearpages.com indigo design system (extension + site) was built, then **reverted at the user's request** via `git reset --soft` — the cream/tomato kitchen-timer look stays. What survived the revert: the new **loaf icon** (dimpled focaccia squircle, recolored to the enamel-red tile; dimples skipped at 16px), the matching popup `header__mark` SVG, the site favicon (`public/favicon.png`, copy of `icon48.png`), inline SVG feature-card icons on the site (`--red-deep`, `currentColor`), and "Made by pearpages/Pere Pages → pearpages.com" author credits in the popup and site footers.
+- Screenshot tip learned: Astro's built `dist` uses root-absolute asset paths, so screenshots need an HTTP server — `file://` renders unstyled.
 
 ### 2026-07-20 — Monorepo: pnpm + apps/extension + apps/site
 - Three commits, tree green at each: (1) migrated npm → pnpm (`pnpm import` preserved resolutions; `allowBuilds: esbuild` needed in `pnpm-workspace.yaml`); (2) `git mv` of the whole extension into `apps/extension` — zero source edits, since `pnpm --filter` runs scripts with cwd = package dir, all `process.cwd()`-bound test paths kept working; history follows via `git log --follow`; (3) new `apps/site`: hand-rolled minimal Astro 7 scaffold (`^7.1.1`, node ≥22 ok), kitchen-timer landing page (awning, hanging sign, three feature cards, load-unpacked install steps), verified by `pnpm build:site` + Playwright screenshot.
@@ -59,10 +64,12 @@ Chrome extension (Manifest V3): site blocklist with master on/off switch + Pomod
 ## TODOs
 
 ### Pending
+- [ ] Rename the repo folder: `mv ~/Desktop/site-blocker ~/Desktop/focaccia`, then re-load the unpacked extension from the new `apps/extension/dist` path (manual — can't be done from a session running inside the folder).
 - [ ] Verify the notification *banner* by eye once in real Chrome — the e2e now proves Chrome receives the notification (`getAll` = 1); only the OS-level rendering remains manual (macOS: System Settings → Notifications → Chrome allowed, Focus/DND off).
 - [ ] Optional ideas parked: integrate Pomodoro with blocking (force-block during focus), long-break cycles, per-site schedules, export/import of the blocklist.
 
 ### Done
+- [x] Focaccia rename + enamel loaf icon + pearpages author credits; indigo restyle reverted, kitchen-timer style kept (2026-07-20)
 - [x] Monorepo conversion: pnpm workspaces, extension moved to apps/extension, Astro promo site in apps/site (2026-07-20)
 - [x] Celebration tab when a phase ends — in-browser announcement alongside the system notification (2026-07-20)
 - [x] Site count badge on the Blocklist tab — list scroll hid the total (2026-07-20)

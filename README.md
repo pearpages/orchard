@@ -12,6 +12,9 @@ apps/
 └── site/        Static promo site (Astro) — pnpm dev:site / pnpm build:site
 ```
 
+The site's `public/favicon.png` is a copy of the generated extension icon (`pnpm icons`, then
+`dist/icons/icon48.png`) — re-copy it if the icon art changes.
+
 All commands below run from the repo root and delegate into the right workspace; they work
 equally from inside `apps/extension`. Node and pnpm versions are pinned in `mise.toml`.
 
