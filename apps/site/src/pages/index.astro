@@ -24,6 +24,7 @@ import '../styles/theme.css';
           <line x1="110" y1="8" x2="186" y2="90"></line>
         </svg>
         <div class="sign">
+          <img class="sign__icon" src="/focaccia-icon.png" alt="" width="64" height="64" />
           <h1 class="sign__title">Focaccia</h1>
           <p class="sign__tagline">Closed for focus.</p>
         </div>
@@ -180,6 +181,15 @@ pnpm build:extension</pre>
     box-shadow:
       0 10px 24px rgba(51, 38, 31, 0.18),
       inset 0 0 0 3px var(--cream);
+  }
+
+  .sign__icon {
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 10px;
+    border-radius: 16px;
+    box-shadow: 0 2px 6px rgba(51, 38, 31, 0.2);
   }
 
   .sign__title {
