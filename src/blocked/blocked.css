@@ -1,0 +1,147 @@
+:root {
+  --cream: #f6eedb;
+  --paper: #fffdf4;
+  --cream-deep: #ecdfc0;
+  --line: #e3d5b2;
+  --red: #d9482b;
+  --red-deep: #b93a1f;
+  --red-dark: #96301a;
+  --ink: #33261f;
+  --ink-soft: #8a7a66;
+  --font-display: ui-rounded, "Hiragino Maru Gothic ProN", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+/* Striped shop awning across the top */
+.awning {
+  height: 22px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--red) 0 36px,
+    var(--paper) 36px 72px
+  );
+  border-bottom: 3px solid var(--red-dark);
+}
+
+.awning::after {
+  content: '';
+  display: block;
+  height: 12px;
+  margin-top: 3px;
+  background:
+    radial-gradient(circle at 18px -6px, var(--red) 0 16px, transparent 17px) 0 0 / 72px 12px repeat-x,
+    radial-gradient(circle at 18px -6px, var(--paper) 0 16px, transparent 17px) 36px 0 / 72px 12px repeat-x;
+}
+
+.page {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.hanging {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: 50% 0;
+  animation: sway 6s ease-in-out infinite alternate;
+}
+
+@keyframes sway {
+  from {
+    transform: rotate(-0.7deg);
+  }
+  to {
+    transform: rotate(0.7deg);
+  }
+}
+
+.hanging__strings {
+  width: 220px;
+  height: 90px;
+  margin-bottom: -4px;
+}
+
+.hanging__strings circle {
+  fill: var(--ink-soft);
+}
+
+.hanging__strings line {
+  stroke: var(--ink-soft);
+  stroke-width: 2;
+}
+
+.sign {
+  max-width: 520px;
+  padding: 40px 52px 36px;
+  background: var(--paper);
+  border: 4px solid var(--red-deep);
+  border-radius: 20px;
+  box-shadow:
+    0 10px 24px rgba(51, 38, 31, 0.18),
+    inset 0 0 0 3px var(--cream);
+  text-align: center;
+}
+
+.sign__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(32px, 6vw, 44px);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--red-deep);
+}
+
+.sign__detail {
+  margin: 14px 0 0;
+  font-size: 16px;
+}
+
+.sign__site {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  padding: 2px 8px;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.sign__line {
+  margin: 18px 0 0;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.hint {
+  margin: 0;
+  padding: 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hanging {
+    animation: none;
+  }
+}

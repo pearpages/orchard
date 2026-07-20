@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blocked — Site Blocker</title>
+  <link rel="stylesheet" href="blocked.css">
+</head>
+<body>
+  <div class="awning" aria-hidden="true"></div>
+
+  <main class="page">
+    <div class="hanging">
+      <svg class="hanging__strings" viewBox="0 0 220 90" aria-hidden="true">
+        <circle cx="110" cy="8" r="4"/>
+        <line x1="110" y1="8" x2="34" y2="90"/>
+        <line x1="110" y1="8" x2="186" y2="90"/>
+      </svg>
+      <section class="sign">
+        <h1 class="sign__title">Closed for focus</h1>
+        <p class="sign__detail"><span class="sign__site" id="blocked-site">This site</span> is on your blocklist.</p>
+        <p class="sign__line" id="focus-line">One thing at a time.</p>
+      </section>
+    </div>
+  </main>
+
+  <p class="hint">Need it anyway? Flip the switch in the Site Blocker popup.</p>
+
+  <script src="blocked.js"></script>
+</body>
+</html>

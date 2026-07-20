@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Site Blocker</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/blocklist.css">
+  <link rel="stylesheet" href="css/pomodoro.css">
+</head>
+<body>
+  <main class="popup">
+    <header class="header">
+      <div class="header__brand">
+        <svg class="header__mark" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="3"/>
+          <line x1="6.6" y1="17.4" x2="17.4" y2="6.6" stroke="currentColor" stroke-width="3"/>
+        </svg>
+        <div class="header__titles">
+          <h1 class="header__title">Site Blocker</h1>
+          <p class="header__status" id="toggle-status">Blocking is on</p>
+        </div>
+      </div>
+      <label class="switch" title="Turn blocking on or off">
+        <input class="switch__input" id="master-toggle" type="checkbox">
+        <span class="switch__track"><span class="switch__knob"></span></span>
+      </label>
+    </header>
+
+    <section class="card blocklist">
+      <h2 class="card__title">Blocklist</h2>
+      <form class="blocklist__form" id="blocklist-form" autocomplete="off">
+        <input
+          class="blocklist__input"
+          id="blocklist-input"
+          type="text"
+          placeholder="example.com"
+          aria-label="Site to block"
+          spellcheck="false"
+        >
+        <button class="button button--primary" type="submit">Block</button>
+      </form>
+      <p class="blocklist__error" id="blocklist-error" hidden></p>
+      <ul class="blocklist__items" id="blocklist-items"></ul>
+    </section>
+
+    <section class="card pomodoro">
+      <h2 class="card__title">Pomodoro</h2>
+      <div class="pomodoro__dial">
+        <svg class="dial" id="dial" viewBox="0 0 120 120" aria-hidden="true">
+          <g class="dial__ticks" id="dial-ticks"></g>
+          <circle class="dial__track" cx="60" cy="60" r="45"/>
+          <circle class="dial__progress" id="dial-progress" cx="60" cy="60" r="45"/>
+        </svg>
+        <div class="dial__center">
+          <span class="dial__time" id="dial-time">25:00</span>
+          <span class="dial__phase" id="dial-phase">Ready</span>
+        </div>
+      </div>
+      <div class="pomodoro__controls" id="pomodoro-controls"></div>
+      <form class="pomodoro__settings" id="pomodoro-settings">
+        <label class="field">
+          <span class="field__label">Focus</span>
+          <input class="field__input" id="focus-minutes" type="number" min="1" max="180">
+          <span class="field__unit">min</span>
+        </label>
+        <label class="field">
+          <span class="field__label">Break</span>
+          <input class="field__input" id="break-minutes" type="number" min="1" max="180">
+          <span class="field__unit">min</span>
+        </label>
+      </form>
+    </section>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
