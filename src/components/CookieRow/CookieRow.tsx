@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { bareDomain, type Cookie } from '../../lib/cookies';
 import { SAME_SITE_LABELS, formatExpiry, formatExpiryAbsolute, truncate } from '../../lib/format';
+import { detectToken } from '../../lib/token';
+import { TokenPanel } from '../TokenPanel/TokenPanel';
 import './cookie-row.scss';
 
 interface CookieRowProps {
@@ -15,6 +17,7 @@ interface CookieRowProps {
 export function CookieRow({ cookie, isProtected, showDomain, onDelete, onEdit, onToggleProtect }: CookieRowProps) {
   const [expanded, setExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
+  const token = useMemo(() => detectToken(cookie.value), [cookie.value]);
 
   const copyValue = async () => {
     await navigator.clipboard.writeText(cookie.value);
@@ -63,6 +66,11 @@ export function CookieRow({ cookie, isProtected, showDomain, onDelete, onEdit, o
               ⧉
             </span>
           )}
+          {token?.kind === 'jwt' && (
+            <span className="cookie-row__badge cookie-row__badge--jwt" title="Value contains a JWT">
+              JWT
+            </span>
+          )}
           {cookie.secure && <span className="cookie-row__badge">Secure</span>}
           {cookie.httpOnly && <span className="cookie-row__badge">HttpOnly</span>}
           {cookie.sameSite !== 'unspecified' && (
@@ -107,6 +115,7 @@ export function CookieRow({ cookie, isProtected, showDomain, onDelete, onEdit, o
               {copied ? 'Copied ✓' : 'Copy value'}
             </button>
           </div>
+          {token && <TokenPanel value={cookie.value} />}
           <dl className="cookie-row__meta">
             <dt>Domain</dt>
             <dd>

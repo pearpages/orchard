@@ -21,7 +21,7 @@ export default defineManifest({
     service_worker: 'src/background/index.ts',
     type: 'module',
   },
-  permissions: ['cookies', 'storage'],
+  permissions: ['cookies', 'storage', 'scripting', 'browsingData'],
   host_permissions: ['<all_urls>'],
   minimum_chrome_version: '119',
 });

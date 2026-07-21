@@ -43,6 +43,33 @@ body {
     flex-shrink: 0;
   }
 
+  &__tabs {
+    display: flex;
+    gap: $space-1;
+    padding: $space-1 $space-3 0;
+    border-bottom: 1px solid var(--cj-border);
+  }
+
+  &__tab {
+    @include button-reset;
+    padding: $space-1 $space-3;
+    font-size: $text-sm;
+    font-weight: 500;
+    border-radius: $radius-sm $radius-sm 0 0;
+    border-bottom: 2px solid transparent;
+    color: var(--cj-text-muted);
+
+    &:hover {
+      background: var(--cj-hover);
+    }
+
+    &--active {
+      color: var(--cj-text);
+      font-weight: 600;
+      border-bottom-color: var(--cj-accent);
+    }
+  }
+
   &__search {
     padding: $space-2 $space-3;
     border-bottom: 1px solid var(--cj-border);

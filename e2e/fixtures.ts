@@ -1,3 +1,4 @@
+import http from 'node:http';
 import path from 'node:path';
 import { chromium, type BrowserContext, type Page } from '@playwright/test';
 import { createBdd, test as base } from 'playwright-bdd';
@@ -17,10 +18,13 @@ export interface SeedCookie {
 /** Per-scenario helper around the extension pages and the chrome.cookies API. */
 export class Jar {
   downloadPath: string | null = null;
+  /** Last tab opened via openTab (the static test page). */
+  testPage: Page | null = null;
 
   constructor(
     public page: Page,
     public extensionId: string,
+    public context: BrowserContext,
   ) {}
 
   managerUrl(): string {
@@ -33,6 +37,17 @@ export class Jar {
 
   async openManager(): Promise<void> {
     await this.page.goto(this.managerUrl());
+  }
+
+  async openManagerView(view: 'cookies' | 'storage' | 'timeline'): Promise<void> {
+    await this.page.goto(`${this.managerUrl()}#view=${view}`);
+  }
+
+  async openTab(url: string): Promise<Page> {
+    const tab = await this.context.newPage();
+    await tab.goto(url);
+    this.testPage = tab;
+    return tab;
   }
 
   /** Runs fn inside an extension page so chrome.cookies is available. */
@@ -62,6 +77,15 @@ export class Jar {
     }, cookies);
   }
 
+  async removeCookie(name: string, domain: string): Promise<void> {
+    await this.inExtension(
+      async (arg: { name: string; domain: string }) => {
+        await chrome.cookies.remove({ url: `http://${arg.domain}/`, name: arg.name });
+      },
+      { name, domain },
+    );
+  }
+
   async cookiesForDomain(
     domain: string,
   ): Promise<{ name: string; domain: string; value: string; sameSite: string }[]> {
@@ -87,13 +111,50 @@ export class Jar {
   }
 }
 
+export interface StaticServer {
+  /** Page that seeds localStorage/sessionStorage; accepts ?lk=&lv= overrides. */
+  url: string;
+  host: string;
+}
+
 interface Fixtures {
   context: BrowserContext;
   extensionId: string;
   jar: Jar;
 }
 
-export const test = base.extend<Fixtures>({
+interface WorkerFixtures {
+  staticServer: StaticServer;
+}
+
+const TEST_PAGE = `<!doctype html>
+<html><head><title>CJ Test Page</title></head><body>
+<h1>CookieJar test page</h1>
+<script>
+  const params = new URLSearchParams(location.search);
+  localStorage.setItem(params.get('lk') ?? 'greeting', params.get('lv') ?? 'hello');
+  sessionStorage.setItem('tabToken', 't-1');
+</script>
+</body></html>`;
+
+export const test = base.extend<Fixtures, WorkerFixtures>({
+  staticServer: [
+    async ({}, use) => {
+      const server = http.createServer((_req, res) => {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(TEST_PAGE);
+      });
+      await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+      const address = server.address();
+      if (typeof address !== 'object' || address === null) throw new Error('no server address');
+      const host = `127.0.0.1:${address.port}`;
+      await use({ url: `http://${host}/`, host });
+      await new Promise<void>((resolve, reject) =>
+        server.close((err) => (err ? reject(err) : resolve())),
+      );
+    },
+    { scope: 'worker' },
+  ],
   context: async ({}, use) => {
     const context = await chromium.launchPersistentContext('', {
       channel: 'chromium',
@@ -111,8 +172,8 @@ export const test = base.extend<Fixtures>({
     if (!worker) worker = await context.waitForEvent('serviceworker');
     await use(new URL(worker.url()).host);
   },
-  jar: async ({ page, extensionId }, use) => {
-    await use(new Jar(page, extensionId));
+  jar: async ({ page, extensionId, context }, use) => {
+    await use(new Jar(page, extensionId, context));
   },
 });
 

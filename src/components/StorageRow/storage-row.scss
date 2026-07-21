@@ -1,7 +1,7 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
 
-.cookie-row {
+.storage-row {
   list-style: none;
   border-bottom: 1px solid var(--cj-border);
 
@@ -15,10 +15,10 @@
 
   &__summary {
     display: grid;
-    grid-template-columns: minmax(120px, 1.1fr) minmax(80px, 1.4fr) 90px auto auto;
+    grid-template-columns: minmax(120px, 1fr) minmax(80px, 1.6fr) auto auto;
     align-items: center;
     gap: $space-3;
-    min-height: 36px;
+    min-height: 32px;
     padding: $space-1 $space-3;
     cursor: pointer;
     @include focus-ring;
@@ -28,21 +28,9 @@
     }
   }
 
-  &__id {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-  }
-
-  &__name {
+  &__key {
     font-weight: 600;
     font-size: $text-sm;
-    @include truncate;
-  }
-
-  &__domain {
-    font-size: $text-xs;
-    color: var(--cj-text-muted);
     @include truncate;
   }
 
@@ -52,17 +40,9 @@
     @include truncate;
   }
 
-  &__expiry {
-    font-size: $text-xs;
-    color: var(--cj-text-muted);
-    text-align: right;
-    white-space: nowrap;
-  }
-
   &__badges {
     display: flex;
     gap: $space-1;
-    align-items: center;
   }
 
   &__badge {
@@ -70,24 +50,9 @@
     line-height: 16px;
     padding: 0 $space-1;
     border-radius: $radius-sm;
-    background: var(--cj-accent-soft);
-    color: var(--cj-accent-text);
-    white-space: nowrap;
-
-    &--shield {
-      background: var(--cj-shield-soft);
-    }
-
-    &--partition {
-      background: var(--cj-shield-soft);
-      color: var(--cj-shield);
-    }
-
-    &--jwt {
-      background: var(--cj-success-soft);
-      color: var(--cj-success);
-      font-weight: 700;
-    }
+    background: var(--cj-success-soft);
+    color: var(--cj-success);
+    font-weight: 700;
   }
 
   &__actions {
@@ -107,20 +72,10 @@
     @include icon-button;
     font-size: $text-md;
 
-    &--active {
-      color: var(--cj-shield);
-      opacity: 1;
-    }
-
     &--danger:hover {
       background: var(--cj-danger-soft);
       color: var(--cj-danger);
     }
-  }
-
-  // Keep protect shield visible when active even without hover
-  &__summary &__action--active {
-    opacity: 1;
   }
 
   &__detail {
@@ -152,22 +107,5 @@
     @include button-base;
     font-size: $text-xs;
     padding: 2px $space-2;
-  }
-
-  &__meta {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 2px $space-3;
-    margin: 0;
-    font-size: $text-sm;
-
-    dt {
-      color: var(--cj-text-muted);
-    }
-
-    dd {
-      margin: 0;
-      word-break: break-all;
-    }
   }
 }

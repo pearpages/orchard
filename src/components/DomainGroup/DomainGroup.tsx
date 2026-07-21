@@ -11,6 +11,7 @@ interface DomainGroupProps {
   onTogglePin: (domain: string) => void;
   onToggleProtectDomain: (domain: string) => void;
   onExportDomain: (group: DomainGroupData) => void;
+  onDeepClean: (group: DomainGroupData) => void;
   onDeleteDomain: (group: DomainGroupData) => void;
   onDelete: (cookie: Cookie) => void;
   onEdit: (cookie: Cookie) => void;
@@ -24,6 +25,7 @@ export function DomainGroup({
   onTogglePin,
   onToggleProtectDomain,
   onExportDomain,
+  onDeepClean,
   onDeleteDomain,
   onDelete,
   onEdit,
@@ -80,6 +82,14 @@ export function DomainGroup({
             onClick={() => onExportDomain(group)}
           >
             ⇩
+          </button>
+          <button
+            type="button"
+            className="domain-group__action"
+            title="Deep clean site data…"
+            onClick={() => onDeepClean(group)}
+          >
+            🧹
           </button>
           <button
             type="button"

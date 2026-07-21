@@ -20,7 +20,8 @@
       display: none;
 
       &--shield,
-      &--partition {
+      &--partition,
+      &--jwt {
         display: inline;
       }
     }

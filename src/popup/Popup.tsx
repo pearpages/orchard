@@ -9,6 +9,7 @@ import { useProtection } from '../hooks/useProtection';
 import { cookieKey, cookiesForHost, type Cookie } from '../lib/cookies';
 import { filterCookies } from '../lib/filter';
 import { partitionForBulkDelete } from '../lib/protection';
+import { PopupStorage } from './PopupStorage';
 import './popup.scss';
 
 const MANAGER_PATH = 'src/manager/index.html';
@@ -25,6 +26,7 @@ export function Popup() {
   const [host, setHost] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [confirmingDeleteAll, setConfirmingDeleteAll] = useState(false);
+  const [tab, setTab] = useState<'cookies' | 'storage'>('cookies');
 
   useEffect(() => {
     void chrome.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
@@ -68,6 +70,33 @@ export function Popup() {
         </button>
       </header>
 
+      <div className="popup__tabs" role="tablist">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={tab === 'cookies'}
+          className={`popup__tab${tab === 'cookies' ? ' popup__tab--active' : ''}`}
+          onClick={() => setTab('cookies')}
+        >
+          Cookies
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={tab === 'storage'}
+          className={`popup__tab${tab === 'storage' ? ' popup__tab--active' : ''}`}
+          onClick={() => setTab('storage')}
+        >
+          Storage
+        </button>
+      </div>
+
+      {tab === 'storage' ? (
+        <main className="popup__body">
+          <PopupStorage />
+        </main>
+      ) : (
+        <>
       <div className="popup__search">
         <SearchBar value={query} onChange={setQuery} autoFocus placeholder="Search this site's cookies…" />
       </div>
@@ -110,6 +139,8 @@ export function Popup() {
             Delete all for this site ({siteCookies.length})
           </button>
         </footer>
+      )}
+        </>
       )}
 
       {confirmingDeleteAll && (

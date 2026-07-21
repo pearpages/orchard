@@ -29,6 +29,35 @@
     font-size: 20px;
   }
 
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: $space-2;
+    border-bottom: 1px solid var(--cj-border);
+  }
+
+  &__nav-item {
+    @include button-reset;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: $space-1 $space-2;
+    border-radius: $radius-sm;
+    font-size: $text-md;
+    min-height: 30px;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: var(--cj-hover);
+    }
+
+    &--active {
+      background: var(--cj-selected);
+      font-weight: 600;
+    }
+  }
+
   &__domains {
     flex: 1;
     overflow-y: auto;
