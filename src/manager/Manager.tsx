@@ -16,7 +16,14 @@ import { cookieKey, type Cookie } from '../lib/cookies';
 import { buildOriginList, deepClean, type DeepCleanTypes } from '../lib/deepClean';
 import { downloadText } from '../lib/download';
 import { filterCookies, groupByDomain, type DomainGroup as DomainGroupData } from '../lib/filter';
-import { serializeCookies, serializeCookiesCsv } from '../lib/importExport';
+import { ExportMenu } from '../components/ExportMenu/ExportMenu';
+import {
+  cookieHeaderString,
+  curlCommand,
+  serializeCookies,
+  serializeCookiesCsv,
+  serializeNetscape,
+} from '../lib/importExport';
 import { normalizeDomain, partitionForBulkDelete } from '../lib/protection';
 import { loadUiState, saveUiState } from '../lib/uiState';
 import './manager.scss';
@@ -198,20 +205,48 @@ export function Manager() {
 
   const exportScope = () => selectedDomain ?? (query ? 'filtered' : 'all');
 
-  const exportViewJson = () => {
-    downloadText(exportFileName(exportScope()), serializeCookies(visibleCookies));
+  const viewExportItems = [
+    {
+      label: 'JSON',
+      onSelect: () => downloadText(exportFileName(exportScope()), serializeCookies(visibleCookies)),
+    },
+    {
+      label: 'CSV',
+      onSelect: () =>
+        downloadText(
+          exportFileName(exportScope()).replace(/\.json$/, '.csv'),
+          serializeCookiesCsv(visibleCookies),
+          'text/csv',
+        ),
+    },
+    {
+      label: 'cookies.txt (curl/wget)',
+      onSelect: () =>
+        downloadText(
+          exportFileName(exportScope()).replace(/\.json$/, '.cookies.txt'),
+          serializeNetscape(visibleCookies),
+          'text/plain',
+        ),
+    },
+  ];
+
+  const exportDomain = (group: DomainGroupData, format: 'json' | 'netscape') => {
+    if (format === 'json') {
+      downloadText(exportFileName(group.domain), serializeCookies(group.cookies));
+    } else {
+      downloadText(
+        exportFileName(group.domain).replace(/\.json$/, '.cookies.txt'),
+        serializeNetscape(group.cookies),
+        'text/plain',
+      );
+    }
   };
 
-  const exportViewCsv = () => {
-    downloadText(
-      exportFileName(exportScope()).replace(/\.json$/, '.csv'),
-      serializeCookiesCsv(visibleCookies),
-      'text/csv',
-    );
-  };
-
-  const exportDomain = (group: DomainGroupData) => {
-    downloadText(exportFileName(group.domain), serializeCookies(group.cookies));
+  const copyDomain = async (group: DomainGroupData, kind: 'header' | 'curl') => {
+    const text =
+      kind === 'header' ? cookieHeaderString(group.cookies) : curlCommand(group.domain, group.cookies);
+    await navigator.clipboard.writeText(text);
+    toast.success(kind === 'header' ? 'Cookie header copied' : 'cURL command copied');
   };
 
   return (
@@ -289,24 +324,12 @@ export function Manager() {
                 <button type="button" className="manager__button" onClick={() => setImportOpen(true)}>
                   Import
                 </button>
-                <button
-                  type="button"
-                  className="manager__button"
+                <ExportMenu
+                  label="Export"
+                  title="Export the cookies currently shown"
                   disabled={visibleCookies.length === 0}
-                  onClick={exportViewJson}
-                  title="Export the cookies currently shown as JSON"
-                >
-                  Export JSON
-                </button>
-                <button
-                  type="button"
-                  className="manager__button"
-                  disabled={visibleCookies.length === 0}
-                  onClick={exportViewCsv}
-                  title="Export the cookies currently shown as CSV (spreadsheets, other tools)"
-                >
-                  Export CSV
-                </button>
+                  items={viewExportItems}
+                />
                 <button
                   type="button"
                   className="manager__button manager__button--danger"
@@ -343,6 +366,7 @@ export function Manager() {
                       onTogglePin={protection.togglePin}
                       onToggleProtectDomain={protection.toggleDomain}
                       onExportDomain={exportDomain}
+                      onCopyDomain={(g, kind) => void copyDomain(g, kind)}
                       onDeepClean={(g) => void openDeepClean(g)}
                       onDeleteDomain={confirmDeleteDomain}
                       onDelete={(c: Cookie) => void actions.deleteOne(c)}

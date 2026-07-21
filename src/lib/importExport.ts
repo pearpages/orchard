@@ -1,4 +1,4 @@
-import { setFromCookie, type Cookie, type CookieDraft, type SameSite } from './cookies';
+import { bareDomain, setFromCookie, type Cookie, type CookieDraft, type SameSite } from './cookies';
 
 export const EXPORT_FORMAT = 'cookiejar/v1';
 
@@ -176,6 +176,86 @@ export function parseImport(text: string): ParsedImport {
   return { drafts, errors };
 }
 
+const NETSCAPE_HEADER = '# Netscape HTTP Cookie File';
+const HTTPONLY_PREFIX = '#HttpOnly_';
+
+/**
+ * Netscape cookies.txt — the format curl, wget and yt-dlp consume.
+ * 7 tab-separated fields per line; HttpOnly cookies use curl's
+ * `#HttpOnly_` domain prefix convention.
+ */
+export function serializeNetscape(cookies: Cookie[]): string {
+  const lines = cookies.map((c) => {
+    const domain = (c.httpOnly ? HTTPONLY_PREFIX : '') + c.domain;
+    const includeSubdomains = c.domain.startsWith('.') ? 'TRUE' : 'FALSE';
+    const expires = c.session || c.expirationDate === undefined ? '0' : String(Math.floor(c.expirationDate));
+    return [domain, includeSubdomains, c.path, c.secure ? 'TRUE' : 'FALSE', expires, c.name, c.value].join('\t');
+  });
+  return [NETSCAPE_HEADER, '# Exported by CookieJar', '', ...lines].join('\n');
+}
+
+/** Parses a Netscape cookies.txt file. */
+export function parseNetscape(text: string): ParsedImport {
+  const drafts: CookieDraft[] = [];
+  const errors: ImportError[] = [];
+  text.split(/\r?\n/).forEach((line, index) => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+    const httpOnly = trimmed.startsWith(HTTPONLY_PREFIX);
+    if (trimmed.startsWith('#') && !httpOnly) return;
+    const fields = (httpOnly ? trimmed.slice(HTTPONLY_PREFIX.length) : trimmed).split('\t');
+    if (fields.length !== 7) {
+      errors.push({ index, reason: `Line ${index + 1}: expected 7 tab-separated fields, got ${fields.length}.` });
+      return;
+    }
+    const [domain, , path, secure, expires, name, value] = fields;
+    const expirationDate = Number(expires);
+    const session = !Number.isFinite(expirationDate) || expirationDate <= 0;
+    const result = draftFromRaw(
+      {
+        name,
+        value,
+        domain,
+        hostOnly: !domain.startsWith('.'),
+        path,
+        secure: secure.toUpperCase() === 'TRUE',
+        httpOnly,
+        sameSite: 'unspecified',
+        session,
+        expirationDate: session ? undefined : expirationDate,
+      },
+      index,
+    );
+    if ('reason' in result) errors.push(result);
+    else drafts.push(result);
+  });
+  if (drafts.length === 0 && errors.length === 0) {
+    errors.push({ index: -1, reason: 'No cookie lines found in the cookies.txt file.' });
+  }
+  return { drafts, errors };
+}
+
+function looksLikeNetscape(text: string): boolean {
+  const lines = text.split(/\r?\n/).filter((l) => l.trim());
+  if (lines[0]?.startsWith(NETSCAPE_HEADER)) return true;
+  return lines.some((l) => l.split('\t').length === 7);
+}
+
+/** `name=value; name2=value2` — ready for a Cookie: request header. */
+export function cookieHeaderString(cookies: Cookie[]): string {
+  return cookies.map((c) => `${c.name}=${c.value}`).join('; ');
+}
+
+function shellEscapeSingleQuotes(text: string): string {
+  return text.replace(/'/g, "'\\''");
+}
+
+/** Ready-to-run curl command that sends this domain's cookies. */
+export function curlCommand(domain: string, cookies: Cookie[]): string {
+  const url = `https://${bareDomain(domain)}/`;
+  return `curl '${url}' -H 'Cookie: ${shellEscapeSingleQuotes(cookieHeaderString(cookies))}'`;
+}
+
 /** Parses a CSV export (ours, or anything with name/domain columns). */
 export function parseCsv(text: string): ParsedImport {
   const rows = readCsvRows(text);
@@ -216,11 +296,11 @@ export function parseCsv(text: string): ParsedImport {
   return { drafts, errors };
 }
 
-/** JSON first (cookiejar or EditThisCookie-style arrays), CSV as fallback. */
+/** JSON first (cookiejar or EditThisCookie-style arrays), then Netscape cookies.txt, then CSV. */
 export function parseImportAuto(text: string): ParsedImport {
   const asJson = parseImport(text);
   if (asJson.errors.some((e) => e.index === -1 && /JSON/.test(e.reason))) {
-    return parseCsv(text);
+    return looksLikeNetscape(text) ? parseNetscape(text) : parseCsv(text);
   }
   return asJson;
 }

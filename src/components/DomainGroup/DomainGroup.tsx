@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Cookie } from '../../lib/cookies';
 import type { DomainGroup as DomainGroupData } from '../../lib/filter';
 import { CookieTable } from '../CookieTable/CookieTable';
+import { ExportMenu } from '../ExportMenu/ExportMenu';
 import './domain-group.scss';
 
 /** Rows rendered per group before "Show all" — keeps huge domains snappy. */
@@ -13,7 +14,8 @@ interface DomainGroupProps {
   isProtected: (cookie: Cookie) => boolean;
   onTogglePin: (domain: string) => void;
   onToggleProtectDomain: (domain: string) => void;
-  onExportDomain: (group: DomainGroupData) => void;
+  onExportDomain: (group: DomainGroupData, format: 'json' | 'netscape') => void;
+  onCopyDomain: (group: DomainGroupData, kind: 'header' | 'curl') => void;
   onDeepClean: (group: DomainGroupData) => void;
   onDeleteDomain: (group: DomainGroupData) => void;
   onDelete: (cookie: Cookie) => void;
@@ -28,6 +30,7 @@ export function DomainGroup({
   onTogglePin,
   onToggleProtectDomain,
   onExportDomain,
+  onCopyDomain,
   onDeepClean,
   onDeleteDomain,
   onDelete,
@@ -85,14 +88,17 @@ export function DomainGroup({
           >
             🛡
           </button>
-          <button
-            type="button"
-            className="domain-group__action"
-            title="Export this domain as JSON"
-            onClick={() => onExportDomain(group)}
-          >
-            ⇩
-          </button>
+          <ExportMenu
+            compact
+            label={`Export ${group.domain}`}
+            title="Export or copy this domain's cookies"
+            items={[
+              { label: 'Export JSON', onSelect: () => onExportDomain(group, 'json') },
+              { label: 'Export cookies.txt', onSelect: () => onExportDomain(group, 'netscape') },
+              { label: 'Copy Cookie header', onSelect: () => onCopyDomain(group, 'header') },
+              { label: 'Copy cURL command', onSelect: () => onCopyDomain(group, 'curl') },
+            ]}
+          />
           <button
             type="button"
             className="domain-group__action"

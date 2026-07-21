@@ -61,7 +61,8 @@ export function ImportDialog({ onClose }: ImportDialogProps) {
             onDrop={onDrop}
           >
             <p className="import-dialog__drop-text">
-              Drop a JSON or CSV export here (EditThisCookie files work too), or
+              Drop a JSON, CSV or Netscape cookies.txt export here (EditThisCookie and Cookie&nbsp;Editor
+              files work too), or
             </p>
             <button type="button" className="import-dialog__browse" onClick={() => fileInput.current?.click()}>
               Choose a file…
@@ -70,7 +71,7 @@ export function ImportDialog({ onClose }: ImportDialogProps) {
               ref={fileInput}
               className="import-dialog__file"
               type="file"
-              accept=".json,.csv,application/json,text/csv"
+              accept=".json,.csv,.txt,application/json,text/csv,text/plain"
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) void readFile(file);

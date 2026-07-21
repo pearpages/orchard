@@ -44,3 +44,8 @@ Compared against Global Cookie Manager (web research) and implemented the three 
 - **Pagination**: Manager renders 50 domain groups + "Show N more domains"; DomainGroup caps at 100 rows + "Show all N cookies"; caps reset on filter change.
 
 **Done:** 101 unit tests, 17 e2e scenarios, build green. Remaining known deltas vs GCM: none feature-wise; CookieJar is still unpublished (load-unpacked only).
+
+### 2026-07-21 (v2.2) — Cookie Editor parity (CLI interop)
+Added Netscape `cookies.txt` export/import (`serializeNetscape`/`parseNetscape` in importExport.ts; `#HttpOnly_` curl convention, `0` expiry = session; `parseImportAuto` now detects JSON → Netscape → CSV), plus per-domain **Copy Cookie header** and **Copy cURL command** (single-quote shell escaping). New shared `ExportMenu` dropdown replaces the flat export buttons (toolbar: JSON/CSV/cookies.txt; domain header: JSON/cookies.txt/copy-header/copy-cURL as `role="menuitem"` — e2e clicks menu items by exact name after opening the menu). ImportDialog accepts `.txt`.
+
+**Done:** 108 unit tests, 18 e2e scenarios; verified real `curl 8.7.1 -b cookies.txt` consumes our export (echo-server test — beware: node `execSync` + in-process server deadlocks, run curl from a separate shell). User's goal: uninstall both Cookie Editor and Global Cookie Manager — CookieJar now covers both fully.

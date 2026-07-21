@@ -21,6 +21,7 @@ function renderGroup(cookieCount: number) {
       onTogglePin={() => {}}
       onToggleProtectDomain={() => {}}
       onExportDomain={() => {}}
+      onCopyDomain={() => {}}
       onDeepClean={() => {}}
       onDeleteDomain={() => {}}
       onDelete={() => {}}

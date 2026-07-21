@@ -66,15 +66,25 @@ Then(
 );
 
 When('I export cookies for domain {string}', async ({ page, jar }, domain: string) => {
+  await domainGroup(page, domain).getByTitle("Export or copy this domain's cookies").click();
   const downloadPromise = page.waitForEvent('download');
-  await domainGroup(page, domain).getByTitle('Export this domain as JSON').click();
+  await page.getByRole('menuitem', { name: 'Export JSON' }).click();
+  const download = await downloadPromise;
+  jar.downloadPath = await download.path();
+});
+
+When('I export the view as cookies.txt', async ({ page, jar }) => {
+  await page.getByRole('button', { name: 'Export ▾' }).click();
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('menuitem', { name: 'cookies.txt (curl/wget)' }).click();
   const download = await downloadPromise;
   jar.downloadPath = await download.path();
 });
 
 When('I export the view as CSV', async ({ page, jar }) => {
+  await page.getByRole('button', { name: 'Export ▾' }).click();
   const downloadPromise = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Export CSV' }).click();
+  await page.getByRole('menuitem', { name: 'CSV', exact: true }).click();
   const download = await downloadPromise;
   jar.downloadPath = await download.path();
 });
