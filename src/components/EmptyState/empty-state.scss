@@ -1,0 +1,37 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-6 $space-4;
+  text-align: center;
+
+  &__icon {
+    font-size: 40px;
+    filter: grayscale(0.3);
+    opacity: 0.8;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: $text-md;
+    font-weight: 600;
+    color: var(--cj-text);
+  }
+
+  &__hint {
+    margin: 0;
+    font-size: $text-sm;
+    color: var(--cj-text-muted);
+    max-width: 320px;
+  }
+
+  &__action {
+    @include button-base;
+    margin-top: $space-2;
+    color: var(--cj-accent-text);
+  }
+}

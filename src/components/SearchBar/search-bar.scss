@@ -1,0 +1,36 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    position: absolute;
+    left: $space-2;
+    color: var(--cj-text-faint);
+    font-size: $text-lg;
+    pointer-events: none;
+  }
+
+  &__input {
+    @include input-base;
+    width: 100%;
+    padding-left: $space-5;
+    padding-right: $space-5;
+
+    &::-webkit-search-cancel-button {
+      display: none;
+    }
+  }
+
+  &__clear {
+    @include icon-button;
+    position: absolute;
+    right: $space-1;
+    width: 22px;
+    height: 22px;
+    font-size: $text-lg;
+  }
+}

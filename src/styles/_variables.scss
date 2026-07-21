@@ -1,0 +1,85 @@
+// Design tokens. Values are exposed as CSS custom properties in global.scss
+// so dark mode can swap them without any JS.
+
+// Type
+$font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+$text-xs: 11px;
+$text-sm: 12px;
+$text-md: 13px;
+$text-lg: 15px;
+$text-xl: 18px;
+
+// Spacing — 8px grid with half steps
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 24px;
+$space-6: 32px;
+
+// Radii
+$radius-sm: 6px;
+$radius-md: 8px;
+$radius-lg: 12px;
+
+// Motion
+$transition-fast: 120ms ease;
+$transition-med: 200ms ease;
+
+// Light palette
+$light: (
+  'bg': #faf7f2,
+  'surface': #ffffff,
+  'surface-raised': #ffffff,
+  'border': #e8e1d6,
+  'border-strong': #d5cbbb,
+  'text': #2d2a24,
+  'text-muted': #8a8171,
+  'text-faint': #b3aa99,
+  'accent': #c07a2d,
+  'accent-soft': #f7ead9,
+  'accent-text': #935a1b,
+  'danger': #c0392b,
+  'danger-soft': #fbeae7,
+  'success': #3a7d44,
+  'success-soft': #e8f3ea,
+  'shield': #4a6fa5,
+  'shield-soft': #e9eff7,
+  'hover': #f3eee5,
+  'selected': #efe6d8,
+  'shadow': rgba(45, 42, 36, 0.1),
+  'overlay': rgba(45, 42, 36, 0.4),
+);
+
+// Dark palette
+$dark: (
+  'bg': #1c1a17,
+  'surface': #262320,
+  'surface-raised': #2e2a26,
+  'border': #3a352f,
+  'border-strong': #4c463d,
+  'text': #ece7de,
+  'text-muted': #a99f8d,
+  'text-faint': #746c5e,
+  'accent': #e0964a,
+  'accent-soft': #3a2e1f,
+  'accent-text': #e8ab6c,
+  'danger': #e06456,
+  'danger-soft': #3c2523,
+  'success': #6cb578,
+  'success-soft': #243226,
+  'shield': #7ea1d4,
+  'shield-soft': #232c3a,
+  'hover': #2e2a25,
+  'selected': #383228,
+  'shadow': rgba(0, 0, 0, 0.4),
+  'overlay': rgba(0, 0, 0, 0.55),
+);
+
+@mixin emit-vars($palette) {
+  @each $name, $value in $palette {
+    --cj-#{$name}: #{$value};
+  }
+}

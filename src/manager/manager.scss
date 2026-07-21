@@ -1,0 +1,129 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.manager {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+
+  &__sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--cj-border);
+    background: var(--cj-surface);
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    padding: $space-3 $space-4;
+    font-size: $text-lg;
+    font-weight: 700;
+    border-bottom: 1px solid var(--cj-border);
+  }
+
+  &__brand-icon {
+    font-size: 20px;
+  }
+
+  &__domains {
+    flex: 1;
+    overflow-y: auto;
+    padding: $space-2;
+  }
+
+  &__domain-item {
+    @include button-reset;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-2;
+    width: 100%;
+    padding: $space-1 $space-2;
+    border-radius: $radius-sm;
+    font-size: $text-sm;
+    min-height: 28px;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: var(--cj-hover);
+    }
+
+    &--selected {
+      background: var(--cj-selected);
+      font-weight: 600;
+    }
+  }
+
+  &__domain-name {
+    @include truncate;
+    display: flex;
+    align-items: center;
+    gap: $space-1;
+  }
+
+  &__domain-pin {
+    font-size: $text-xs;
+  }
+
+  &__domain-count {
+    font-size: $text-xs;
+    color: var(--cj-text-muted);
+    flex-shrink: 0;
+  }
+
+  &__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    padding: $space-3 $space-4;
+    border-bottom: 1px solid var(--cj-border);
+    background: var(--cj-surface);
+    flex-wrap: wrap;
+  }
+
+  &__search {
+    flex: 1;
+    min-width: 240px;
+  }
+
+  &__toolbar-actions {
+    display: flex;
+    gap: $space-2;
+  }
+
+  &__button {
+    @include button-base;
+
+    &--primary {
+      @include button-primary;
+    }
+
+    &--danger {
+      @include button-danger;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: $space-4;
+  }
+
+  &__loading {
+    margin: 0;
+    padding: $space-5;
+    text-align: center;
+    color: var(--cj-text-muted);
+  }
+}

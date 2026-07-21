@@ -1,0 +1,91 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.domain-group {
+  background: var(--cj-surface);
+  border: 1px solid var(--cj-border);
+  border-radius: $radius-md;
+  margin-bottom: $space-3;
+  overflow: hidden;
+
+  &__header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--cj-surface);
+    border-bottom: 1px solid var(--cj-border);
+    padding-right: $space-2;
+  }
+
+  &--collapsed &__header {
+    border-bottom: none;
+  }
+
+  &__toggle {
+    @include button-reset;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    padding: $space-2 $space-3;
+    min-width: 0;
+    text-align: left;
+  }
+
+  &__chevron {
+    color: var(--cj-text-faint);
+    width: 12px;
+  }
+
+  &__domain {
+    font-weight: 600;
+    font-size: $text-md;
+    @include truncate;
+  }
+
+  &__count {
+    font-size: $text-xs;
+    color: var(--cj-text-muted);
+    background: var(--cj-hover);
+    border-radius: 10px;
+    padding: 0 $space-2;
+    line-height: 18px;
+  }
+
+  &__flag {
+    font-size: $text-xs;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 2px;
+    opacity: 0;
+    transition: opacity $transition-fast;
+  }
+
+  &__header:hover &__actions,
+  &__header:focus-within &__actions {
+    opacity: 1;
+  }
+
+  &__action {
+    @include icon-button;
+
+    &--active {
+      color: var(--cj-shield);
+      opacity: 1;
+    }
+
+    &--danger:hover {
+      background: var(--cj-danger-soft);
+      color: var(--cj-danger);
+    }
+  }
+
+  &__header &__action--active {
+    opacity: 1;
+  }
+}

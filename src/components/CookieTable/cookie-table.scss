@@ -1,0 +1,28 @@
+@use '../../styles/variables' as *;
+
+.cookie-table {
+  margin: 0;
+  padding: 0;
+
+  // Compact mode (popup): hide the expiry + inline badge columns
+  &--compact {
+    .cookie-row__summary {
+      grid-template-columns: minmax(100px, 1fr) minmax(60px, 1fr) auto auto;
+      gap: $space-2;
+      padding: $space-1 $space-2;
+    }
+
+    .cookie-row__expiry {
+      display: none;
+    }
+
+    .cookie-row__badge {
+      display: none;
+
+      &--shield,
+      &--partition {
+        display: inline;
+      }
+    }
+  }
+}
