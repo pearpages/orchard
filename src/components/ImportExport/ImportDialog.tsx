@@ -1,5 +1,5 @@
 import { useRef, useState, type DragEvent } from 'react';
-import { applyImport, parseImport, type ParsedImport } from '../../lib/importExport';
+import { applyImport, parseImportAuto, type ParsedImport } from '../../lib/importExport';
 import { useToast } from '../../hooks/useToast';
 import './import-export.scss';
 
@@ -17,7 +17,7 @@ export function ImportDialog({ onClose }: ImportDialogProps) {
 
   const readFile = async (file: File) => {
     setFileName(file.name);
-    setParsed(parseImport(await file.text()));
+    setParsed(parseImportAuto(await file.text()));
   };
 
   const onDrop = (event: DragEvent) => {
@@ -60,7 +60,9 @@ export function ImportDialog({ onClose }: ImportDialogProps) {
             onDragLeave={() => setDragOver(false)}
             onDrop={onDrop}
           >
-            <p className="import-dialog__drop-text">Drop a JSON export here, or</p>
+            <p className="import-dialog__drop-text">
+              Drop a JSON or CSV export here (EditThisCookie files work too), or
+            </p>
             <button type="button" className="import-dialog__browse" onClick={() => fileInput.current?.click()}>
               Choose a file…
             </button>
@@ -68,7 +70,7 @@ export function ImportDialog({ onClose }: ImportDialogProps) {
               ref={fileInput}
               className="import-dialog__file"
               type="file"
-              accept=".json,application/json"
+              accept=".json,.csv,application/json,text/csv"
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) void readFile(file);

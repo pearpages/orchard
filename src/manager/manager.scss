@@ -155,4 +155,12 @@
     text-align: center;
     color: var(--cj-text-muted);
   }
+
+  &__show-more {
+    @include button-base;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    color: var(--cj-accent-text);
+  }
 }

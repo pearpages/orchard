@@ -72,6 +72,13 @@ When('I export cookies for domain {string}', async ({ page, jar }, domain: strin
   jar.downloadPath = await download.path();
 });
 
+When('I export the view as CSV', async ({ page, jar }) => {
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export CSV' }).click();
+  const download = await downloadPromise;
+  jar.downloadPath = await download.path();
+});
+
 When('all cookies are deleted', async ({ jar }) => {
   await jar.clearAll();
 });

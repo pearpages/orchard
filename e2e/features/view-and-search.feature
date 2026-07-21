@@ -23,6 +23,17 @@ Feature: View and search cookies
     Then I see 1 cookie row
     And the row shows cookie "session" for domain "example.com"
 
+  Scenario: The manager remembers the last search
+    Given the browser has cookies:
+      | name    | domain       | value |
+      | session | example.com  | abc   |
+      | ga_id   | analytics.io | xyz   |
+    When I open the manager page
+    And I search for "session"
+    And I reopen the manager page
+    Then the search box contains "session"
+    And I see 1 cookie row
+
   Scenario: domain: prefix scopes the search to domains only
     Given the browser has cookies:
       | name  | domain       | value       |

@@ -17,6 +17,87 @@ export function serializeCookies(cookies: Cookie[], exportedAt: Date = new Date(
   return JSON.stringify(file, null, 2);
 }
 
+const CSV_COLUMNS = [
+  'name',
+  'value',
+  'domain',
+  'path',
+  'expirationDate',
+  'secure',
+  'httpOnly',
+  'sameSite',
+  'session',
+  'storeId',
+  'partitionKey',
+] as const;
+
+function csvEscape(field: string): string {
+  return /[",\n\r]/.test(field) ? `"${field.replace(/"/g, '""')}"` : field;
+}
+
+/** CSV export (RFC 4180) — for spreadsheets and non-JSON tooling. */
+export function serializeCookiesCsv(cookies: Cookie[]): string {
+  const rows = cookies.map((c) =>
+    [
+      c.name,
+      c.value,
+      c.domain,
+      c.path,
+      c.session || c.expirationDate === undefined ? '' : String(c.expirationDate),
+      String(c.secure),
+      String(c.httpOnly),
+      c.sameSite,
+      String(c.session),
+      c.storeId,
+      c.partitionKey?.topLevelSite ?? '',
+    ]
+      .map(csvEscape)
+      .join(','),
+  );
+  return [CSV_COLUMNS.join(','), ...rows].join('\n');
+}
+
+/** Minimal RFC 4180 reader: quotes, escaped quotes, newlines inside quotes. */
+function readCsvRows(text: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let field = '';
+  let inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        if (text[i + 1] === '"') {
+          field += '"';
+          i++;
+        } else {
+          inQuotes = false;
+        }
+      } else {
+        field += ch;
+      }
+    } else if (ch === '"') {
+      inQuotes = true;
+    } else if (ch === ',') {
+      row.push(field);
+      field = '';
+    } else if (ch === '\n' || ch === '\r') {
+      if (ch === '\r' && text[i + 1] === '\n') i++;
+      row.push(field);
+      field = '';
+      rows.push(row);
+      row = [];
+    } else {
+      field += ch;
+    }
+  }
+  if (field !== '' || row.length > 0) {
+    row.push(field);
+    rows.push(row);
+  }
+  return rows.filter((r) => !(r.length === 1 && r[0] === ''));
+}
+
 export interface ImportError {
   index: number;
   reason: string;
@@ -93,6 +174,55 @@ export function parseImport(text: string): ParsedImport {
     else drafts.push(result);
   });
   return { drafts, errors };
+}
+
+/** Parses a CSV export (ours, or anything with name/domain columns). */
+export function parseCsv(text: string): ParsedImport {
+  const rows = readCsvRows(text);
+  if (rows.length < 2) {
+    return { drafts: [], errors: [{ index: -1, reason: 'CSV needs a header row and at least one cookie row.' }] };
+  }
+  const header = rows[0].map((h) => h.trim().toLowerCase());
+  if (!header.includes('name') || !header.includes('domain')) {
+    return { drafts: [], errors: [{ index: -1, reason: 'CSV header must include "name" and "domain" columns.' }] };
+  }
+  const col = (row: string[], name: string): string | undefined => {
+    const i = header.indexOf(name);
+    return i >= 0 ? row[i] : undefined;
+  };
+  const drafts: CookieDraft[] = [];
+  const errors: ImportError[] = [];
+  rows.slice(1).forEach((row, index) => {
+    const expirationText = col(row, 'expirationdate')?.trim() ?? '';
+    const expirationDate = expirationText === '' ? undefined : Number(expirationText);
+    const partitionSite = col(row, 'partitionkey')?.trim();
+    const raw: Record<string, unknown> = {
+      name: col(row, 'name'),
+      value: col(row, 'value') ?? '',
+      domain: col(row, 'domain'),
+      path: col(row, 'path'),
+      expirationDate: Number.isFinite(expirationDate) ? expirationDate : undefined,
+      secure: col(row, 'secure')?.trim().toLowerCase() === 'true',
+      httpOnly: col(row, 'httponly')?.trim().toLowerCase() === 'true',
+      sameSite: col(row, 'samesite')?.trim(),
+      session: col(row, 'session')?.trim().toLowerCase() === 'true',
+      storeId: col(row, 'storeid')?.trim() || undefined,
+      partitionKey: partitionSite ? { topLevelSite: partitionSite } : undefined,
+    };
+    const result = draftFromRaw(raw, index);
+    if ('reason' in result) errors.push(result);
+    else drafts.push(result);
+  });
+  return { drafts, errors };
+}
+
+/** JSON first (cookiejar or EditThisCookie-style arrays), CSV as fallback. */
+export function parseImportAuto(text: string): ParsedImport {
+  const asJson = parseImport(text);
+  if (asJson.errors.some((e) => e.index === -1 && /JSON/.test(e.reason))) {
+    return parseCsv(text);
+  }
+  return asJson;
 }
 
 export interface ImportResult {

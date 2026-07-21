@@ -16,8 +16,9 @@ import { cookieKey, type Cookie } from '../lib/cookies';
 import { buildOriginList, deepClean, type DeepCleanTypes } from '../lib/deepClean';
 import { downloadText } from '../lib/download';
 import { filterCookies, groupByDomain, type DomainGroup as DomainGroupData } from '../lib/filter';
-import { serializeCookies } from '../lib/importExport';
+import { serializeCookies, serializeCookiesCsv } from '../lib/importExport';
 import { normalizeDomain, partitionForBulkDelete } from '../lib/protection';
+import { loadUiState, saveUiState } from '../lib/uiState';
 import './manager.scss';
 
 type ManagerView = 'cookies' | 'storage' | 'timeline';
@@ -41,6 +42,8 @@ const VIEWS: { key: ManagerView; label: string }[] = [
   { key: 'timeline', label: 'Timeline' },
 ];
 
+const GROUP_PAGE = 50;
+
 function exportFileName(scope: string): string {
   const stamp = new Date().toISOString().slice(0, 10);
   return `cookiejar-${scope}-${stamp}.json`;
@@ -63,10 +66,37 @@ export function Manager() {
   const [confirm, setConfirm] = useState<ConfirmState | null>(null);
   const [importOpen, setImportOpen] = useState(false);
   const [deepCleaning, setDeepCleaning] = useState<DeepCleanState | null>(null);
+  const [groupCap, setGroupCap] = useState(GROUP_PAGE);
+  const [uiStateLoaded, setUiStateLoaded] = useState(false);
   const [pendingEditKey, setPendingEditKey] = useState<string | null>(() => {
     const match = window.location.hash.match(/^#edit=(.+)$/);
     return match ? decodeURIComponent(match[1]) : null;
   });
+
+  // Restore the last search / view / domain selection ("remember last search").
+  useEffect(() => {
+    void loadUiState().then((stored) => {
+      setQuery(stored.managerQuery);
+      setSelectedDomain(stored.selectedDomain);
+      // An explicit #view= or #edit= deep link wins over the stored view.
+      if (!window.location.hash) setView(stored.managerView);
+      setUiStateLoaded(true);
+    });
+  }, []);
+
+  // Persist it back, debounced — but never before the initial load resolved.
+  useEffect(() => {
+    if (!uiStateLoaded) return;
+    const timer = setTimeout(() => {
+      void saveUiState({ managerQuery: query, managerView: view, selectedDomain });
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [uiStateLoaded, query, view, selectedDomain]);
+
+  // Pagination cap resets whenever the visible set changes shape.
+  useEffect(() => {
+    setGroupCap(GROUP_PAGE);
+  }, [query, selectedDomain]);
 
   // React to #view= hash changes while the page is already open.
   useEffect(() => {
@@ -166,9 +196,18 @@ export function Manager() {
     }
   };
 
-  const exportView = () => {
-    const scope = selectedDomain ?? (query ? 'filtered' : 'all');
-    downloadText(exportFileName(scope), serializeCookies(visibleCookies));
+  const exportScope = () => selectedDomain ?? (query ? 'filtered' : 'all');
+
+  const exportViewJson = () => {
+    downloadText(exportFileName(exportScope()), serializeCookies(visibleCookies));
+  };
+
+  const exportViewCsv = () => {
+    downloadText(
+      exportFileName(exportScope()).replace(/\.json$/, '.csv'),
+      serializeCookiesCsv(visibleCookies),
+      'text/csv',
+    );
   };
 
   const exportDomain = (group: DomainGroupData) => {
@@ -254,10 +293,19 @@ export function Manager() {
                   type="button"
                   className="manager__button"
                   disabled={visibleCookies.length === 0}
-                  onClick={exportView}
+                  onClick={exportViewJson}
                   title="Export the cookies currently shown as JSON"
                 >
-                  Export view
+                  Export JSON
+                </button>
+                <button
+                  type="button"
+                  className="manager__button"
+                  disabled={visibleCookies.length === 0}
+                  onClick={exportViewCsv}
+                  title="Export the cookies currently shown as CSV (spreadsheets, other tools)"
+                >
+                  Export CSV
                 </button>
                 <button
                   type="button"
@@ -285,22 +333,34 @@ export function Manager() {
                   hint="Tip: use domain:example or name:session to narrow the search."
                 />
               ) : (
-                visibleGroups.map((group) => (
-                  <DomainGroup
-                    key={group.domain}
-                    group={group}
-                    domainProtected={protection.isDomainProtected(group.domain)}
-                    isProtected={protection.isProtected}
-                    onTogglePin={protection.togglePin}
-                    onToggleProtectDomain={protection.toggleDomain}
-                    onExportDomain={exportDomain}
-                    onDeepClean={(g) => void openDeepClean(g)}
-                    onDeleteDomain={confirmDeleteDomain}
-                    onDelete={(c: Cookie) => void actions.deleteOne(c)}
-                    onEdit={(c: Cookie) => setEditor({ kind: 'edit', cookie: c })}
-                    onToggleProtect={protection.toggleCookie}
-                  />
-                ))
+                <>
+                  {visibleGroups.slice(0, groupCap).map((group) => (
+                    <DomainGroup
+                      key={group.domain}
+                      group={group}
+                      domainProtected={protection.isDomainProtected(group.domain)}
+                      isProtected={protection.isProtected}
+                      onTogglePin={protection.togglePin}
+                      onToggleProtectDomain={protection.toggleDomain}
+                      onExportDomain={exportDomain}
+                      onDeepClean={(g) => void openDeepClean(g)}
+                      onDeleteDomain={confirmDeleteDomain}
+                      onDelete={(c: Cookie) => void actions.deleteOne(c)}
+                      onEdit={(c: Cookie) => setEditor({ kind: 'edit', cookie: c })}
+                      onToggleProtect={protection.toggleCookie}
+                    />
+                  ))}
+                  {visibleGroups.length > groupCap && (
+                    <button
+                      type="button"
+                      className="manager__show-more"
+                      onClick={() => setGroupCap((cap) => cap + GROUP_PAGE)}
+                    >
+                      Show {Math.min(GROUP_PAGE, visibleGroups.length - groupCap)} more domains (
+                      {visibleGroups.length - groupCap} remaining)
+                    </button>
+                  )}
+                </>
               )}
             </div>
           </>

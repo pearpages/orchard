@@ -36,3 +36,11 @@ Built the whole extension from an empty repo: core lib + hooks, popup + manager 
 Added the four v2 features: **Storage inspector** (localStorage/sessionStorage of all open tabs via chrome.scripting, grouped by origin, edit/delete/add/export/clear with undo; popup gets a Storage tab), **JWT/token decoder** (`src/lib/token.ts` + TokenPanel, badges in cookie and storage rows), **Timeline + snapshot/diff** (SW records cookies.onChanged into storage.session ring buffer; pause, filter, clear; snapshot→diff view), **Deep clean** (browsingData per-origin wipe with checkbox dialog, protection-respecting optional cookie delete). Manager gained sidebar navigation (Cookies | Storage | Timeline, deep-linkable via `#view=`). Permissions added: `scripting`, `browsingData`.
 
 **Done:** 90 unit tests, 15 Gherkin e2e scenarios (new: storage.feature, jwt.feature, timeline.feature, deep-clean.feature; e2e fixtures gained a worker-scoped static HTTP server on 127.0.0.1). Screenshots verified light+dark for all new views.
+
+### 2026-07-21 (v2.1) — Global Cookie Manager gap-closing
+Compared against Global Cookie Manager (web research) and implemented the three gaps it still had on us:
+- **CSV export/import + EditThisCookie interop**: `serializeCookiesCsv`/`parseCsv`/`parseImportAuto` in `src/lib/importExport.ts` (hand-rolled RFC-4180, per-row errors); ImportDialog auto-detects JSON vs CSV and accepts `.csv`; toolbar now has "Export JSON" + "Export CSV". ETC arrays already parsed via `draftFromRaw` (incl. `sameSite: null` quirk) — covered by tests.
+- **Remember last search / UI state**: `src/lib/uiState.ts` (`uiState` key in chrome.storage.local: managerQuery/managerView/selectedDomain); Manager restores on mount (hash deep links win over stored view) and saves debounced 300 ms — guard against saving before the initial load resolves.
+- **Pagination**: Manager renders 50 domain groups + "Show N more domains"; DomainGroup caps at 100 rows + "Show all N cookies"; caps reset on filter change.
+
+**Done:** 101 unit tests, 17 e2e scenarios, build green. Remaining known deltas vs GCM: none feature-wise; CookieJar is still unpublished (load-unpacked only).

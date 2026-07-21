@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Cookie } from '../../lib/cookies';
 import type { DomainGroup as DomainGroupData } from '../../lib/filter';
 import { CookieTable } from '../CookieTable/CookieTable';
 import './domain-group.scss';
+
+/** Rows rendered per group before "Show all" — keeps huge domains snappy. */
+const ROW_CAP = 100;
 
 interface DomainGroupProps {
   group: DomainGroupData;
@@ -32,6 +35,13 @@ export function DomainGroup({
   onToggleProtect,
 }: DomainGroupProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const [showAll, setShowAll] = useState(false);
+
+  useEffect(() => {
+    setShowAll(false);
+  }, [group.cookies.length]);
+
+  const visibleCookies = showAll ? group.cookies : group.cookies.slice(0, ROW_CAP);
 
   return (
     <section className={`domain-group${collapsed ? ' domain-group--collapsed' : ''}`}>
@@ -102,13 +112,20 @@ export function DomainGroup({
         </div>
       </header>
       {!collapsed && (
-        <CookieTable
-          cookies={group.cookies}
-          isProtected={isProtected}
-          onDelete={onDelete}
-          onEdit={onEdit}
-          onToggleProtect={onToggleProtect}
-        />
+        <>
+          <CookieTable
+            cookies={visibleCookies}
+            isProtected={isProtected}
+            onDelete={onDelete}
+            onEdit={onEdit}
+            onToggleProtect={onToggleProtect}
+          />
+          {!showAll && group.cookies.length > ROW_CAP && (
+            <button type="button" className="domain-group__show-all" onClick={() => setShowAll(true)}>
+              Show all {group.cookies.length} cookies
+            </button>
+          )}
+        </>
       )}
     </section>
   );

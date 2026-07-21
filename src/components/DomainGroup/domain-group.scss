@@ -88,4 +88,18 @@
   &__header &__action--active {
     opacity: 1;
   }
+
+  &__show-all {
+    @include button-reset;
+    display: block;
+    width: 100%;
+    padding: $space-2;
+    font-size: $text-sm;
+    color: var(--cj-accent-text);
+    border-top: 1px solid var(--cj-border);
+
+    &:hover {
+      background: var(--cj-hover);
+    }
+  }
 }

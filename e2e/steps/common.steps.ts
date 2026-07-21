@@ -20,6 +20,16 @@ When('I search for {string}', async ({ page }, query: string) => {
   await page.getByRole('searchbox').fill(query);
 });
 
+When('I reopen the manager page', async ({ page, jar }) => {
+  // Give the debounced UI-state save (300 ms) time to persist first.
+  await page.waitForTimeout(500);
+  await jar.openManager();
+});
+
+Then('the search box contains {string}', async ({ page }, value: string) => {
+  await expect(page.getByRole('searchbox')).toHaveValue(value);
+});
+
 Then('I see a domain group {string} with {int} cookie(s)', async ({ page }, domain: string, count: number) => {
   await expect(domainGroup(page, domain).locator('.domain-group__count')).toHaveText(String(count));
 });
