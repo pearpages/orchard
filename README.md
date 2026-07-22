@@ -15,8 +15,9 @@ A pnpm-workspace monorepo of Chrome extensions (Manifest V3), each with an optio
 
 ```
 packages/config/          # @browser-plugins/config — shared tsconfig + playwright base
+packages/site-kit/        # @browser-plugins/site-kit — shared Astro components + plugin registry for the sites
 plugins/<name>/extension  # the MV3 extension
-plugins/<name>/site       # optional Astro static site (focaccia has one)
+plugins/<name>/site       # Astro promo site (cookiejar, focaccia, headerforge have one)
 ```
 
 ## Commands
