@@ -1,0 +1,336 @@
+---
+import '../styles/theme.css';
+import Layout from '@browser-plugins/site-kit/components/Layout.astro';
+import InstallSteps from '@browser-plugins/site-kit/components/InstallSteps.astro';
+import OtherPlugins from '@browser-plugins/site-kit/components/OtherPlugins.astro';
+import AuthorCard from '@browser-plugins/site-kit/components/AuthorCard.astro';
+---
+
+<Layout
+  title="HopChase — see every redirect hop"
+  description="Every redirect hop — statuses, headers, and the SEO issues they hide. HopChase reconstructs the full chain behind each page load: server redirects, meta refreshes, JS hops, with an on-demand tracer and exports."
+>
+  <header class="hero">
+    <h1 class="hero__title">Hop<span class="hero__chase">Chase</span></h1>
+    <p class="hero__tagline">Every redirect hop — statuses, headers, and the SEO issues they hide.</p>
+    <p class="hero__pitch">
+      A page load is rarely one request. HopChase shows the whole journey — server redirects,
+      meta refreshes, JavaScript hops — with per-hop headers, IPs and latency, and flags the
+      chains that are quietly costing you crawl budget.
+    </p>
+    <a class="hero__cta" href="#install">Chase a redirect</a>
+
+    <figure class="trace" aria-label="A redirect chain of four hops as HopChase shows it">
+      <figcaption class="trace__bar">
+        <span class="trace__dot"></span><span class="trace__dot"></span><span class="trace__dot"></span>
+        <span class="trace__url">where did this tab come from?</span>
+      </figcaption>
+      <ol class="trace__chain">
+        <li class="hop">
+          <span class="hop__status hop__status--3xx">301</span>
+          <code class="hop__url">http://example.com/</code>
+          <span class="hop__meta">12 ms</span>
+        </li>
+        <li class="hop">
+          <span class="hop__status hop__status--3xx">301</span>
+          <code class="hop__url">https://example.com/</code>
+          <span class="hop__meta">31 ms</span>
+        </li>
+        <li class="hop">
+          <span class="hop__status hop__status--3xx">302</span>
+          <code class="hop__url">https://example.com/home</code>
+          <span class="hop__meta">18 ms</span>
+        </li>
+        <li class="hop">
+          <span class="hop__status hop__status--2xx">200</span>
+          <code class="hop__url">https://example.com/en/home</code>
+          <span class="hop__meta">104 ms</span>
+        </li>
+      </ol>
+      <ul class="trace__issues">
+        <li class="issue">⚠ 3 hops — collapse to a single 301</li>
+        <li class="issue">⚠ HTTP → HTTPS upgrade hop</li>
+        <li class="issue">⚠ temporary 302 in a permanent chain</li>
+      </ul>
+    </figure>
+  </header>
+
+  <main class="features">
+    <section class="card">
+      <h2 class="card__title">The whole chain, not the last stop</h2>
+      <p class="card__body">
+        HopChase watches real navigation and reconstructs the full redirect chain for every tab —
+        including the hops DevTools has already thrown away by the time you open it.
+      </p>
+    </section>
+    <section class="card">
+      <h2 class="card__title">Client redirects too</h2>
+      <p class="card__body">
+        Meta refreshes and JavaScript redirects don't send a 3xx, so most tools miss them.
+        HopChase links them into the chain and labels the bridge hop
+        <code class="inline">meta</code> or <code class="inline">js</code>.
+      </p>
+    </section>
+    <section class="card">
+      <h2 class="card__title">SEO issues, flagged</h2>
+      <p class="card__body">
+        Eight built-in rules read each chain like an auditor: too many hops, 302s where 301s
+        belong, HTTP→HTTPS upgrade hops, redirect loops, canonical mismatches — each with the hop
+        it points at.
+      </p>
+    </section>
+    <section class="card">
+      <h2 class="card__title">Trace any URL on demand</h2>
+      <p class="card__body">
+        Paste a URL into the tracer and HopChase follows it cookielessly from the extension —
+        see where a campaign link or a suspicious shortener really lands, without navigating.
+      </p>
+    </section>
+    <section class="card">
+      <h2 class="card__title">Take the evidence with you</h2>
+      <p class="card__body">
+        Export a chain as JSON, CSV or HAR, copy it as a readable text summary, or copy any hop
+        as a ready-to-run <code class="inline">curl</code> command.
+      </p>
+    </section>
+    <section class="card">
+      <h2 class="card__title">History for before/after</h2>
+      <p class="card__body">
+        Recent chains are kept in a local ring buffer — run a crawl before a migration, flip the
+        redirects, and compare what changed. Per-hop detail keeps searchable headers, server IP
+        and latency.
+      </p>
+    </section>
+  </main>
+
+  <InstallSteps
+    buildCommand="pnpm --filter @hopchase/extension build"
+    distPath="plugins/hopchase/extension/dist"
+  />
+
+  <OtherPlugins current="hopchase" />
+
+  <AuthorCard>
+    <p>Built for the tabs that arrive somewhere unexpected.</p>
+  </AuthorCard>
+</Layout>
+
+<style>
+  .hero {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 24px 56px;
+    text-align: center;
+  }
+
+  .hero__title {
+    margin: 0;
+    font-size: clamp(40px, 7vw, 56px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-family: var(--font-mono);
+  }
+
+  .hero__chase {
+    color: var(--hc-accent);
+  }
+
+  .hero__tagline {
+    margin: 8px 0 0;
+    font-size: 18px;
+    color: var(--hc-ink-muted);
+  }
+
+  .hero__pitch {
+    max-width: 580px;
+    margin: 24px auto 0;
+    font-size: 18px;
+  }
+
+  .hero__cta {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 12px 32px;
+    border-radius: 999px;
+    background: var(--hc-accent);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 2px 0 var(--hc-accent-text);
+  }
+
+  .hero__cta:hover {
+    background: var(--hc-accent-text);
+  }
+
+  .trace {
+    margin: 44px 0 0;
+    text-align: left;
+    background: var(--hc-surface);
+    border: 1px solid var(--hc-border);
+    border-radius: 12px;
+    box-shadow: 0 6px 18px var(--hc-shadow);
+    overflow: hidden;
+  }
+
+  .trace__bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    background: var(--hc-panel);
+    border-bottom: 1px solid var(--hc-border);
+  }
+
+  .trace__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--hc-border);
+  }
+
+  .trace__url {
+    margin-left: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--hc-ink-muted);
+  }
+
+  .trace__chain {
+    margin: 0;
+    padding: 18px 20px 10px;
+    list-style: none;
+  }
+
+  .hop {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0 6px 18px;
+  }
+
+  /* vertical chain connector */
+  .hop::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--hc-border);
+  }
+
+  .hop:first-child::before {
+    top: 50%;
+  }
+
+  .hop:last-child::before {
+    bottom: 50%;
+  }
+
+  /* chain node */
+  .hop::after {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: var(--hc-accent);
+  }
+
+  .hop__status {
+    flex: none;
+    padding: 1px 8px;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+
+  .hop__status--3xx {
+    background: var(--hc-3xx-soft);
+    color: var(--hc-3xx);
+  }
+
+  .hop__status--2xx {
+    background: var(--hc-2xx-soft);
+    color: var(--hc-2xx);
+  }
+
+  .hop__url {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hop__meta {
+    margin-left: auto;
+    flex: none;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--hc-ink-muted);
+  }
+
+  .trace__issues {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 8px 20px 18px;
+    list-style: none;
+  }
+
+  .issue {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    background: var(--hc-3xx-soft);
+    border-radius: 999px;
+    font-size: 12.5px;
+    color: var(--hc-ink);
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+  }
+
+  .card {
+    padding: 26px 28px;
+    background: var(--hc-surface);
+    border: 1px solid var(--hc-border);
+    border-radius: 10px;
+    box-shadow: 0 3px 10px var(--hc-shadow);
+  }
+
+  .card__title {
+    margin: 0;
+    font-size: 19px;
+    color: var(--hc-accent-text);
+  }
+
+  .card__body {
+    margin: 10px 0 0;
+    font-size: 15px;
+  }
+
+  .inline {
+    padding: 1px 5px;
+    background: var(--hc-accent-soft);
+    border-radius: 5px;
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    color: var(--hc-accent-text);
+  }
+</style>

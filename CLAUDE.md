@@ -4,9 +4,11 @@ pnpm-workspace monorepo of Chrome extensions (MV3). Layout:
 
 ```
 packages/config/            # @browser-plugins/config — shared tsconfig.base.json + playwright.base.js
+packages/site-kit/          # @browser-plugins/site-kit — shared Astro components + plugin registry
 plugins/<name>/extension    # the extension package
-plugins/<name>/site         # optional Astro promo site (focaccia has one)
+plugins/<name>/site         # Astro promo site (all five plugins have one)
 plugins/<name>/CLAUDE.md    # plugin conventions + session log (root file = shared rules only)
+sites/home/                 # @orchard/home — root directory page at orchard.pearpages.com/
 ```
 
 Plugins: **begone** (`@begone/extension`, vanilla TS + esbuild — user-managed CSS-selector element remover; `@begone/site` Astro), **cookiejar** (`@cookiejar/extension`, React+Vite+crxjs), **focaccia** (`@focaccia/extension` vanilla TS + esbuild, `@focaccia/site` Astro), **headerforge** (`@headerforge/extension`, React+Vite+crxjs), **hopchase** (`@hopchase/extension`, React+Vite+crxjs — redirect-chain inspector).
@@ -21,7 +23,7 @@ Plugins: **begone** (`@begone/extension`, vanilla TS + esbuild — user-managed 
 ## Commands
 
 - Root: `pnpm build` / `pnpm typecheck` / `pnpm test` / `pnpm test:e2e` (tests run with `--workspace-concurrency=1` — e2e suites bind fixed ports and persistent Chromium profiles, keep them serial).
-- `pnpm sites` runs all four promo-site dev servers in parallel on pinned ports (begone 4321, cookiejar 4322, focaccia 4323, headerforge 4324 — pinned in each site's `dev` script so the port↔site mapping is stable; the `./plugins/*/site` filter glob picks up future sites automatically).
+- `pnpm sites` runs all six site dev servers in parallel on pinned ports (begone 4321, cookiejar 4322, focaccia 4323, headerforge 4324, hopchase 4325, home 4326 — pinned in each site's `dev` script so the port↔site mapping is stable; the `./plugins/*/site` + `./sites/*` filter globs pick up future sites automatically). Plugin-site dev URLs include the base path: `localhost:432x/<slug>/`.
 - Per plugin: `pnpm cookiejar <script>` / `pnpm focaccia <script>` / `pnpm headerforge <script>` (directory filters, forward any script), or cd into the package.
 - **Tests are always `vitest run`** — every package's `test` script is non-watch; use `test:watch` explicitly when you want watch mode. Never bare `vitest`/`pnpm test -w` in scripts.
 - **Never run `playwright test` from the repo root** — e2e fixtures resolve `dist/` from the package cwd; always go through the package's `test:e2e` script or a `--filter`.
@@ -32,11 +34,27 @@ Plugins: **begone** (`@begone/extension`, vanilla TS + esbuild — user-managed 
 - Every `playwright.config.ts` spreads `baseConfig` from `@browser-plugins/config/playwright.base.js` (workers 1, serial, 30s, list reporter) and keeps only its deltas.
 - Loading unpacked: each extension builds to `plugins/<name>/extension/dist/`. Unpacked extension IDs are path-derived — moving the folder changes the ID and orphans old dev `chrome.storage` data.
 
+## Deployment (sites)
+
+- **One domain, path-based**: `https://orchard.pearpages.com/` (root directory page from `sites/home`) + `/<slug>/` per plugin site. Chosen because GH Pages allows one custom domain per repo; supersedes the earlier `plugins.pearpages.com` decision. `SITE` in `packages/site-kit/src/plugins.ts` is the canonical URL constant.
+- Each plugin site's `astro.config.mjs` sets `site: 'https://orchard.pearpages.com'` + `base: '/<slug>'`; the home site sets only `site`. All asset refs must go through site-kit's `withBase()`; `OtherPlugins` sibling links are deliberately bare `/<slug>/` (path-root routing) and its footer links home (`/`).
+- `.github/workflows/deploy-sites.yml` (push to main + workflow_dispatch): builds all six sites, assembles `_site/` (home at root, each site dist under `/<slug>`), deploys via `upload-pages-artifact`/`deploy-pages`. `sites/home/public/CNAME` is self-documentation; the authoritative domain lives in repo Settings → Pages.
+- **Manual go-live steps (user, not yet done)**: (1) `git push origin main`; (2) GitHub → orchard → Settings → Pages → Source: **GitHub Actions**; (3) same page → Custom domain `orchard.pearpages.com`, then Enforce HTTPS once the cert issues; (4) GoDaddy DNS for pearpages.com: CNAME record host `orchard` → `pearpages.github.io`; (5) first deploy runs on the push (or workflow_dispatch).
+- Follow-up parked: og:image social cards (no 1200×630 art exists yet).
+
 ## Memory
 
 - Shared/monorepo decisions go in this file; plugin-specific conventions and session logs go in `plugins/<name>/CLAUDE.md`. Update the relevant CLAUDE.md at the end of each session (finished + pending TODOs).
 
 ## Session log
+
+### 2026-07-22 (night, latest+2) — sites deployment prepared (orchard.pearpages.com), hopchase site, focaccia on site-kit
+- Full deployment prep for path-based hosting at `orchard.pearpages.com` (see the new Deployment section above). site-kit: `SITE` constant updated, hopchase added to the registry, `Layout` gained canonical + og:url, `OtherPlugins` gained an "Explore the whole orchard →" home link. All plugin-site astro configs got `site` + `base: '/<slug>'`.
+- **New `plugins/hopchase/site`** (`@hopchase/site`, port 4325): wire-blue `--hc-*` theme from the extension's popup tokens (incl. status colors), hero = faux browser window with a 4-hop redirect chain (colored status pills, chain connectors, issue chips), six feature cards, InstallSteps/OtherPlugins/AuthorCard. `hopchase.png` (icon-48 copy) fanned out to every site's `public/plugins/`.
+- **Focaccia site refactored onto site-kit**: Layout/InstallSteps/OtherPlugins/AuthorCard, `--sk-*` token mapping, `withBase()` for its previously root-absolute assets, both stale `apps/extension` paths fixed, `public/plugins/` added. Awning/hanging-sign hero and SVG cards kept verbatim (the brand). Light-only stays.
+- **New `sites/home`** (`@orchard/home`, port 4326, new `sites/*` workspace glob): orchard-branded directory page — pear-green `--oc-*` theme, pear icon hero, five plugin cards from the registry, CNAME file. Root `sites` script now includes it.
+- **New `.github/workflows/deploy-sites.yml`** (see Deployment section). **Nothing committed or pushed — user's explicit call; they push when ready.**
+- Verified: install/build/typecheck/tests green (14 workspace projects, 137+72+30+53), workflow assembly rehearsed locally and served over HTTP — `/` + all five `/<slug>/` render styled, cross-links and canonicals correct (screenshot-checked home/hopchase light+dark, focaccia, begone), `pnpm sites` smoke: six dev servers 200.
 
 ### 2026-07-22 (night, latest+1) — begone popup restyle (icon-blue theme)
 - Begone's popup was restyled after user feedback: `--be-*` tokens keyed to the app icon's flat blue `#2d9cdb` (user rejected red for the popup), dark mode added (no longer the light-only outlier), header mark is now an inline currentColor SVG ✕, focaccia-level polish throughout (pills, focus rings, card rows, hover strikethrough motif). Details in `plugins/begone/CLAUDE.md`. Open follow-up: begone's promo site still uses the red palette — now diverges from the popup.

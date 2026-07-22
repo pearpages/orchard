@@ -1,11 +1,11 @@
 {
-  "name": "@focaccia/site",
+  "name": "@hopchase/site",
   "version": "1.0.0",
   "private": true,
-  "description": "Static promo site for the Focaccia Chrome extension.",
+  "description": "Static promo site for the HopChase Chrome extension.",
   "type": "module",
   "scripts": {
-    "dev": "astro dev --port 4323",
+    "dev": "astro dev --port 4325",
     "build": "astro build",
     "preview": "astro preview"
   },

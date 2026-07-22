@@ -1,0 +1,58 @@
+/* Orchard tokens — pear-green on warm paper, keyed to the pearpages pear icon. */
+:root {
+  --oc-bg: #fbfaf7;
+  --oc-surface: #ffffff;
+  --oc-border: #e8e5dc;
+  --oc-border-strong: #d6d2c4;
+  --oc-ink: #26251f;
+  --oc-ink-muted: #85816f;
+  --oc-accent: #4a8f3c;
+  --oc-accent-soft: #ebf4e7;
+  --oc-accent-text: #38702d;
+  --oc-shadow: rgba(38, 37, 31, 0.07);
+
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* site-kit component hooks */
+  --sk-surface: var(--oc-surface);
+  --sk-border: var(--oc-border);
+  --sk-ink: var(--oc-ink);
+  --sk-ink-soft: var(--oc-ink-muted);
+  --sk-accent: var(--oc-accent-text);
+  --sk-code-bg: #26251f;
+  --sk-code-ink: #e5efdf;
+  --sk-radius: 12px;
+  --sk-font-mono: var(--font-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --oc-bg: #1a1a17;
+    --oc-surface: #232320;
+    --oc-border: #37372f;
+    --oc-border-strong: #4a4a40;
+    --oc-ink: #ebeae4;
+    --oc-ink-muted: #a19d8c;
+    --oc-accent: #6fb75e;
+    --oc-accent-soft: #26301f;
+    --oc-accent-text: #8cc97e;
+    --oc-shadow: rgba(0, 0, 0, 0.4);
+
+    --sk-code-bg: #232320;
+    --sk-code-ink: #b9d3ad;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--oc-bg);
+  color: var(--oc-ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+}

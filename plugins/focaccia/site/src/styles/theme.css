@@ -1,6 +1,6 @@
 /*
  * Enamel kitchen-timer design tokens.
- * Source of truth: apps/extension/src/blocked/blocked.css — keep in sync by hand.
+ * Source of truth: plugins/focaccia/extension/src/blocked/blocked.css — keep in sync by hand.
  */
 :root {
   --cream: #f6eedb;
@@ -17,6 +17,17 @@
   --font-display: ui-rounded, "Hiragino Maru Gothic ProN", "Arial Rounded MT Bold", system-ui, sans-serif;
   --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* site-kit component hooks */
+  --sk-surface: var(--paper);
+  --sk-border: var(--line);
+  --sk-ink: var(--ink);
+  --sk-ink-soft: var(--ink-soft);
+  --sk-accent: var(--red-deep);
+  --sk-code-bg: var(--ink);
+  --sk-code-ink: var(--cream);
+  --sk-radius: 16px;
+  --sk-font-mono: var(--font-mono);
 }
 
 * {

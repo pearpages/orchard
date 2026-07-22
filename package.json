@@ -7,7 +7,7 @@
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r --workspace-concurrency=1 test",
     "test:e2e": "pnpm -r --workspace-concurrency=1 test:e2e",
-    "sites": "pnpm -r --parallel --filter \"./plugins/*/site\" dev",
+    "sites": "pnpm -r --parallel --filter \"./plugins/*/site\" --filter \"./sites/*\" dev",
     "begone": "pnpm --filter \"./plugins/begone/**\"",
     "cookiejar": "pnpm --filter \"./plugins/cookiejar/**\"",
     "focaccia": "pnpm --filter \"./plugins/focaccia/**\"",

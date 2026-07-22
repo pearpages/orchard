@@ -1,4 +1,7 @@
 import { defineConfig } from 'astro/config';
 
-// Static output (the default). No site/base URL until a deployment target exists.
-export default defineConfig({});
+// Deployed path-based under one domain: https://orchard.pearpages.com/headerforge/
+export default defineConfig({
+  site: 'https://orchard.pearpages.com',
+  base: '/headerforge',
+});

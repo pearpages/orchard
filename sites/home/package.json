@@ -1,11 +1,11 @@
 {
-  "name": "@focaccia/site",
+  "name": "@orchard/home",
   "version": "1.0.0",
   "private": true,
-  "description": "Static promo site for the Focaccia Chrome extension.",
+  "description": "Root directory site at orchard.pearpages.com — lists all the plugins.",
   "type": "module",
   "scripts": {
-    "dev": "astro dev --port 4323",
+    "dev": "astro dev --port 4326",
     "build": "astro build",
     "preview": "astro preview"
   },

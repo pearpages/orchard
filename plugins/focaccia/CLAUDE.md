@@ -17,6 +17,9 @@ Chrome extension (Manifest V3), branded **Focaccia** (slogan: "Closed for focus"
 
 ## Session log
 
+### 2026-07-22 (deployment prep) — site refactored onto site-kit
+- `site/` now uses `@browser-plugins/site-kit` like the other plugin sites: Layout (head/canonical/favicon), InstallSteps (`distPath="plugins/focaccia/extension/dist"` — fixes the stale `apps/extension/dist`), `OtherPlugins current="focaccia"` (cross-links all siblings + orchard home), AuthorCard. `theme.css` gained the `--sk-*` hook mapping (accent = `--red-deep`, radius 16px) and its stale `apps/extension/...` comment path was fixed. Assets go through `withBase()` (site deploys under `/focaccia/`); `public/plugins/` added with all five sibling icons. The awning, hanging-sign hero, and SVG feature cards are unchanged — kitchen-timer brand intact, light-only stays. Deployment wiring is monorepo-wide — see root CLAUDE.md → Deployment.
+
 ### 2026-07-22 — pear icon in popup credit
 - Monorepo-wide consistency pass: the popup's existing "Made by pearpages" footer gained the 16px pear icon (`.credit__icon`; asset `src/popup/pearpages-icon.png`, new `staticFiles` entry in `scripts/build.mjs`). `.credit` became a centered flex row. All other plugins' popups got the same credit.
 

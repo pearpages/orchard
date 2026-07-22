@@ -1,0 +1,77 @@
+/*
+ * Wire-blue redirect-chain design tokens.
+ * Source of truth: plugins/hopchase/extension/src/popup/styles/base.scss — keep in sync by hand.
+ */
+:root {
+  --hc-bg: #f5f7fb;
+  --hc-surface: #ffffff;
+  --hc-panel: #f4f6f9;
+  --hc-border: #dde2ea;
+  --hc-ink: #1c2128;
+  --hc-ink-muted: #68717f;
+  --hc-accent: #3b6ef6;
+  --hc-accent-soft: rgba(59, 110, 246, 0.08);
+  --hc-accent-text: #2a55c4;
+  --hc-2xx: #1d9e5f;
+  --hc-2xx-soft: rgba(29, 158, 95, 0.12);
+  --hc-3xx: #b97b0a;
+  --hc-3xx-soft: rgba(240, 168, 50, 0.16);
+  --hc-4xx: #d64545;
+  --hc-4xx-soft: rgba(214, 69, 69, 0.12);
+  --hc-client: #7c53c9;
+  --hc-client-soft: rgba(124, 83, 201, 0.12);
+  --hc-shadow: rgba(28, 33, 40, 0.08);
+
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* site-kit component hooks */
+  --sk-surface: var(--hc-surface);
+  --sk-border: var(--hc-border);
+  --sk-ink: var(--hc-ink);
+  --sk-ink-soft: var(--hc-ink-muted);
+  --sk-accent: var(--hc-accent-text);
+  --sk-code-bg: #1c2128;
+  --sk-code-ink: #c9d6f5;
+  --sk-radius: 10px;
+  --sk-font-mono: var(--font-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --hc-bg: #15181e;
+    --hc-surface: #1d222b;
+    --hc-panel: #232937;
+    --hc-border: #323a47;
+    --hc-ink: #e6e9ef;
+    --hc-ink-muted: #8b94a3;
+    --hc-accent: #5b87ff;
+    --hc-accent-soft: rgba(91, 135, 255, 0.14);
+    --hc-accent-text: #8fadff;
+    --hc-2xx: #34c47c;
+    --hc-2xx-soft: rgba(52, 196, 124, 0.16);
+    --hc-3xx: #f0a832;
+    --hc-3xx-soft: rgba(240, 168, 50, 0.18);
+    --hc-4xx: #f07171;
+    --hc-4xx-soft: rgba(240, 113, 113, 0.16);
+    --hc-client: #a98cf0;
+    --hc-client-soft: rgba(169, 140, 240, 0.16);
+    --hc-shadow: rgba(0, 0, 0, 0.4);
+
+    --sk-code-bg: #1d222b;
+    --sk-code-ink: #c9d6f5;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--hc-bg);
+  color: var(--hc-ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+}

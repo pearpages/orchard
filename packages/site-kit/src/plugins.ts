@@ -1,8 +1,8 @@
-/** Where the sites will live once deployed (each under /<slug>/). */
-export const SITE = 'https://plugins.pearpages.com';
+/** Where the sites live (each under /<slug>/, directory at the root). */
+export const SITE = 'https://orchard.pearpages.com';
 
 export interface PluginMeta {
-  slug: 'begone' | 'focaccia' | 'cookiejar' | 'headerforge';
+  slug: 'begone' | 'focaccia' | 'cookiejar' | 'headerforge' | 'hopchase';
   name: string;
   tagline: string;
   /** Filename under each site's public/plugins/ (every site carries copies). */
@@ -33,5 +33,11 @@ export const plugins: PluginMeta[] = [
     name: 'HeaderForge',
     tagline: 'Rewrite request and response headers, on the wire.',
     icon: 'headerforge.png',
+  },
+  {
+    slug: 'hopchase',
+    name: 'HopChase',
+    tagline: 'Every redirect hop — statuses, headers, and the SEO issues they hide.',
+    icon: 'hopchase.png',
   },
 ];

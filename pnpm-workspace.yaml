@@ -2,6 +2,7 @@ packages:
   - packages/*
   - plugins/*/extension
   - plugins/*/site
+  - sites/*
 allowBuilds:
   esbuild: true
   '@parcel/watcher': true

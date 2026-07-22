@@ -17,6 +17,9 @@ Redirect-chain inspector (MV3). See extension/README.md for user-facing docs and
 
 ## Session log
 
+### 2026-07-22 (deployment prep) — promo site + registry entry
+- New `plugins/hopchase/site` (`@hopchase/site`, Astro on site-kit, dev port **4325**, base `/hopchase`): wire-blue `--hc-*` tokens hand-copied from `extension/src/popup/styles/base.scss` (accent + the four status colors; keep in sync by hand), hero = faux browser window showing a 4-hop redirect chain with colored status pills + issue chips, six feature cards from the README, InstallSteps/OtherPlugins/AuthorCard. Registered in site-kit's `plugins.ts`; `hopchase.png` (copy of `icon-48.png`) added to every site's `public/plugins/`. Closes the "promo site + registry entry" pending item. Deployment wiring is monorepo-wide — see root CLAUDE.md → Deployment.
+
 ### 2026-07-22 — initial build (complete)
 
 Built from scratch following the headerforge template: scaffold (Vite 8 + crxjs + React 19), pure core (types / normalize / chain-reducer / issues / trace / 4 exporters), storage wrappers, service worker (event pipeline, session persistence, badge, doc-info injection via `chrome.scripting`, tracer), full popup (Current/Tracer/History tabs, ChainView with expandable searchable headers, issue panel with hop deep-links, export bar, copy-as-curl). 51 unit tests + 5 Playwright e2e (server chain, loop, meta refresh, tracer, canonical mismatch) against a local redirect server. Screenshot-checked light + dark. Monorepo wiring: root package.json filter script, README row, root CLAUDE.md.
@@ -32,7 +35,7 @@ Built from scratch following the headerforge template: scaffold (Vite 8 + crxjs 
 Compared against Redirect Path by Ayima's feature list and closed the two remaining gaps: `core/export/text.ts::toText` (plain-text chain summary, one `<status> <url>` line per hop, error/client-kind annotations) wired to a "Copy chain" button in ExportBar (per-button copied feedback), and the captured `hop.ip` now shown in the hop's expanded panel (`.hop-row__ip`). 53 unit + 5 e2e green; IP line + button verified by screenshot. User can retire the original extension.
 
 Pending / ideas (not committed to):
-- Promo site (`plugins/hopchase/site`) + site-kit registry entry (`packages/site-kit/src/plugins.ts` union + array + icon PNGs into every site's `public/plugins/`).
+- ~~Promo site + site-kit registry entry~~ (done 2026-07-22, see session log).
 - Subresource chain tracking (settings flag `trackSubresources` and reducer keying exist; listeners + UI don't).
 - DevTools panel for a full-width table view; settings UI (history limit is data-only today).
 - No git commits made yet.

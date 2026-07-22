@@ -1,120 +1,97 @@
 ---
 import '../styles/theme.css';
+import Layout from '@browser-plugins/site-kit/components/Layout.astro';
+import InstallSteps from '@browser-plugins/site-kit/components/InstallSteps.astro';
+import OtherPlugins from '@browser-plugins/site-kit/components/OtherPlugins.astro';
+import AuthorCard from '@browser-plugins/site-kit/components/AuthorCard.astro';
+import { withBase } from '@browser-plugins/site-kit/paths';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Focaccia — close the internet when it's time to work</title>
-    <meta
-      name="description"
-      content="A Chrome extension with an enamel kitchen-timer soul: block distracting sites with one switch and keep focus with a built-in Pomodoro timer."
-    />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-  </head>
-  <body>
-    <div class="awning" aria-hidden="true"></div>
+<Layout
+  title="Focaccia — close the internet when it's time to work"
+  description="A Chrome extension with an enamel kitchen-timer soul: block distracting sites with one switch and keep focus with a built-in Pomodoro timer."
+>
+  <div class="awning" aria-hidden="true"></div>
 
-    <header class="hero">
-      <div class="hanging">
-        <svg class="hanging__strings" viewBox="0 0 220 90" aria-hidden="true">
-          <circle cx="110" cy="8" r="4"></circle>
-          <line x1="110" y1="8" x2="34" y2="90"></line>
-          <line x1="110" y1="8" x2="186" y2="90"></line>
-        </svg>
-        <div class="sign">
-          <img class="sign__icon" src="/focaccia-icon.png" alt="" width="64" height="64" />
-          <h1 class="sign__title">Focaccia</h1>
-          <p class="sign__tagline">Closed for focus.</p>
-        </div>
+  <header class="hero">
+    <div class="hanging">
+      <svg class="hanging__strings" viewBox="0 0 220 90" aria-hidden="true">
+        <circle cx="110" cy="8" r="4"></circle>
+        <line x1="110" y1="8" x2="34" y2="90"></line>
+        <line x1="110" y1="8" x2="186" y2="90"></line>
+      </svg>
+      <div class="sign">
+        <img class="sign__icon" src={withBase('focaccia-icon.png')} alt="" width="64" height="64" />
+        <h1 class="sign__title">Focaccia</h1>
+        <p class="sign__tagline">Closed for focus.</p>
       </div>
-      <p class="hero__pitch">
-        A Chrome extension with an enamel kitchen-timer soul: block the sites that eat your
-        afternoons with one switch, and pace the work with a built-in Pomodoro timer.
-      </p>
-      <a class="hero__cta" href="#install">Get it running in two minutes</a>
-    </header>
+    </div>
+    <p class="hero__pitch">
+      A Chrome extension with an enamel kitchen-timer soul: block the sites that eat your
+      afternoons with one switch, and pace the work with a built-in Pomodoro timer.
+    </p>
+    <a class="hero__cta" href="#install">Get it running in two minutes</a>
+  </header>
 
-    <main class="features">
-      <section class="card">
-        <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true">
-          <rect x="6" y="16" width="36" height="16" rx="8" fill="none" stroke="currentColor" stroke-width="2.5" />
-          <circle cx="34" cy="24" r="4.5" fill="currentColor" />
-        </svg>
-        <h2 class="card__title">One switch</h2>
-        <p class="card__body">
-          Keep a blocklist of domains and flip the master switch when it's time to work. Blocked
-          sites land on a friendly hand-painted "Closed for focus" sign instead of their feed —
-          blocking is done with Chrome's declarative rules, so nothing reads your pages.
-        </p>
-      </section>
-      <section class="card">
-        <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true">
-          <circle cx="24" cy="24" r="16" fill="none" stroke="currentColor" stroke-width="2.5" />
-          <line x1="24" y1="8" x2="24" y2="12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-          <line x1="40" y1="24" x2="36" y2="24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-          <line x1="24" y1="40" x2="24" y2="36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-          <line x1="8" y1="24" x2="12" y2="24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-          <line x1="24" y1="24" x2="32" y2="16" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" />
-        </svg>
-        <h2 class="card__title">The tomato dial</h2>
-        <p class="card__body">
-          A Pomodoro timer with a 60-tick dial, living in the extension's background — it survives
-          closed popups and browser naps. The toolbar badge counts the minutes down so the time is
-          always in the corner of your eye.
-        </p>
-      </section>
-      <section class="card">
-        <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true">
-          <path
-            d="M24 8c-7 0-11 5-11 12v7l-4 6h30l-4-6v-7c0-7-4-12-11-12z"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linejoin="round"
-          />
-          <path d="M20 37a4 4 0 0 0 8 0" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-        </svg>
-        <h2 class="card__title">A proper finish</h2>
-        <p class="card__body">
-          When a session ends, a celebration tab swings in — <em>Break time!</em> — alongside a
-          desktop notification, and the next phase starts on its own. Focus, break, repeat.
-        </p>
-      </section>
-    </main>
-
-    <section class="install" id="install">
-      <h2 class="install__title">Install it</h2>
-      <p class="install__note">
-        Focaccia isn't on the Chrome Web Store (yet) — you load it straight from the source,
-        which also means you can read every line of what runs.
+  <main class="features">
+    <section class="card">
+      <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="6" y="16" width="36" height="16" rx="8" fill="none" stroke="currentColor" stroke-width="2.5" />
+        <circle cx="34" cy="24" r="4.5" fill="currentColor" />
+      </svg>
+      <h2 class="card__title">One switch</h2>
+      <p class="card__body">
+        Keep a blocklist of domains and flip the master switch when it's time to work. Blocked
+        sites land on a friendly hand-painted "Closed for focus" sign instead of their feed —
+        blocking is done with Chrome's declarative rules, so nothing reads your pages.
       </p>
-      <ol class="install__steps">
-        <li>
-          Clone and build:
-          <pre class="install__code">git clone &lt;this repo&gt;
-cd focaccia
-pnpm install
-pnpm build:extension</pre>
-        </li>
-        <li>Open <code class="install__inline">chrome://extensions</code> and enable <strong>Developer mode</strong>.</li>
-        <li>
-          Click <strong>Load unpacked</strong> and pick the
-          <code class="install__inline">apps/extension/dist</code> folder.
-        </li>
-      </ol>
     </section>
-
-    <footer class="footer">
-      <p class="footer__credit">
-        <img class="footer__icon" src="/pearpages-icon.png" alt="" width="22" height="22" />
-        Made by <a href="https://pearpages.com">Pere Pages</a>
+    <section class="card">
+      <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="16" fill="none" stroke="currentColor" stroke-width="2.5" />
+        <line x1="24" y1="8" x2="24" y2="12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+        <line x1="40" y1="24" x2="36" y2="24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+        <line x1="24" y1="40" x2="24" y2="36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+        <line x1="8" y1="24" x2="12" y2="24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+        <line x1="24" y1="24" x2="32" y2="16" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" />
+      </svg>
+      <h2 class="card__title">The tomato dial</h2>
+      <p class="card__body">
+        A Pomodoro timer with a 60-tick dial, living in the extension's background — it survives
+        closed popups and browser naps. The toolbar badge counts the minutes down so the time is
+        always in the corner of your eye.
       </p>
-      <p>Built with cream, tomato, and TypeScript.</p>
-    </footer>
-  </body>
-</html>
+    </section>
+    <section class="card">
+      <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true">
+        <path
+          d="M24 8c-7 0-11 5-11 12v7l-4 6h30l-4-6v-7c0-7-4-12-11-12z"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linejoin="round"
+        />
+        <path d="M20 37a4 4 0 0 0 8 0" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+      </svg>
+      <h2 class="card__title">A proper finish</h2>
+      <p class="card__body">
+        When a session ends, a celebration tab swings in — <em>Break time!</em> — alongside a
+        desktop notification, and the next phase starts on its own. Focus, break, repeat.
+      </p>
+    </section>
+  </main>
+
+  <InstallSteps
+    buildCommand="pnpm --filter @focaccia/extension build"
+    distPath="plugins/focaccia/extension/dist"
+  />
+
+  <OtherPlugins current="focaccia" />
+
+  <AuthorCard>
+    <p>Built with cream, tomato, and TypeScript.</p>
+  </AuthorCard>
+</Layout>
 
 <style>
   /* Striped shop awning across the top (same technique as the extension's blocked page) */
@@ -263,82 +240,6 @@ pnpm build:extension</pre>
   .card__body {
     margin: 10px 0 0;
     font-size: 15px;
-  }
-
-  .install {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 0 24px 56px;
-  }
-
-  .install__title {
-    font-size: 28px;
-    color: var(--red-deep);
-    text-align: center;
-  }
-
-  .install__note {
-    text-align: center;
-    color: var(--ink-soft);
-  }
-
-  .install__steps {
-    margin: 24px 0 0;
-    padding-left: 22px;
-    display: grid;
-    gap: 14px;
-    font-size: 15px;
-  }
-
-  .install__code {
-    margin: 8px 0 0;
-    padding: 14px 18px;
-    background: var(--ink);
-    color: var(--cream);
-    border-radius: 12px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    overflow-x: auto;
-  }
-
-  .install__inline {
-    padding: 1px 6px;
-    background: var(--cream-deep);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-  }
-
-  .footer {
-    padding: 20px 24px 32px;
-    text-align: center;
-    font-size: 13px;
-    color: var(--ink-soft);
-  }
-
-  .footer__credit {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin: 0 0 4px;
-  }
-
-  .footer__icon {
-    width: 22px;
-    height: 22px;
-    border-radius: 6px;
-  }
-
-  .footer__credit a {
-    color: inherit;
-    font-weight: 700;
-    text-decoration-color: var(--red-deep);
-  }
-
-  .footer__credit a:hover {
-    color: var(--red-deep);
   }
 
   @media (prefers-reduced-motion: reduce) {

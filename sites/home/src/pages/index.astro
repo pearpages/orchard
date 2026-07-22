@@ -1,0 +1,126 @@
+---
+import '../styles/theme.css';
+import Layout from '@browser-plugins/site-kit/components/Layout.astro';
+import AuthorCard from '@browser-plugins/site-kit/components/AuthorCard.astro';
+import { plugins } from '@browser-plugins/site-kit/plugins';
+import { withBase } from '@browser-plugins/site-kit/paths';
+---
+
+<Layout
+  title="orchard — browser plugins by pearpages"
+  description="A small orchard of Chrome extensions — grown by hand, loaded unpacked. Element removal, cookies, headers, redirects and focus."
+>
+  <header class="hero">
+    <img class="hero__icon" src={withBase('pearpages-icon.png')} alt="" width="72" height="72" />
+    <h1 class="hero__title">orchard</h1>
+    <p class="hero__tagline">A small orchard of Chrome extensions — grown by hand, loaded unpacked.</p>
+  </header>
+
+  <main class="grove">
+    {
+      plugins.map((p) => (
+        <a class="tree" href={`/${p.slug}/`}>
+          <img class="tree__icon" src={withBase(`plugins/${p.icon}`)} alt="" width="56" height="56" />
+          <span class="tree__text">
+            <span class="tree__name">{p.name}</span>
+            <span class="tree__tagline">{p.tagline}</span>
+          </span>
+        </a>
+      ))
+    }
+  </main>
+
+  <AuthorCard>
+    <p>Open source, no analytics, one orchard.</p>
+  </AuthorCard>
+</Layout>
+
+<style>
+  .hero {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 64px 24px 40px;
+    text-align: center;
+  }
+
+  .hero__icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px var(--oc-shadow);
+  }
+
+  .hero__title {
+    margin: 16px 0 0;
+    font-size: clamp(40px, 7vw, 56px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--oc-accent-text);
+  }
+
+  .hero__tagline {
+    margin: 10px 0 0;
+    font-size: 18px;
+    color: var(--oc-ink-muted);
+  }
+
+  .grove {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px 56px;
+  }
+
+  .tree {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 22px;
+    background: var(--oc-surface);
+    border: 1px solid var(--oc-border);
+    border-radius: 14px;
+    box-shadow: 0 3px 10px var(--oc-shadow);
+    color: var(--oc-ink);
+    text-decoration: none;
+    transition: border-color 120ms ease, transform 120ms ease;
+  }
+
+  .tree:hover {
+    border-color: var(--oc-accent);
+    transform: translateY(-2px);
+  }
+
+  .tree__icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    flex-shrink: 0;
+  }
+
+  .tree__text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .tree__name {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .tree__tagline {
+    font-size: 14px;
+    color: var(--oc-ink-muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tree,
+    .tree:hover {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

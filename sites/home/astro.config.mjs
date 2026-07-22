@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config';
 
-// Deployed path-based under one domain: https://orchard.pearpages.com/begone/
+// The directory page at the domain root; plugin sites live under /<slug>/.
 export default defineConfig({
   site: 'https://orchard.pearpages.com',
-  base: '/begone',
 });
