@@ -94,6 +94,13 @@
     color: var(--danger);
     padding: 0 $spacing-sm $spacing-sm;
   }
+
+  &__ip {
+    font-family: $font-mono;
+    font-size: $font-size-sm;
+    color: var(--ink-muted);
+    padding: 0 $spacing-sm $spacing-xs;
+  }
 }
 
 @keyframes hop-row-flash {

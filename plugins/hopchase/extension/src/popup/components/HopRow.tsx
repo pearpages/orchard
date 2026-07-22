@@ -59,7 +59,12 @@ export function HopRow({ hop, index, flashed }: HopRowProps) {
         </span>
       </div>
       {hop.error && <p className="hop-row__error">{hop.error}</p>}
-      {expanded && <HeaderList requestHeaders={hop.requestHeaders} responseHeaders={hop.responseHeaders} />}
+      {expanded && (
+        <>
+          {hop.ip && <p className="hop-row__ip">IP {hop.ip}</p>}
+          <HeaderList requestHeaders={hop.requestHeaders} responseHeaders={hop.responseHeaders} />
+        </>
+      )}
     </li>
   )
 }

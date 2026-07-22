@@ -3,6 +3,7 @@ import { toCsv } from '../export/csv'
 import { toCurl } from '../export/curl'
 import { toHar } from '../export/har'
 import { toJson } from '../export/json'
+import { toText } from '../export/text'
 import { makeChain, makeHop } from './factories'
 
 const chain = makeChain({
@@ -73,6 +74,24 @@ describe('toHar', () => {
     expect(first.serverIPAddress).toBe('203.0.113.7')
     expect(second.response.redirectURL).toBe('')
     expect(second.response.content.mimeType).toBe('text/html; charset=utf-8')
+  })
+})
+
+describe('toText', () => {
+  it('renders one status+url line per hop', () => {
+    expect(toText(chain)).toBe('301 https://a.example/?q=1\n200 https://b.example/')
+  })
+
+  it('marks errored and client-redirect hops', () => {
+    const tricky = makeChain({
+      hops: [
+        makeHop({ url: 'https://a.example/', statusCode: 200, redirectKind: 'meta' }),
+        makeHop({ url: 'https://b.example/', statusCode: null, error: 'net::ERR_FAILED' }),
+      ],
+    })
+    expect(toText(tricky)).toBe(
+      '200 https://a.example/ (meta refresh)\nERR https://b.example/ (net::ERR_FAILED)',
+    )
   })
 })
 

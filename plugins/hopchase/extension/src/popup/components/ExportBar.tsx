@@ -2,17 +2,18 @@ import { useState } from 'react'
 import { toCsv } from '../../core/export/csv'
 import { toHar } from '../../core/export/har'
 import { toJson } from '../../core/export/json'
+import { toText } from '../../core/export/text'
 import type { Chain } from '../../core/types'
 import { copyText, downloadFile, exportFilename } from '../utils/download'
 import './ExportBar.scss'
 
 export function ExportBar({ chain }: { chain: Chain }) {
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState<'chain' | 'json' | null>(null)
 
-  const copyJson = async () => {
-    await copyText(toJson(chain, new Date().toISOString()))
-    setCopied(true)
-    window.setTimeout(() => setCopied(false), 1200)
+  const copy = async (kind: 'chain' | 'json', content: string) => {
+    await copyText(content)
+    setCopied(kind)
+    window.setTimeout(() => setCopied((current) => (current === kind ? null : current)), 1200)
   }
 
   return (
@@ -39,8 +40,15 @@ export function ExportBar({ chain }: { chain: Chain }) {
       >
         HAR
       </button>
-      <button type="button" className="export-bar__button" onClick={() => void copyJson()}>
-        {copied ? 'Copied!' : 'Copy JSON'}
+      <button type="button" className="export-bar__button" onClick={() => void copy('chain', toText(chain))}>
+        {copied === 'chain' ? 'Copied!' : 'Copy chain'}
+      </button>
+      <button
+        type="button"
+        className="export-bar__button"
+        onClick={() => void copy('json', toJson(chain, new Date().toISOString()))}
+      >
+        {copied === 'json' ? 'Copied!' : 'Copy JSON'}
       </button>
     </div>
   )
