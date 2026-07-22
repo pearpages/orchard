@@ -1,0 +1,88 @@
+---
+interface Props {
+  /** e.g. "pnpm --filter @cookiejar/extension build" */
+  buildCommand: string;
+  /** e.g. "plugins/cookiejar/extension/dist" */
+  distPath: string;
+  repoUrl?: string;
+  note?: string;
+}
+
+const {
+  buildCommand,
+  distPath,
+  repoUrl = '<this repo>',
+  note = 'Not on the Chrome Web Store (yet) — you load it straight from the source, which also means you can read every line of what runs.',
+} = Astro.props;
+
+const cloneBlock = `git clone ${repoUrl}
+cd browser-plugins
+pnpm install
+${buildCommand}`;
+---
+
+<section class="sk-install" id="install">
+  <h2 class="sk-install__title">Install it</h2>
+  <p class="sk-install__note">{note}</p>
+  <ol class="sk-install__steps">
+    <li>
+      Clone and build:
+      <pre class="sk-install__code">{cloneBlock}</pre>
+    </li>
+    <li>
+      Open <code class="sk-install__inline">chrome://extensions</code> and enable
+      <strong>Developer mode</strong>.
+    </li>
+    <li>
+      Click <strong>Load unpacked</strong> and pick the
+      <code class="sk-install__inline">{distPath}</code> folder.
+    </li>
+  </ol>
+</section>
+
+<style>
+  .sk-install {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 24px 56px;
+  }
+
+  .sk-install__title {
+    font-size: 28px;
+    color: var(--sk-accent, #222);
+    text-align: center;
+  }
+
+  .sk-install__note {
+    text-align: center;
+    color: var(--sk-ink-soft, #667);
+  }
+
+  .sk-install__steps {
+    margin: 24px 0 0;
+    padding-left: 22px;
+    display: grid;
+    gap: 14px;
+    font-size: 15px;
+  }
+
+  .sk-install__code {
+    margin: 8px 0 0;
+    padding: 14px 18px;
+    background: var(--sk-code-bg, #1e1e1e);
+    color: var(--sk-code-ink, #eee);
+    border-radius: var(--sk-radius, 12px);
+    font-family: var(--sk-font-mono, ui-monospace, 'SF Mono', Menlo, Consolas, monospace);
+    font-size: 13px;
+    overflow-x: auto;
+  }
+
+  .sk-install__inline {
+    padding: 1px 6px;
+    background: var(--sk-surface, #f5f5f5);
+    border: 1px solid var(--sk-border, #ddd);
+    border-radius: 6px;
+    font-family: var(--sk-font-mono, ui-monospace, 'SF Mono', Menlo, Consolas, monospace);
+    font-size: 13px;
+  }
+</style>

@@ -1,0 +1,44 @@
+---
+import { withBase } from '../paths';
+---
+
+<footer class="sk-author">
+  <p class="sk-author__credit">
+    <img class="sk-author__icon" src={withBase('pearpages-icon.png')} alt="" width="22" height="22" />
+    Made by <a href="https://pearpages.com">Pere Pages</a>
+  </p>
+  <slot />
+</footer>
+
+<style>
+  .sk-author {
+    padding: 20px 24px 32px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--sk-ink-soft, #667);
+  }
+
+  .sk-author__credit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 0 4px;
+  }
+
+  .sk-author__icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+  }
+
+  .sk-author__credit a {
+    color: inherit;
+    font-weight: 700;
+    text-decoration-color: var(--sk-accent, #667);
+  }
+
+  .sk-author__credit a:hover {
+    color: var(--sk-accent, #667);
+  }
+</style>

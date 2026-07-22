@@ -14,6 +14,12 @@ importers:
         specifier: ^1.61.1
         version: 1.61.1
 
+  packages/site-kit:
+    devDependencies:
+      astro:
+        specifier: ^7.1.1
+        version: 7.1.3(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(rollup@2.80.0)(sass-embedded@1.100.0)(sass@1.101.3)
+
   plugins/cookiejar/extension:
     dependencies:
       '@anthropic-ai/sdk':

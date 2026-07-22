@@ -1,0 +1,90 @@
+---
+import { plugins, type PluginMeta } from '../plugins';
+import { withBase } from '../paths';
+
+interface Props {
+  current?: PluginMeta['slug'];
+  heading?: string;
+}
+
+const { current, heading = 'More plugins by the same hands' } = Astro.props;
+const others = plugins.filter((p) => p.slug !== current);
+---
+
+<section class="sk-others">
+  <h2 class="sk-others__heading">{heading}</h2>
+  <div class="sk-others__grid">
+    {
+      others.map((p) => (
+        <a class="sk-others__item" href={`/${p.slug}/`}>
+          <img class="sk-others__icon" src={withBase(`plugins/${p.icon}`)} alt="" width="40" height="40" />
+          <span class="sk-others__text">
+            <span class="sk-others__name">{p.name}</span>
+            <span class="sk-others__tagline">{p.tagline}</span>
+          </span>
+        </a>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .sk-others {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 56px;
+  }
+
+  .sk-others__heading {
+    margin: 0 0 16px;
+    font-size: 20px;
+    text-align: center;
+    color: var(--sk-ink-soft, #667);
+  }
+
+  .sk-others__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+  }
+
+  .sk-others__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--sk-surface, #fff);
+    border: 1px solid var(--sk-border, #ddd);
+    border-radius: var(--sk-radius, 12px);
+    color: var(--sk-ink, #222);
+    text-decoration: none;
+    transition: border-color 120ms ease;
+  }
+
+  .sk-others__item:hover {
+    border-color: var(--sk-accent, #667);
+  }
+
+  .sk-others__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+
+  .sk-others__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .sk-others__name {
+    font-weight: 700;
+  }
+
+  .sk-others__tagline {
+    font-size: 13px;
+    color: var(--sk-ink-soft, #667);
+  }
+</style>

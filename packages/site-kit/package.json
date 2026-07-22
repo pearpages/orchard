@@ -1,0 +1,21 @@
+{
+  "name": "@browser-plugins/site-kit",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared Astro components + plugin registry for the promo sites.",
+  "exports": {
+    "./plugins": "./src/plugins.ts",
+    "./paths": "./src/paths.ts",
+    "./components/Layout.astro": "./src/components/Layout.astro",
+    "./components/OtherPlugins.astro": "./src/components/OtherPlugins.astro",
+    "./components/AuthorCard.astro": "./src/components/AuthorCard.astro",
+    "./components/InstallSteps.astro": "./src/components/InstallSteps.astro"
+  },
+  "peerDependencies": {
+    "astro": "^7.1.1"
+  },
+  "devDependencies": {
+    "astro": "^7.1.1"
+  }
+}
