@@ -31,6 +31,7 @@ await build({
 const staticFiles = [
   ['manifest.json', 'manifest.json'],
   ['popup/popup.html', 'popup/popup.html'],
+  ['popup/pearpages-icon.png', 'popup/pearpages-icon.png'],
   ['popup/css', 'popup/css'],
   ['blocked/blocked.html', 'blocked/blocked.html'],
   ['blocked/blocked.css', 'blocked/blocked.css'],

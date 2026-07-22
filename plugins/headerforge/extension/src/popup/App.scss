@@ -11,3 +11,31 @@
     color: var(--ink-muted);
   }
 }
+
+.credit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  margin-top: auto;
+  padding: $spacing-sm $spacing-lg;
+  border-top: 1px solid var(--border);
+  font-size: $font-size-sm;
+  color: var(--ink-muted);
+
+  a {
+    color: inherit;
+    font-weight: 600;
+    text-decoration-color: var(--accent-request);
+
+    &:hover {
+      color: var(--accent-request);
+    }
+  }
+
+  &__icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+  }
+}

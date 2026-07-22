@@ -37,6 +37,10 @@ Plugins: **cookiejar** (`@cookiejar/extension`, React+Vite+crxjs), **focaccia** 
 
 ## Session log
 
+### 2026-07-22 (evening, later) — consistent pearpages credit in all four popups
+- Every extension popup now ends with the same footer credit: 16px pear icon + "Made by [pearpages](https://pearpages.com)" (popup-scale mirror of site-kit's `AuthorCard`; link text "pearpages" per focaccia's pre-existing credit). Focaccia had the text link already and gained the icon (asset at `src/popup/pearpages-icon.png` + `build.mjs` staticFiles entry); the three React plugins gained footer + icon (`public/pearpages-icon.png`, referenced as `/pearpages-icon.png`), styled per each plugin's own tokens (`.popup__credit` in cookiejar, `.credit` in headerforge/hopchase).
+- Verified: root build + typecheck green, all unit tests green (137+72+30+53), all four popups screenshot-checked light+dark via `--load-extension`.
+
 ### 2026-07-22 (evening) — monorepo named "orchard" + HopChase parity pass
 - Named the monorepo **orchard** (pears → orchard → pearpages brand). Names-only scope: root package.json name, README title/tagline, this file's heading. Folder and `@browser-plugins/*` scope intentionally unchanged (see Toolchain note). Future GitHub repo: `orchard`.
 - HopChase reached full Redirect Path (Ayima) parity: added `core/export/text.ts` (plain-text chain copy) + "Copy chain" button, and server IP display in the hop's expanded panel. 53 unit + 5 e2e green. Safe to uninstall the original extension once HopChase is loaded unpacked.

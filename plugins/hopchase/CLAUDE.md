@@ -21,6 +21,9 @@ Redirect-chain inspector (MV3). See extension/README.md for user-facing docs and
 
 Built from scratch following the headerforge template: scaffold (Vite 8 + crxjs + React 19), pure core (types / normalize / chain-reducer / issues / trace / 4 exporters), storage wrappers, service worker (event pipeline, session persistence, badge, doc-info injection via `chrome.scripting`, tracer), full popup (Current/Tracer/History tabs, ChainView with expandable searchable headers, issue panel with hop deep-links, export bar, copy-as-curl). 51 unit tests + 5 Playwright e2e (server chain, loop, meta refresh, tracer, canonical mismatch) against a local redirect server. Screenshot-checked light + dark. Monorepo wiring: root package.json filter script, README row, root CLAUDE.md.
 
+### 2026-07-22 (later still) — pearpages credit footer
+- Monorepo-wide consistency pass: popup gained a `.credit` footer (16px pear icon at `public/pearpages-icon.png` + "Made by pearpages" → pearpages.com), `margin-top: auto` pins it to the popup bottom. Styled in `App.scss` with the existing tokens.
+
 ### 2026-07-22 (later) — Redirect Path parity pass (complete)
 
 Compared against Redirect Path by Ayima's feature list and closed the two remaining gaps: `core/export/text.ts::toText` (plain-text chain summary, one `<status> <url>` line per hop, error/client-kind annotations) wired to a "Copy chain" button in ExportBar (per-button copied feedback), and the captured `hop.ip` now shown in the hop's expanded panel (`.hop-row__ip`). 53 unit + 5 e2e green; IP line + button verified by screenshot. User can retire the original extension.

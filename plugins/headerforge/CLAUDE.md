@@ -20,6 +20,9 @@ ModHeader-style Chrome extension (MV3). See README.md for user-facing docs and a
 
 ## Session log
 
+### 2026-07-22 — pearpages credit footer
+- Monorepo-wide consistency pass: popup gained a `.credit` footer (16px pear icon at `public/pearpages-icon.png` + "Made by pearpages" → pearpages.com) after `ImportExport`, styled in `App.scss` with the existing tokens.
+
 ### 2026-07-20 — initial build (complete)
 
 Built the entire extension from scratch: scaffold (Vite 8 + crxjs 2.7 + React 19 + TS 7), pure core (`types/state/rules/url-filters/serialization`), storage wrapper, service worker with badge + error fallbacks, full popup UI (profiles, request/response headers, URL filters, import/export), 26 unit tests, 2 Playwright e2e tests. All green: `pnpm test`, `pnpm build`, `pnpm e2e`.

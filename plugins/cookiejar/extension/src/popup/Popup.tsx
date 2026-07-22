@@ -156,6 +156,14 @@ export function Popup() {
           onCancel={() => setConfirmingDeleteAll(false)}
         />
       )}
+
+      <footer className="popup__credit">
+        <img className="popup__credit-icon" src="/pearpages-icon.png" alt="" width="16" height="16" />
+        Made by{' '}
+        <a href="https://pearpages.com" target="_blank" rel="noopener">
+          pearpages
+        </a>
+      </footer>
     </div>
   );
 }

@@ -88,9 +88,19 @@ body {
 
 .credit {
   margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   text-align: center;
   font-size: 11px;
   color: var(--ink-soft);
+}
+
+.credit__icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
 }
 
 .credit a {

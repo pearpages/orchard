@@ -42,6 +42,13 @@ export function App() {
       {active === 'current' && <CurrentTab />}
       {active === 'tracer' && <TracerTab />}
       {active === 'history' && <HistoryTab />}
+      <footer className="credit">
+        <img className="credit__icon" src="/pearpages-icon.png" alt="" width="16" height="16" />
+        Made by{' '}
+        <a href="https://pearpages.com" target="_blank" rel="noopener">
+          pearpages
+        </a>
+      </footer>
     </main>
   )
 }

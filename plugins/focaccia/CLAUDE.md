@@ -12,10 +12,13 @@ Chrome extension (Manifest V3), branded **Focaccia** (slogan: "Closed for focus"
 - Styles in plain `.css` files, one per section (`src/popup/css/`), BEM-style class names, no inline styles.
 - Blocking is done only with `declarativeNetRequest` dynamic rules, always re-derived in full from storage (`syncBlockingRules`), never edited incrementally.
 - Pomodoro timing lives in the background worker on `chrome.alarms` (survives service-worker suspension); the popup only displays state and sends commands.
-- Design language: enamel kitchen-timer — cream/tomato palette, `ui-rounded` display type, dial with 60 ticks. Blocked page is a hanging "Closed for focus" sign. Icon = dimpled focaccia loaf on the enamel-red tile (`make-icons.mjs`). pearpages appears as an author credit only (popup + site footers link to pearpages.com) — an indigo blog-theme restyle was tried on 2026-07-20 and deliberately reverted; do not reintroduce it.
+- Design language: enamel kitchen-timer — cream/tomato palette, `ui-rounded` display type, dial with 60 ticks. Blocked page is a hanging "Closed for focus" sign. Icon = dimpled focaccia loaf on the enamel-red tile (`make-icons.mjs`). pearpages appears as an author credit only (popup + site footers link to pearpages.com; both show the 16px pear icon, popup copy at `src/popup/pearpages-icon.png` copied to dist by `build.mjs`) — an indigo blog-theme restyle was tried on 2026-07-20 and deliberately reverted; do not reintroduce it.
 - Node and pnpm are pinned in the monorepo root `mise.toml` (node 24, pnpm 11). pnpm 11 blocks dependency build scripts by default; approved ones live under `allowBuilds` in the root `pnpm-workspace.yaml`.
 
 ## Session log
+
+### 2026-07-22 — pear icon in popup credit
+- Monorepo-wide consistency pass: the popup's existing "Made by pearpages" footer gained the 16px pear icon (`.credit__icon`; asset `src/popup/pearpages-icon.png`, new `staticFiles` entry in `scripts/build.mjs`). `.credit` became a centered flex row. All other plugins' popups got the same credit.
 
 ### 2026-07-20 — Focaccia rename; indigo restyle tried and reverted
 - Renamed the project to **Focaccia** everywhere ("Closed for focus" stays as the slogan/sign line): packages `focaccia`/`@focaccia/*`, manifest name + `default_title`, HTML titles, popup h1, README, site copy, e2e tmpdir prefix. Zero test churn (72 unit + 7 e2e green).

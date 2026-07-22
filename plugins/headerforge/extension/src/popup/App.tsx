@@ -163,6 +163,13 @@ export function App() {
         }
       />
       <ImportExport state={state} onImport={importProfiles} />
+      <footer className="credit">
+        <img className="credit__icon" src="/pearpages-icon.png" alt="" width="16" height="16" />
+        Made by{' '}
+        <a href="https://pearpages.com" target="_blank" rel="noopener">
+          pearpages
+        </a>
+      </footer>
     </div>
   )
 }

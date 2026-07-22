@@ -20,6 +20,9 @@ Chrome extension (MV3) cookie manager for developers. React 19 + TypeScript + Vi
 
 ## Session log
 
+### 2026-07-22 — pearpages credit footer
+- Monorepo-wide consistency pass: popup gained a `popup__credit` footer (16px pear icon at `public/pearpages-icon.png` + "Made by pearpages" → pearpages.com) at the bottom of `Popup.tsx`, styled in `popup.scss` with the `--cj-*` tokens.
+
 ### 2026-07-21 — initial build
 Built the whole extension from an empty repo: core lib + hooks, popup + manager UI, protection/pinning, import/export, ConfirmDialog/Toast-undo flows, dark mode, icons (generated PNGs in `public/icons/`).
 
