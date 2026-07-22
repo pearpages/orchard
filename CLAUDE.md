@@ -38,6 +38,10 @@ Plugins: **begone** (`@begone/extension`, vanilla TS + esbuild — user-managed 
 
 ## Session log
 
+### 2026-07-22 (night, latest) — branded popup headers in all plugins (focaccia pattern)
+- Monorepo-wide consistency pass: begone, cookiejar, headerforge, and hopchase popups now open with a focaccia-style branded header — full-bleed banner in each plugin's own accent color (begone red `#c0392b` gradient, cookiejar `--cj-accent` amber, headerforge `--accent-request` blue, hopchase `--accent` blue), holding the plugin's 26px app icon on a white chip, the name, and a static tagline ("Element remover" / "Cookie manager" / "Header editor" / "Redirect inspector"), white text, `rgba(0,0,0,0.18)` bottom border. Same philosophy as the credit footer: identical structure, per-plugin classes/tokens. Focaccia unchanged (its toggle/status header is the reference). Cookiejar's contextual site bar stays below the new `popup__brand`; hopchase's Tabs stay inside `app__header` under the new `app__brand` row.
+- Verified: root typecheck/build/test green (137+72+30+53), e2e green (hopchase 5, headerforge 3, cookiejar 19), all four popups screenshot-checked light+dark (begone light-only) via `--load-extension`.
+
 ### 2026-07-22 (night, later still) — `pnpm sites` root script
 - New root script `sites` (`pnpm -r --parallel --filter "./plugins/*/site" dev`) starts all four promo-site dev servers at once; each site's `dev` script now pins its port (4321–4324 alphabetical) so URLs are stable instead of racing Astro's auto-increment. Verified all four ports serve the right site (title check) and `pnpm -r build` stays green.
 

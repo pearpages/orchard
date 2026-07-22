@@ -21,6 +21,9 @@ Redirect-chain inspector (MV3). See extension/README.md for user-facing docs and
 
 Built from scratch following the headerforge template: scaffold (Vite 8 + crxjs + React 19), pure core (types / normalize / chain-reducer / issues / trace / 4 exporters), storage wrappers, service worker (event pipeline, session persistence, badge, doc-info injection via `chrome.scripting`, tracer), full popup (Current/Tracer/History tabs, ChainView with expandable searchable headers, issue panel with hop deep-links, export bar, copy-as-curl). 51 unit tests + 5 Playwright e2e (server chain, loop, meta refresh, tracer, canonical mismatch) against a local redirect server. Screenshot-checked light + dark. Monorepo wiring: root package.json filter script, README row, root CLAUDE.md.
 
+### 2026-07-22 (latest) — branded popup header (monorepo consistency pass)
+- The title-only `app__header` was upgraded: new `app__brand` row (full-bleed `var(--accent)` blue banner, `/icons/icon.svg` at 26px on a white chip, "HopChase" + tagline "Redirect inspector", white text) sits above the Tabs, which stay inside `app__header`. `app__title` lost its padding (the brand row carries spacing). Dark mode adapts via the token. 5 e2e + 53 unit green; screenshot-verified light+dark.
+
 ### 2026-07-22 (later still) — pearpages credit footer
 - Monorepo-wide consistency pass: popup gained a `.credit` footer (16px pear icon at `public/pearpages-icon.png` + "Made by pearpages" → pearpages.com), `margin-top: auto` pins it to the popup bottom. Styled in `App.scss` with the existing tokens.
 

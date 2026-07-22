@@ -13,6 +13,9 @@ Chrome MV3 extension that auto-removes user-defined DOM elements the instant the
 
 ## Session log
 
+### 2026-07-22 — branded popup header (monorepo consistency pass)
+- Popup gained the monorepo-standard branded header (`.popup__header`): full-bleed red banner (`#c0392b`→`#a53125` gradient, `#8e2a20` border — the plugin's existing accent), `icons/icon32.png` at 26px on a white chip (`.popup__mark`), "Begone" + tagline "Element remover". Replaces the bare `h1.popup__title`. Hardcoded hex kept (file has no tokens); still light-only. Screenshot-verified.
+
 ### 2026-07-22 — Astro promo site (`@begone/site`) on site-kit
 - New `plugins/begone/site`, cloned from cookiejar/site's shape (site-kit `Layout`/`InstallSteps`/`OtherPlugins`/`AuthorCard`, empty `defineConfig` until deployment lands). Theme "vanishing act" (`--be-*` tokens in `src/styles/theme.css`): the extension's red `#c0392b` as accent, white surface, `#eee`/`#888` neutrals, system-ui body + mono for selectors; dark block included (site convention, even though the popup is light-only). Hero = faux browser window showing a DOM snippet with `.cookie-banner`/`#newsletter-popup` lines struck through in red + "✕ banished" rule chips; six text-only feature cards (headerforge-style, no SVG icons — fits the minimal brand). AuthorCard slot carries the README's dedication to Christophe.
 - Registered begone in `packages/site-kit/src/plugins.ts` (slug union + registry entry, alphabetical-first) and added `public/plugins/begone.png` (copy of `icon48.png`) to cookiejar's, headerforge's, and begone's own site so `OtherPlugins` resolves everywhere.

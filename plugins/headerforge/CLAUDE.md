@@ -20,6 +20,9 @@ ModHeader-style Chrome extension (MV3). See README.md for user-facing docs and a
 
 ## Session log
 
+### 2026-07-22 — branded popup header (monorepo consistency pass)
+- Popup gained an `app__header` banner before `ProfileTabs`: full-bleed `var(--accent-request)` blue, `/icons/icon.svg` at 26px on a white chip (`app__mark`), "HeaderForge" + tagline "Header editor", white text. Dark mode adapts via the token. 3 e2e + 30 unit green; screenshot-verified light+dark.
+
 ### 2026-07-22 — pearpages credit footer
 - Monorepo-wide consistency pass: popup gained a `.credit` footer (16px pear icon at `public/pearpages-icon.png` + "Made by pearpages" → pearpages.com) after `ImportExport`, styled in `App.scss` with the existing tokens.
 

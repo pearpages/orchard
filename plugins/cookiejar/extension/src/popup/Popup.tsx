@@ -56,6 +56,13 @@ export function Popup() {
 
   return (
     <div className="popup">
+      <header className="popup__brand">
+        <img className="popup__brand-icon" src="/icons/icon32.png" alt="" width="26" height="26" />
+        <div className="popup__brand-titles">
+          <h1 className="popup__brand-title">CookieJar</h1>
+          <p className="popup__brand-tagline">Cookie manager</p>
+        </div>
+      </header>
       <header className="popup__header">
         <div className="popup__site">
           <span className="popup__host" title={host ?? undefined}>

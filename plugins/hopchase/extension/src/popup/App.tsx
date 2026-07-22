@@ -36,7 +36,13 @@ export function App() {
   return (
     <main className="app">
       <header className="app__header">
-        <h1 className="app__title">HopChase</h1>
+        <div className="app__brand">
+          <img className="app__mark" src="/icons/icon.svg" alt="" width="26" height="26" />
+          <div className="app__titles">
+            <h1 className="app__title">HopChase</h1>
+            <p className="app__tagline">Redirect inspector</p>
+          </div>
+        </div>
         <Tabs tabs={TABS} active={active} onChange={setActive} />
       </header>
       {active === 'current' && <CurrentTab />}

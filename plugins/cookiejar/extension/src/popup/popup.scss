@@ -12,6 +12,39 @@ body {
   flex-direction: column;
   max-height: 560px;
 
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    padding: $space-2 $space-3;
+    background: var(--cj-accent);
+    border-bottom: 3px solid rgba(0, 0, 0, 0.18);
+    color: #fff;
+  }
+
+  &__brand-icon {
+    flex: none;
+    padding: 3px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 6px;
+  }
+
+  &__brand-titles {
+    min-width: 0;
+  }
+
+  &__brand-title {
+    margin: 0;
+    font-size: $text-lg;
+    font-weight: 700;
+  }
+
+  &__brand-tagline {
+    margin: 0;
+    font-size: $text-xs;
+    opacity: 0.85;
+  }
+
   &__header {
     display: flex;
     align-items: center;

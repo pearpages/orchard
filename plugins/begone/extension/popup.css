@@ -5,9 +5,38 @@
   font-size: 13px;
 }
 
+.popup__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: -12px -12px 10px;
+  padding: 10px 12px;
+  background: linear-gradient(180deg, #c0392b, #a53125);
+  border-bottom: 3px solid #8e2a20;
+  color: #fff;
+}
+
+.popup__mark {
+  flex: none;
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 6px;
+}
+
+.popup__titles {
+  min-width: 0;
+}
+
 .popup__title {
-  margin: 0 0 8px;
+  margin: 0;
   font-size: 15px;
+  font-weight: 700;
+}
+
+.popup__tagline {
+  margin: 1px 0 0;
+  font-size: 11px;
+  opacity: 0.85;
 }
 
 .popup__form {

@@ -20,6 +20,9 @@ Chrome extension (MV3) cookie manager for developers. React 19 + TypeScript + Vi
 
 ## Session log
 
+### 2026-07-22 — branded popup header (monorepo consistency pass)
+- Popup gained a `popup__brand` banner above the existing contextual `popup__header` (site bar, unchanged): full-bleed `var(--cj-accent)` amber, `/icons/icon32.png` at 26px on a white chip, "CookieJar" + tagline "Cookie manager", white text. Named `__brand` because `popup__header` was already taken by the site bar. Dark mode adapts via the token. 19 e2e + 137 unit green; screenshot-verified light+dark.
+
 ### 2026-07-22 — pearpages credit footer
 - Monorepo-wide consistency pass: popup gained a `popup__credit` footer (16px pear icon at `public/pearpages-icon.png` + "Made by pearpages" → pearpages.com) at the bottom of `Popup.tsx`, styled in `popup.scss` with the `--cj-*` tokens.
 

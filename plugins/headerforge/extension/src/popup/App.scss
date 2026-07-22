@@ -10,6 +10,37 @@
     justify-content: center;
     color: var(--ink-muted);
   }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-sm $spacing-lg;
+    background: var(--accent-request);
+    border-bottom: 3px solid rgba(0, 0, 0, 0.18);
+    color: #fff;
+  }
+
+  &__mark {
+    flex: none;
+    padding: 3px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 6px;
+  }
+
+  &__titles {
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: 700;
+  }
+
+  &__tagline {
+    font-size: $font-size-sm;
+    opacity: 0.85;
+  }
 }
 
 .credit {

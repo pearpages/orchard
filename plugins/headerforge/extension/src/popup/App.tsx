@@ -96,6 +96,13 @@ export function App() {
 
   return (
     <div className="app">
+      <header className="app__header">
+        <img className="app__mark" src="/icons/icon.svg" alt="" width="26" height="26" />
+        <div className="app__titles">
+          <h1 className="app__title">HeaderForge</h1>
+          <p className="app__tagline">Header editor</p>
+        </div>
+      </header>
       <ProfileTabs
         profiles={state.profiles}
         selectedId={selected.id}
