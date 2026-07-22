@@ -1,0 +1,48 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.export-menu {
+  position: relative;
+  display: inline-flex;
+
+  &__button {
+    @include button-base;
+
+    &--compact {
+      @include icon-button;
+      border: none;
+      background: none;
+      padding: 0;
+    }
+  }
+
+  &__list {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    z-index: 40;
+    margin: 0;
+    padding: $space-1;
+    list-style: none;
+    min-width: 200px;
+    background: var(--cj-surface-raised);
+    border: 1px solid var(--cj-border-strong);
+    border-radius: $radius-md;
+    box-shadow: 0 8px 24px var(--cj-shadow);
+  }
+
+  &__item {
+    @include button-reset;
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: $space-1 $space-2;
+    border-radius: $radius-sm;
+    font-size: $text-sm;
+    white-space: nowrap;
+
+    &:hover {
+      background: var(--cj-hover);
+    }
+  }
+}

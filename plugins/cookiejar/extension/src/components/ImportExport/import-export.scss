@@ -1,0 +1,96 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.import-dialog {
+  position: fixed;
+  inset: 0;
+  background: var(--cj-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+
+  &__panel {
+    background: var(--cj-surface-raised);
+    border: 1px solid var(--cj-border);
+    border-radius: $radius-lg;
+    box-shadow: 0 12px 40px var(--cj-shadow);
+    padding: $space-4;
+    width: min(460px, calc(100vw - #{$space-6}));
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $space-3;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: $text-lg;
+  }
+
+  &__close {
+    @include icon-button;
+    font-size: $text-xl;
+  }
+
+  &__dropzone {
+    border: 2px dashed var(--cj-border-strong);
+    border-radius: $radius-md;
+    padding: $space-6 $space-4;
+    text-align: center;
+    transition: border-color $transition-fast, background $transition-fast;
+
+    &--over {
+      border-color: var(--cj-accent);
+      background: var(--cj-accent-soft);
+    }
+  }
+
+  &__drop-text {
+    margin: 0 0 $space-2;
+    color: var(--cj-text-muted);
+    font-size: $text-sm;
+  }
+
+  &__browse {
+    @include button-base;
+  }
+
+  &__file {
+    display: none;
+  }
+
+  &__summary {
+    margin: 0 0 $space-2;
+    font-size: $text-md;
+  }
+
+  &__errors {
+    margin: 0 0 $space-3;
+    padding: $space-2 $space-3;
+    background: var(--cj-danger-soft);
+    border-radius: $radius-sm;
+    color: var(--cj-danger);
+    font-size: $text-sm;
+    list-style-position: inside;
+    max-height: 120px;
+    overflow-y: auto;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: $space-2;
+  }
+
+  &__back {
+    @include button-base;
+  }
+
+  &__apply {
+    @include button-primary;
+  }
+}

@@ -1,0 +1,119 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.ai-panel {
+  border: 1px solid var(--cj-border);
+  border-radius: $radius-sm;
+  background: var(--cj-surface);
+  padding: $space-2;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+
+  &__explain {
+    @include button-base;
+    align-self: flex-start;
+    color: var(--cj-accent-text);
+  }
+
+  &__conversation {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+  }
+
+  &__turn {
+    font-size: $text-sm;
+    padding: $space-2;
+    border-radius: $radius-md;
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    &--user {
+      align-self: flex-end;
+      background: var(--cj-accent-soft);
+      color: var(--cj-accent-text);
+      max-width: 85%;
+    }
+
+    &--assistant {
+      align-self: flex-start;
+      background: var(--cj-bg);
+      border: 1px solid var(--cj-border);
+      max-width: 95%;
+    }
+  }
+
+  &__loading {
+    margin: 0;
+    font-size: $text-sm;
+    color: var(--cj-text-muted);
+  }
+
+  &__error {
+    margin: 0;
+    padding: $space-2;
+    font-size: $text-sm;
+    color: var(--cj-danger);
+    background: var(--cj-danger-soft);
+    border-radius: $radius-sm;
+  }
+
+  &__setup {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+  }
+
+  &__setup-text {
+    margin: 0;
+    font-size: $text-sm;
+    color: var(--cj-text-muted);
+  }
+
+  &__setup-button {
+    @include button-primary;
+    align-self: flex-start;
+  }
+
+  &__follow-up {
+    display: flex;
+    gap: $space-2;
+  }
+
+  &__input {
+    @include input-base;
+    flex: 1;
+    font-size: $text-sm;
+  }
+
+  &__send {
+    @include button-base;
+  }
+
+  &__privacy {
+    margin: 0;
+    font-size: $text-xs;
+    color: var(--cj-text-faint);
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+  }
+
+  &__provider {
+    font-weight: 700;
+    padding: 0 $space-1;
+    border-radius: $radius-sm;
+    line-height: 16px;
+
+    &--on-device {
+      background: var(--cj-success-soft);
+      color: var(--cj-success);
+    }
+
+    &--claude {
+      background: var(--cj-accent-soft);
+      color: var(--cj-accent-text);
+    }
+  }
+}

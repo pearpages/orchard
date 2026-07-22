@@ -1,0 +1,138 @@
+import { useEffect, useState } from 'react';
+import type { Cookie } from '../../lib/cookies';
+import type { DomainGroup as DomainGroupData } from '../../lib/filter';
+import { CookieTable } from '../CookieTable/CookieTable';
+import { ExportMenu } from '../ExportMenu/ExportMenu';
+import './domain-group.scss';
+
+/** Rows rendered per group before "Show all" — keeps huge domains snappy. */
+const ROW_CAP = 100;
+
+interface DomainGroupProps {
+  group: DomainGroupData;
+  domainProtected: boolean;
+  isProtected: (cookie: Cookie) => boolean;
+  onTogglePin: (domain: string) => void;
+  onToggleProtectDomain: (domain: string) => void;
+  onExportDomain: (group: DomainGroupData, format: 'json' | 'netscape') => void;
+  onCopyDomain: (group: DomainGroupData, kind: 'header' | 'curl') => void;
+  onDeepClean: (group: DomainGroupData) => void;
+  onDeleteDomain: (group: DomainGroupData) => void;
+  onDelete: (cookie: Cookie) => void;
+  onEdit: (cookie: Cookie) => void;
+  onToggleProtect: (cookie: Cookie) => void;
+}
+
+export function DomainGroup({
+  group,
+  domainProtected,
+  isProtected,
+  onTogglePin,
+  onToggleProtectDomain,
+  onExportDomain,
+  onCopyDomain,
+  onDeepClean,
+  onDeleteDomain,
+  onDelete,
+  onEdit,
+  onToggleProtect,
+}: DomainGroupProps) {
+  const [collapsed, setCollapsed] = useState(false);
+  const [showAll, setShowAll] = useState(false);
+
+  useEffect(() => {
+    setShowAll(false);
+  }, [group.cookies.length]);
+
+  const visibleCookies = showAll ? group.cookies : group.cookies.slice(0, ROW_CAP);
+
+  return (
+    <section className={`domain-group${collapsed ? ' domain-group--collapsed' : ''}`}>
+      <header className="domain-group__header">
+        <button
+          type="button"
+          className="domain-group__toggle"
+          aria-expanded={!collapsed}
+          onClick={() => setCollapsed((v) => !v)}
+        >
+          <span className="domain-group__chevron" aria-hidden="true">
+            {collapsed ? '▸' : '▾'}
+          </span>
+          <span className="domain-group__domain">{group.domain}</span>
+          <span className="domain-group__count">{group.cookies.length}</span>
+          {group.pinned && (
+            <span className="domain-group__flag" title="Pinned">
+              📌
+            </span>
+          )}
+          {domainProtected && (
+            <span className="domain-group__flag" title="Domain protected — bulk deletes skip it">
+              🔒
+            </span>
+          )}
+        </button>
+        <div className="domain-group__actions">
+          <button
+            type="button"
+            className={`domain-group__action${group.pinned ? ' domain-group__action--active' : ''}`}
+            title={group.pinned ? 'Unpin domain' : 'Pin domain to top'}
+            onClick={() => onTogglePin(group.domain)}
+          >
+            📌
+          </button>
+          <button
+            type="button"
+            className={`domain-group__action${domainProtected ? ' domain-group__action--active' : ''}`}
+            title={domainProtected ? 'Unprotect domain' : 'Protect domain from bulk delete'}
+            onClick={() => onToggleProtectDomain(group.domain)}
+          >
+            🛡
+          </button>
+          <ExportMenu
+            compact
+            label={`Export ${group.domain}`}
+            title="Export or copy this domain's cookies"
+            items={[
+              { label: 'Export JSON', onSelect: () => onExportDomain(group, 'json') },
+              { label: 'Export cookies.txt', onSelect: () => onExportDomain(group, 'netscape') },
+              { label: 'Copy Cookie header', onSelect: () => onCopyDomain(group, 'header') },
+              { label: 'Copy cURL command', onSelect: () => onCopyDomain(group, 'curl') },
+            ]}
+          />
+          <button
+            type="button"
+            className="domain-group__action"
+            title="Deep clean site data…"
+            onClick={() => onDeepClean(group)}
+          >
+            🧹
+          </button>
+          <button
+            type="button"
+            className="domain-group__action domain-group__action--danger"
+            title="Delete all cookies for this domain"
+            onClick={() => onDeleteDomain(group)}
+          >
+            ×
+          </button>
+        </div>
+      </header>
+      {!collapsed && (
+        <>
+          <CookieTable
+            cookies={visibleCookies}
+            isProtected={isProtected}
+            onDelete={onDelete}
+            onEdit={onEdit}
+            onToggleProtect={onToggleProtect}
+          />
+          {!showAll && group.cookies.length > ROW_CAP && (
+            <button type="button" className="domain-group__show-all" onClick={() => setShowAll(true)}>
+              Show all {group.cookies.length} cookies
+            </button>
+          )}
+        </>
+      )}
+    </section>
+  );
+}

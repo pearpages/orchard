@@ -1,0 +1,173 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.cookie-row {
+  list-style: none;
+  border-bottom: 1px solid var(--cj-border);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &--expanded {
+    background: var(--cj-selected);
+  }
+
+  &__summary {
+    display: grid;
+    grid-template-columns: minmax(120px, 1.1fr) minmax(80px, 1.4fr) 90px auto auto;
+    align-items: center;
+    gap: $space-3;
+    min-height: 36px;
+    padding: $space-1 $space-3;
+    cursor: pointer;
+    @include focus-ring;
+
+    &:hover {
+      background: var(--cj-hover);
+    }
+  }
+
+  &__id {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__name {
+    font-weight: 600;
+    font-size: $text-sm;
+    @include truncate;
+  }
+
+  &__domain {
+    font-size: $text-xs;
+    color: var(--cj-text-muted);
+    @include truncate;
+  }
+
+  &__value {
+    font-size: $text-sm;
+    color: var(--cj-text-muted);
+    @include truncate;
+  }
+
+  &__expiry {
+    font-size: $text-xs;
+    color: var(--cj-text-muted);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  &__badges {
+    display: flex;
+    gap: $space-1;
+    align-items: center;
+  }
+
+  &__badge {
+    font-size: $text-xs;
+    line-height: 16px;
+    padding: 0 $space-1;
+    border-radius: $radius-sm;
+    background: var(--cj-accent-soft);
+    color: var(--cj-accent-text);
+    white-space: nowrap;
+
+    &--shield {
+      background: var(--cj-shield-soft);
+    }
+
+    &--partition {
+      background: var(--cj-shield-soft);
+      color: var(--cj-shield);
+    }
+
+    &--jwt {
+      background: var(--cj-success-soft);
+      color: var(--cj-success);
+      font-weight: 700;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 2px;
+    opacity: 0;
+    transition: opacity $transition-fast;
+  }
+
+  &__summary:hover &__actions,
+  &__summary:focus-within &__actions,
+  &--expanded &__actions {
+    opacity: 1;
+  }
+
+  &__action {
+    @include icon-button;
+    font-size: $text-md;
+
+    &--active {
+      color: var(--cj-shield);
+      opacity: 1;
+    }
+
+    &--danger:hover {
+      background: var(--cj-danger-soft);
+      color: var(--cj-danger);
+    }
+  }
+
+  // Keep protect shield visible when active even without hover
+  &__summary &__action--active {
+    opacity: 1;
+  }
+
+  &__detail {
+    padding: $space-2 $space-3 $space-3;
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+  }
+
+  &__detail-value {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-2;
+    background: var(--cj-surface);
+    border: 1px solid var(--cj-border);
+    border-radius: $radius-sm;
+    padding: $space-2;
+
+    code {
+      flex: 1;
+      font-size: $text-sm;
+      word-break: break-all;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+  }
+
+  &__copy {
+    @include button-base;
+    font-size: $text-xs;
+    padding: 2px $space-2;
+  }
+
+  &__meta {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 2px $space-3;
+    margin: 0;
+    font-size: $text-sm;
+
+    dt {
+      color: var(--cj-text-muted);
+    }
+
+    dd {
+      margin: 0;
+      word-break: break-all;
+    }
+  }
+}

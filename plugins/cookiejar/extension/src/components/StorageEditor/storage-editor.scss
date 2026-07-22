@@ -1,0 +1,110 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.storage-editor {
+  position: fixed;
+  inset: 0;
+  background: var(--cj-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+
+  &__panel {
+    background: var(--cj-surface-raised);
+    border: 1px solid var(--cj-border);
+    border-radius: $radius-lg;
+    box-shadow: 0 12px 40px var(--cj-shadow);
+    padding: $space-4;
+    width: min(440px, calc(100vw - #{$space-6}));
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $space-3;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: $text-lg;
+  }
+
+  &__close {
+    @include icon-button;
+    font-size: $text-xl;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+  }
+
+  &__label {
+    font-size: $text-sm;
+    font-weight: 600;
+    color: var(--cj-text-muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  &__hint {
+    font-style: normal;
+    font-weight: 400;
+    font-size: $text-xs;
+    color: var(--cj-text-faint);
+  }
+
+  &__input {
+    @include input-base;
+    width: 100%;
+
+    &--mono {
+      font-family: $font-mono;
+      font-size: $text-sm;
+    }
+
+    &[readonly] {
+      background: var(--cj-hover);
+      color: var(--cj-text-muted);
+    }
+  }
+
+  &__textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  &__error {
+    margin: 0;
+    padding: $space-2 $space-3;
+    background: var(--cj-danger-soft);
+    border: 1px solid var(--cj-danger);
+    border-radius: $radius-sm;
+    color: var(--cj-danger);
+    font-size: $text-sm;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: $space-2;
+  }
+
+  &__cancel {
+    @include button-base;
+  }
+
+  &__save {
+    @include button-primary;
+  }
+}

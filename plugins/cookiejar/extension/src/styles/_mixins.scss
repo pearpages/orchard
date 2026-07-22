@@ -1,0 +1,105 @@
+@use 'variables' as *;
+
+@mixin focus-ring {
+  outline: none;
+
+  &:focus-visible {
+    outline: 2px solid var(--cj-accent);
+    outline-offset: 1px;
+  }
+}
+
+@mixin button-reset {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  @include focus-ring;
+}
+
+@mixin button-base {
+  @include button-reset;
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+  padding: $space-1 $space-3;
+  border-radius: $radius-sm;
+  border: 1px solid var(--cj-border-strong);
+  background: var(--cj-surface);
+  font-size: $text-sm;
+  font-weight: 500;
+  line-height: 20px;
+  white-space: nowrap;
+  transition: background $transition-fast, border-color $transition-fast;
+
+  &:hover:not(:disabled) {
+    background: var(--cj-hover);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-primary {
+  @include button-base;
+  background: var(--cj-accent);
+  border-color: var(--cj-accent);
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background: var(--cj-accent-text);
+    border-color: var(--cj-accent-text);
+  }
+}
+
+@mixin button-danger {
+  @include button-base;
+  color: var(--cj-danger);
+  border-color: var(--cj-danger);
+
+  &:hover:not(:disabled) {
+    background: var(--cj-danger-soft);
+  }
+}
+
+@mixin icon-button {
+  @include button-reset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: $radius-sm;
+  color: var(--cj-text-muted);
+  transition: background $transition-fast, color $transition-fast;
+
+  &:hover {
+    background: var(--cj-hover);
+    color: var(--cj-text);
+  }
+}
+
+@mixin input-base {
+  font: inherit;
+  font-size: $text-md;
+  color: var(--cj-text);
+  background: var(--cj-surface);
+  border: 1px solid var(--cj-border-strong);
+  border-radius: $radius-sm;
+  padding: $space-1 $space-2;
+  @include focus-ring;
+
+  &::placeholder {
+    color: var(--cj-text-faint);
+  }
+}
+
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

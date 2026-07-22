@@ -1,0 +1,71 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.toast-viewport {
+  position: fixed;
+  bottom: $space-4;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  z-index: 100;
+  width: max-content;
+  max-width: calc(100vw - #{$space-6});
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-2 $space-3;
+  border-radius: $radius-md;
+  background: var(--cj-surface-raised);
+  border: 1px solid var(--cj-border-strong);
+  box-shadow: 0 4px 16px var(--cj-shadow);
+  font-size: $text-sm;
+  animation: toast-in $transition-med;
+
+  &--success {
+    border-left: 3px solid var(--cj-success);
+  }
+
+  &--error {
+    border-left: 3px solid var(--cj-danger);
+  }
+
+  &__message {
+    @include truncate;
+    max-width: 420px;
+  }
+
+  &__undo {
+    @include button-reset;
+    color: var(--cj-accent-text);
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__close {
+    @include icon-button;
+    width: 20px;
+    height: 20px;
+    font-size: $text-lg;
+    line-height: 1;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

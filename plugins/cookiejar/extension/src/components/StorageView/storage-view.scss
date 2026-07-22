@@ -1,0 +1,46 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.storage-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    padding: $space-3 $space-4;
+    border-bottom: 1px solid var(--cj-border);
+    background: var(--cj-surface);
+  }
+
+  &__summary {
+    flex: 1;
+    font-size: $text-sm;
+    color: var(--cj-text-muted);
+  }
+
+  &__stale {
+    font-size: $text-sm;
+    color: var(--cj-accent-text);
+  }
+
+  &__refresh {
+    @include button-base;
+  }
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: $space-4;
+  }
+
+  &__loading {
+    margin: 0;
+    padding: $space-5;
+    text-align: center;
+    color: var(--cj-text-muted);
+  }
+}
