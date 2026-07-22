@@ -1,0 +1,10 @@
+{
+  "name": "@browser-plugins/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared tsconfig and Playwright base config for all plugins.",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1"
+  }
+}

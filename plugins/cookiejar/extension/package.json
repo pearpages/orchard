@@ -1,5 +1,5 @@
 {
-  "name": "cookiejar",
+  "name": "@cookiejar/extension",
   "private": true,
   "version": "0.1.0",
   "description": "A friendly cookie manager for developers.",
@@ -7,9 +7,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "test": "vitest",
-    "test:e2e": "npm run build && bddgen && playwright test",
-    "preview": "vite preview"
+    "test": "vitest run",
+    "test:e2e": "pnpm build && bddgen && playwright test",
+    "preview": "vite preview",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.112.4",
@@ -32,6 +34,7 @@
     "sass-embedded": "^1.100.0",
     "typescript": "^7.0.2",
     "vite": "^8.1.5",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "@browser-plugins/config": "workspace:*"
   }
 }

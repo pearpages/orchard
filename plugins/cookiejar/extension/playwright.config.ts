@@ -1,5 +1,6 @@
 import { defineConfig } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
+import { baseConfig } from '@browser-plugins/config/playwright.base.js';
 
 const testDir = defineBddConfig({
   features: 'e2e/features/**/*.feature',
@@ -7,10 +8,8 @@ const testDir = defineBddConfig({
 });
 
 export default defineConfig({
-  testDir,
+  ...baseConfig,
   // A persistent context (one Chromium profile per scenario) keeps cookie
-  // state isolated; a single worker avoids profile contention.
-  workers: 1,
-  timeout: 30_000,
-  reporter: [['list']],
+  // state isolated; the base config's single worker avoids profile contention.
+  testDir,
 });

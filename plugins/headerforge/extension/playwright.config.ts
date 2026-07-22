@@ -1,9 +1,9 @@
 import { defineConfig } from '@playwright/test'
+import { baseConfig } from '@browser-plugins/config/playwright.base.js'
 
 export default defineConfig({
+  ...baseConfig,
   testDir: './e2e',
-  fullyParallel: false,
-  workers: 1,
   timeout: 60_000,
   use: {
     trace: 'retain-on-failure',

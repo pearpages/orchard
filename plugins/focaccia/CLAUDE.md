@@ -4,16 +4,16 @@ Chrome extension (Manifest V3), branded **Focaccia** (slogan: "Closed for focus"
 
 ## Conventions
 
-- pnpm-workspaces monorepo (pnpm + node pinned in `mise.toml`): `apps/extension` (the extension) and `apps/site` (Astro promo site, static, no deployment wiring yet; design tokens hand-copied from `blocked.css` into `apps/site/src/styles/theme.css`). Root scripts delegate via `pnpm --filter`; the same commands work from inside `apps/extension`. Always `pnpm install` from the root.
-- TypeScript (strict) bundled with esbuild via `pnpm build:extension` → `apps/extension/dist`; `pnpm typecheck` before committing.
-- Unit tests with Vitest, run as `pnpm test --run` (NEVER bare `pnpm test` — watch mode), colocated as `src/**/*.test.ts`, written in Gherkin style (`Feature`/`Scenario` describes, `Given … When … Then …` test names). Logic under test must be pure — chrome-API modules stay thin and delegate (`rules.ts`, `pomodoro-logic.ts`, `dial-view.ts`).
-- E2E with Playwright (`pnpm test:e2e`, specs in `apps/extension/e2e/*.e2e.ts`, same Gherkin naming): disposable Chromium loads the built dist via `--load-extension`, a local server plays `blocked.test` via `--host-resolver-rules`, and service-worker state is asserted with `worker.evaluate`. Vitest excludes `e2e/**` (see `vitest.config.ts`); Playwright runs `workers: 1` because each test owns the fixed site port.
+- Lives in the browser-plugins monorepo (2026-07-22) as `plugins/focaccia/extension` and `plugins/focaccia/site` (Astro promo site, static, no deployment wiring yet; design tokens hand-copied from `blocked.css` into `site/src/styles/theme.css`). Node/pnpm are pinned in the monorepo root `mise.toml`; run scripts from inside a package or via `pnpm focaccia <script>` from the root. Always `pnpm install` from the root.
+- TypeScript (strict) bundled with esbuild via `pnpm build` (in `extension/`) → `extension/dist`; `pnpm typecheck` before committing.
+- Unit tests with Vitest (`pnpm test` = `vitest run`; `pnpm test:watch` for watch mode), colocated as `src/**/*.test.ts`, written in Gherkin style (`Feature`/`Scenario` describes, `Given … When … Then …` test names). Logic under test must be pure — chrome-API modules stay thin and delegate (`rules.ts`, `pomodoro-logic.ts`, `dial-view.ts`).
+- E2E with Playwright (`pnpm test:e2e`, specs in `extension/e2e/*.e2e.ts`, same Gherkin naming): disposable Chromium loads the built dist via `--load-extension`, a local server plays `blocked.test` via `--host-resolver-rules`, and service-worker state is asserted with `worker.evaluate`. Vitest excludes `e2e/**` (see `vitest.config.ts`); Playwright runs `workers: 1` because each test owns the fixed site port.
 - No framework: each popup section is a module exposing `init()` + `render(state)`; state lives in `chrome.storage` and the popup re-renders on `storage.onChanged` (declarative, one-way flow).
 - Styles in plain `.css` files, one per section (`src/popup/css/`), BEM-style class names, no inline styles.
 - Blocking is done only with `declarativeNetRequest` dynamic rules, always re-derived in full from storage (`syncBlockingRules`), never edited incrementally.
 - Pomodoro timing lives in the background worker on `chrome.alarms` (survives service-worker suspension); the popup only displays state and sends commands.
 - Design language: enamel kitchen-timer — cream/tomato palette, `ui-rounded` display type, dial with 60 ticks. Blocked page is a hanging "Closed for focus" sign. Icon = dimpled focaccia loaf on the enamel-red tile (`make-icons.mjs`). pearpages appears as an author credit only (popup + site footers link to pearpages.com) — an indigo blog-theme restyle was tried on 2026-07-20 and deliberately reverted; do not reintroduce it.
-- Node and pnpm are pinned via `mise.toml` (node 24, pnpm 11). pnpm 11 blocks dependency build scripts by default; approved ones live under `allowBuilds` in `pnpm-workspace.yaml` (currently esbuild).
+- Node and pnpm are pinned in the monorepo root `mise.toml` (node 24, pnpm 11). pnpm 11 blocks dependency build scripts by default; approved ones live under `allowBuilds` in the root `pnpm-workspace.yaml`.
 
 ## Session log
 
@@ -64,7 +64,7 @@ Chrome extension (Manifest V3), branded **Focaccia** (slogan: "Closed for focus"
 ## TODOs
 
 ### Pending
-- [ ] Rename the repo folder: `mv ~/Desktop/site-blocker ~/Desktop/focaccia`, then re-load the unpacked extension from the new `apps/extension/dist` path (manual — can't be done from a session running inside the folder).
+- [ ] Re-load the unpacked extension from the new monorepo path `plugins/focaccia/extension/dist` (manual; the path-derived extension ID changes, so old dev `chrome.storage` data won't carry over). Supersedes the old "rename ~/Desktop/site-blocker" TODO — the project now lives in the browser-plugins monorepo (2026-07-22).
 - [ ] Verify the notification *banner* by eye once in real Chrome — the e2e now proves Chrome receives the notification (`getAll` = 1); only the OS-level rendering remains manual (macOS: System Settings → Notifications → Chrome allowed, Focus/DND off).
 - [ ] Optional ideas parked: integrate Pomodoro with blocking (force-block during focus), long-break cycles, per-site schedules, export/import of the blocklist.
 

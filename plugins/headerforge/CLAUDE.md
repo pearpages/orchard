@@ -4,7 +4,7 @@ ModHeader-style Chrome extension (MV3). See README.md for user-facing docs and a
 
 ## Conventions & key decisions
 
-- Package manager: **pnpm** (versions pinned in `.tool-versions` via mise: node 24, pnpm 11).
+- Package manager: **pnpm** (node 24 + pnpm 11 pinned in the monorepo root `mise.toml` via mise).
 - Header modification uses **declarativeNetRequest dynamic rules** — blocking webRequest does not exist in MV3. The service worker does a full atomic replace (remove all ids, add rebuilt rules); no rule diffing.
 - `src/core/` must stay **pure and chrome-free** (types-only references to `chrome.*` are fine — @types/chrome uses template-literal string unions, so string literals are assignable). All unit tests target this layer; no chrome mocks exist or should be needed.
 - Popup ↔ service worker communicate **only through `chrome.storage.local`** (`onChanged` is the bus). Do not add runtime messaging.

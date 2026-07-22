@@ -1,0 +1,14 @@
+{
+  "name": "browser-plugins",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r --workspace-concurrency=1 test",
+    "test:e2e": "pnpm -r --workspace-concurrency=1 test:e2e",
+    "cookiejar": "pnpm --filter \"./plugins/cookiejar/**\"",
+    "focaccia": "pnpm --filter \"./plugins/focaccia/**\"",
+    "headerforge": "pnpm --filter \"./plugins/headerforge/**\""
+  }
+}
