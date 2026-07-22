@@ -1,0 +1,58 @@
+@use '../styles/variables' as *;
+
+.profile-tabs {
+  display: flex;
+  align-items: stretch;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-lg 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  overflow-x: auto;
+
+  &__tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: none;
+    padding: $spacing-sm $spacing-md;
+    color: var(--ink-muted);
+    white-space: nowrap;
+
+    &:hover {
+      color: var(--ink);
+    }
+
+    &--selected {
+      color: var(--ink);
+      font-weight: 600;
+      border-bottom-color: var(--accent-request);
+    }
+
+    &--disabled {
+      opacity: 0.55;
+    }
+  }
+
+  &__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-request);
+    flex-shrink: 0;
+  }
+
+  &__add-btn {
+    border: none;
+    background: none;
+    color: var(--ink-muted);
+    font-size: $font-size-lg;
+    font-weight: 600;
+    padding: $spacing-xs $spacing-sm;
+
+    &:hover {
+      color: var(--accent-request);
+    }
+  }
+}

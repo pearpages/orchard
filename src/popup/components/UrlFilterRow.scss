@@ -1,0 +1,61 @@
+@use '../styles/variables' as *;
+
+.url-filter-row {
+  padding: $spacing-xs 0;
+
+  &__main {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__kind-select {
+    padding: $spacing-xs;
+    border: 1px solid var(--border);
+    border-radius: $radius;
+    background: var(--bg);
+    color: var(--ink-muted);
+    font-size: $font-size-sm;
+  }
+
+  &__pattern-input {
+    flex: 1;
+    min-width: 0;
+    padding: $spacing-xs $spacing-sm;
+    border: 1px solid var(--border);
+    border-radius: $radius;
+    background: var(--bg);
+    font-family: $font-mono;
+    font-size: $font-size-md;
+
+    &::placeholder {
+      color: var(--ink-muted);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent-request);
+    }
+  }
+
+  &__delete-btn {
+    border: none;
+    background: none;
+    color: var(--ink-muted);
+    padding: $spacing-xs;
+    border-radius: $radius;
+
+    &:hover {
+      color: var(--danger);
+      background: var(--surface);
+    }
+  }
+
+  &__error {
+    margin-top: $spacing-xs;
+    margin-left: 40px;
+    color: var(--danger);
+    font-size: $font-size-sm;
+    font-family: $font-mono;
+  }
+}

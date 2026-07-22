@@ -1,0 +1,66 @@
+@use '../styles/variables' as *;
+
+.preset-menu {
+  position: relative;
+
+  &__button {
+    border: 1px solid var(--border);
+    border-radius: $radius;
+    background: var(--bg);
+    color: var(--ink-muted);
+    font-size: $font-size-sm;
+    padding: 2px $spacing-sm;
+
+    &:hover {
+      color: var(--section-accent, var(--accent-request));
+      border-color: var(--section-accent, var(--accent-request));
+    }
+  }
+
+  &__popover {
+    position: absolute;
+    top: calc(100% + #{$spacing-xs});
+    right: 0;
+    z-index: 10;
+    min-width: 280px;
+    max-height: 320px;
+    overflow-y: auto;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: $radius;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+    padding: $spacing-xs;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+    width: 100%;
+    border: none;
+    border-radius: $radius - 2px;
+    background: none;
+    text-align: left;
+    padding: $spacing-xs $spacing-sm;
+
+    &:hover {
+      background: var(--section-accent-soft, var(--surface));
+    }
+  }
+
+  &__item-label {
+    color: var(--ink);
+    font-size: $font-size-md;
+  }
+
+  &__item-detail {
+    color: var(--ink-muted);
+    font-family: $font-mono;
+    font-size: $font-size-sm;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

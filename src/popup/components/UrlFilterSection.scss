@@ -1,0 +1,40 @@
+@use '../styles/variables' as *;
+
+.url-filter-section {
+  padding: $spacing-md $spacing-lg;
+  border-bottom: 1px solid var(--border);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__title {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+  }
+
+  &__add-btn {
+    border: none;
+    background: none;
+    color: var(--accent-request);
+    font-size: $font-size-sm;
+    font-weight: 600;
+    padding: 2px $spacing-xs;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__hint {
+    color: var(--ink-muted);
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-xs;
+  }
+}

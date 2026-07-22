@@ -1,0 +1,73 @@
+@use './variables' as *;
+
+:root {
+  --bg: #ffffff;
+  --surface: #f4f6f9;
+  --border: #dde2ea;
+  --ink: #1c2128;
+  --ink-muted: #68717f;
+  --accent-request: #3b6ef6;
+  --accent-request-soft: rgba(59, 110, 246, 0.08);
+  --accent-response: #0d9488;
+  --accent-response-soft: rgba(13, 148, 136, 0.08);
+  --danger: #d64545;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15181e;
+    --surface: #1d222b;
+    --border: #323a47;
+    --ink: #e6e9ef;
+    --ink-muted: #8b94a3;
+    --accent-request: #5b87ff;
+    --accent-request-soft: rgba(91, 135, 255, 0.14);
+    --accent-response: #22b8a6;
+    --accent-response-soft: rgba(34, 184, 166, 0.14);
+    --danger: #f07171;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 560px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: $font-size-md;
+}
+
+::selection {
+  background: var(--accent-request-soft);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-request);
+  outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
