@@ -1,0 +1,69 @@
+@use '../styles/variables' as *;
+
+.history-tab {
+  &__empty {
+    padding: $spacing-lg $spacing-md;
+    color: var(--ink-muted);
+  }
+
+  &__back {
+    background: none;
+    border: none;
+    color: var(--accent);
+    padding: $spacing-sm $spacing-md 0;
+    font-size: $font-size-sm;
+  }
+
+  &__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: $spacing-sm $spacing-md;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    width: 100%;
+    background: none;
+    border: none;
+    border-radius: $radius;
+    padding: $spacing-xs $spacing-sm;
+    text-align: left;
+
+    &:hover {
+      background: var(--surface);
+    }
+  }
+
+  &__url {
+    flex: 1;
+    font-family: $font-mono;
+    font-size: $font-size-sm;
+    word-break: break-all;
+  }
+
+  &__meta,
+  &__time {
+    color: var(--ink-muted);
+    font-size: $font-size-sm;
+    white-space: nowrap;
+  }
+
+  &__clear {
+    margin: 0 $spacing-md $spacing-md;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: $radius;
+    color: var(--ink-muted);
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+
+    &:hover {
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+  }
+}

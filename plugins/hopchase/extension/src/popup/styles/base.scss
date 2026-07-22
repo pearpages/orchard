@@ -1,0 +1,95 @@
+@use './variables' as *;
+
+:root {
+  --bg: #ffffff;
+  --surface: #f4f6f9;
+  --border: #dde2ea;
+  --ink: #1c2128;
+  --ink-muted: #68717f;
+  --accent: #3b6ef6;
+  --accent-soft: rgba(59, 110, 246, 0.08);
+  --danger: #d64545;
+  --danger-soft: rgba(214, 69, 69, 0.09);
+  --warning: #b97b0a;
+  --warning-soft: rgba(240, 168, 50, 0.12);
+  --info: #68717f;
+  --info-soft: rgba(104, 113, 127, 0.1);
+  --status-2xx: #1d9e5f;
+  --status-2xx-soft: rgba(29, 158, 95, 0.12);
+  --status-3xx: #b97b0a;
+  --status-3xx-soft: rgba(240, 168, 50, 0.16);
+  --status-4xx: #d64545;
+  --status-4xx-soft: rgba(214, 69, 69, 0.12);
+  --status-client: #7c53c9;
+  --status-client-soft: rgba(124, 83, 201, 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15181e;
+    --surface: #1d222b;
+    --border: #323a47;
+    --ink: #e6e9ef;
+    --ink-muted: #8b94a3;
+    --accent: #5b87ff;
+    --accent-soft: rgba(91, 135, 255, 0.14);
+    --danger: #f07171;
+    --danger-soft: rgba(240, 113, 113, 0.14);
+    --warning: #f0a832;
+    --warning-soft: rgba(240, 168, 50, 0.16);
+    --info: #8b94a3;
+    --info-soft: rgba(139, 148, 163, 0.14);
+    --status-2xx: #34c47c;
+    --status-2xx-soft: rgba(52, 196, 124, 0.16);
+    --status-3xx: #f0a832;
+    --status-3xx-soft: rgba(240, 168, 50, 0.18);
+    --status-4xx: #f07171;
+    --status-4xx-soft: rgba(240, 113, 113, 0.16);
+    --status-client: #a98cf0;
+    --status-client-soft: rgba(169, 140, 240, 0.16);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 640px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: $font-size-md;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

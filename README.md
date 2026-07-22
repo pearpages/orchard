@@ -9,6 +9,7 @@ A pnpm-workspace monorepo of Chrome extensions (Manifest V3), each with an optio
 | [CookieJar](plugins/cookiejar/extension/README.md) | Cookie manager for developers: view/edit/protect/export cookies, storage inspector, JWT decoder, timeline, deep clean, AI explainer | React + Vite + crxjs |
 | [Focaccia](plugins/focaccia/README.md) | Site blocklist with master switch + Pomodoro timer ("Closed for focus") | Vanilla TS + esbuild |
 | [HeaderForge](plugins/headerforge/extension/README.md) | Request/response header modifier with profiles, URL filters and presets | React + Vite + crxjs |
+| [HopChase](plugins/hopchase/extension/README.md) | Redirect-chain inspector: per-hop status/headers/latency, SEO issue flags, URL tracer, JSON/CSV/HAR export | React + Vite + crxjs |
 
 ## Layout
 
@@ -32,4 +33,5 @@ pnpm typecheck      # tsc across packages
 pnpm cookiejar test
 pnpm focaccia build
 pnpm headerforge test:e2e
+pnpm hopchase test
 ```

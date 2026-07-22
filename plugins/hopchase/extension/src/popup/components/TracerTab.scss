@@ -1,0 +1,88 @@
+@use '../styles/variables' as *;
+
+.tracer-tab {
+  &__form {
+    display: flex;
+    gap: $spacing-sm;
+    padding: $spacing-md $spacing-md 0;
+  }
+
+  &__input {
+    flex: 1;
+    padding: $spacing-xs $spacing-sm;
+    border: 1px solid var(--border);
+    border-radius: $radius;
+    background: var(--bg);
+    font-family: $font-mono;
+    font-size: $font-size-sm;
+  }
+
+  &__submit {
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+    border-radius: $radius;
+    padding: $spacing-xs $spacing-md;
+    font-weight: 600;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  &__note {
+    padding: $spacing-xs $spacing-md;
+    color: var(--ink-muted);
+    font-size: $font-size-sm;
+  }
+
+  &__recent {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 $spacing-md $spacing-xs;
+  }
+
+  &__recent-item {
+    display: flex;
+    justify-content: space-between;
+    gap: $spacing-sm;
+    width: 100%;
+    background: none;
+    border: none;
+    border-radius: $radius;
+    padding: $spacing-xs $spacing-sm;
+    text-align: left;
+    color: var(--ink-muted);
+    font-size: $font-size-sm;
+
+    &--active,
+    &:hover {
+      background: var(--surface);
+      color: var(--ink);
+    }
+  }
+
+  &__recent-url {
+    font-family: $font-mono;
+    word-break: break-all;
+  }
+
+  &__recent-time {
+    white-space: nowrap;
+  }
+
+  &__pending,
+  &__error {
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-sm;
+    color: var(--ink-muted);
+  }
+
+  &__error {
+    color: var(--danger);
+    font-family: $font-mono;
+  }
+}

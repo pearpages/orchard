@@ -1,0 +1,60 @@
+@use '../styles/variables' as *;
+
+.header-list {
+  padding: $spacing-sm $spacing-md $spacing-md;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+
+  &__filter {
+    width: 100%;
+    padding: $spacing-xs $spacing-sm;
+    border: 1px solid var(--border);
+    border-radius: $radius;
+    background: var(--bg);
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__section + &__section {
+    margin-top: $spacing-sm;
+  }
+
+  &__title {
+    font-size: $font-size-sm;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+    margin-bottom: $spacing-xs;
+  }
+
+  &__empty {
+    color: var(--ink-muted);
+    font-size: $font-size-sm;
+  }
+
+  &__rows {
+    list-style: none;
+  }
+
+  &__row {
+    display: flex;
+    gap: $spacing-sm;
+    font-family: $font-mono;
+    font-size: $font-size-sm;
+    padding: 1px 0;
+  }
+
+  &__name {
+    color: var(--accent);
+    flex-shrink: 0;
+
+    &::after {
+      content: ':';
+      color: var(--ink-muted);
+    }
+  }
+
+  &__value {
+    word-break: break-all;
+  }
+}

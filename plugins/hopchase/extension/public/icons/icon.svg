@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- HopChase: a redirect trail — three hops arcing to a final landing dot -->
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="#1c2128"/>
+  <path d="M 22 92 Q 38 48 54 92" fill="none" stroke="#f0a832" stroke-width="9" stroke-linecap="round"/>
+  <path d="M 54 92 Q 70 40 86 92" fill="none" stroke="#5b87ff" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="22" cy="92" r="9" fill="#f0a832"/>
+  <circle cx="54" cy="92" r="9" fill="#5b87ff"/>
+  <circle cx="86" cy="92" r="13" fill="#34c47c"/>
+  <circle cx="86" cy="92" r="5.5" fill="#1c2128"/>
+</svg>

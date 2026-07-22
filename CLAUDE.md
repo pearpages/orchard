@@ -9,7 +9,7 @@ plugins/<name>/site         # optional Astro promo site (focaccia has one)
 plugins/<name>/CLAUDE.md    # plugin conventions + session log (root file = shared rules only)
 ```
 
-Plugins: **cookiejar** (`@cookiejar/extension`, React+Vite+crxjs), **focaccia** (`@focaccia/extension` vanilla TS + esbuild, `@focaccia/site` Astro), **headerforge** (`@headerforge/extension`, React+Vite+crxjs).
+Plugins: **cookiejar** (`@cookiejar/extension`, React+Vite+crxjs), **focaccia** (`@focaccia/extension` vanilla TS + esbuild, `@focaccia/site` Astro), **headerforge** (`@headerforge/extension`, React+Vite+crxjs), **hopchase** (`@hopchase/extension`, React+Vite+crxjs — redirect-chain inspector).
 
 ## Toolchain
 
@@ -35,6 +35,12 @@ Plugins: **cookiejar** (`@cookiejar/extension`, React+Vite+crxjs), **focaccia** 
 - Shared/monorepo decisions go in this file; plugin-specific conventions and session logs go in `plugins/<name>/CLAUDE.md`. Update the relevant CLAUDE.md at the end of each session (finished + pending TODOs).
 
 ## Session log
+
+### 2026-07-22 (later still) — new plugin: HopChase (redirect-chain inspector)
+- New `plugins/hopchase/extension` (`@hopchase/extension`), cloned structurally from headerforge (React 19 + Vite 8 + crxjs, vite port **5174**). Reconstructs main-frame redirect chains from observational `webRequest` events via a pure reducer in `src/core/` (zero chrome mocks — events are plain literals); client redirects (meta/JS) linked via `webNavigation` `client_redirect` qualifier + candidate/merge logic; 8 SEO issue rules; on-demand URL tracer (SW `fetch redirect:'follow'` + marker header self-observed through webRequest — `redirect:'manual'` is opaque by spec); JSON/CSV/HAR/curl exporters; history ring buffer. Live state in `storage.session`, history/settings in `storage.local`, storage-as-bus (single sendMessage exception for the trace trigger, documented in the plugin CLAUDE.md).
+- Verified: 51 unit + 5 e2e green (local redirect server: chain/loop/meta/tracer/canonical), root build/typecheck/test all-packages green, popup screenshot-checked light+dark.
+- Empirical gotchas recorded in `plugins/hopchase/CLAUDE.md`: `onBeforeRequest` re-fires per redirect hop with the same requestId; Playwright's `serviceworker` event fires before the SW module finishes evaluating (e2e fixtures must ping the worker before navigating or the first webRequest events are lost).
+- **Pending:** hopchase promo site + site-kit registry entry; subresource tracking UI; DevTools panel; settings UI; not committed to git yet. Re-load unpacked extensions still pending from the migration.
 
 ### 2026-07-22 (later) — promo sites for CookieJar + HeaderForge, shared site-kit
 - New `packages/site-kit` (`@browser-plugins/site-kit`): shared Astro components shipped as source (no build step) — `Layout` (head shell + favicon/og via `withBase()`), `OtherPlugins` (cross-plugin strip fed by the `plugins.ts` registry), `AuthorCard` (pearpages credit + slot), `InstallSteps` (clone → pnpm install → build → load unpacked). Components style themselves ONLY via `--sk-*` custom properties with fallbacks; each site maps its own tokens onto `--sk-*` in `theme.css`. `paths.ts::withBase()` normalizes `import.meta.env.BASE_URL` so the same components will work under `/​<slug>` bases when deployment lands.

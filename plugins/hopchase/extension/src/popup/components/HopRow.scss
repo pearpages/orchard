@@ -1,0 +1,107 @@
+@use '../styles/variables' as *;
+
+.hop-row {
+  border: 1px solid var(--border);
+  border-radius: $radius;
+  overflow: hidden;
+
+  &--flash {
+    animation: hop-row-flash 1.2s ease-out;
+  }
+
+  &__line {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-sm;
+  }
+
+  &__index {
+    color: var(--ink-muted);
+    font-family: $font-mono;
+    font-size: $font-size-sm;
+    min-width: 14px;
+    text-align: right;
+  }
+
+  &__method {
+    font-family: $font-mono;
+    font-size: $font-size-sm;
+    color: var(--ink-muted);
+  }
+
+  &__url {
+    flex: 1;
+    font-family: $font-mono;
+    font-size: $font-size-sm;
+    word-break: break-all;
+  }
+
+  &__kind {
+    color: var(--status-client);
+    background: var(--status-client-soft);
+    border-radius: $radius;
+    padding: 1px $spacing-xs;
+    font-size: $font-size-sm;
+    white-space: nowrap;
+  }
+
+  &__cache {
+    color: var(--ink-muted);
+    border: 1px solid var(--border);
+    border-radius: $radius;
+    padding: 0 $spacing-xs;
+    font-size: $font-size-sm;
+  }
+
+  &__latency {
+    color: var(--ink-muted);
+    font-size: $font-size-sm;
+    font-family: $font-mono;
+    white-space: nowrap;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-xs;
+  }
+
+  &__action {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: $radius;
+    color: var(--ink-muted);
+    font-size: $font-size-sm;
+    padding: 0 $spacing-xs;
+
+    &:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    &--expand {
+      transition: transform 0.15s;
+    }
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__error {
+    font-family: $font-mono;
+    font-size: $font-size-sm;
+    color: var(--danger);
+    padding: 0 $spacing-sm $spacing-sm;
+  }
+}
+
+@keyframes hop-row-flash {
+  0% {
+    background: var(--accent-soft);
+  }
+
+  100% {
+    background: transparent;
+  }
+}

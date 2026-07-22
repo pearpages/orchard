@@ -1,0 +1,27 @@
+@use '../styles/variables' as *;
+
+.tabs {
+  display: flex;
+  gap: $spacing-xs;
+  border-bottom: 1px solid var(--border);
+  padding: 0 $spacing-md;
+
+  &__tab {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--ink-muted);
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-md;
+
+    &--active {
+      color: var(--ink);
+      border-bottom-color: var(--accent);
+      font-weight: 600;
+    }
+
+    &:hover {
+      color: var(--ink);
+    }
+  }
+}

@@ -1,0 +1,33 @@
+@use '../styles/variables' as *;
+
+.status-badge {
+  display: inline-block;
+  min-width: 38px;
+  text-align: center;
+  padding: 2px $spacing-xs;
+  border-radius: $radius;
+  font-family: $font-mono;
+  font-size: $font-size-sm;
+  font-weight: 600;
+
+  &--2xx {
+    color: var(--status-2xx);
+    background: var(--status-2xx-soft);
+  }
+
+  &--3xx {
+    color: var(--status-3xx);
+    background: var(--status-3xx-soft);
+  }
+
+  &--4xx,
+  &--err {
+    color: var(--status-4xx);
+    background: var(--status-4xx-soft);
+  }
+
+  &--pending {
+    color: var(--ink-muted);
+    background: var(--surface);
+  }
+}

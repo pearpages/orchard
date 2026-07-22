@@ -1,0 +1,44 @@
+@use '../styles/variables' as *;
+
+.chain-view {
+  &__summary {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-md $spacing-md $spacing-xs;
+  }
+
+  &__count {
+    font-weight: 600;
+  }
+
+  &__latency {
+    color: var(--ink-muted);
+    font-family: $font-mono;
+    font-size: $font-size-sm;
+  }
+
+  &__live {
+    color: var(--accent);
+    font-size: $font-size-sm;
+  }
+
+  &__route {
+    padding: 0 $spacing-md $spacing-xs;
+    font-family: $font-mono;
+    font-size: $font-size-sm;
+    color: var(--ink-muted);
+  }
+
+  &__arrow {
+    color: var(--accent);
+  }
+
+  &__hops {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    padding: $spacing-xs $spacing-md $spacing-md;
+  }
+}

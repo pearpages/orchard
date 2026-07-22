@@ -1,0 +1,22 @@
+@use './styles/variables' as *;
+
+.app {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    border-bottom: 1px solid var(--border);
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: 700;
+    padding: $spacing-md $spacing-md $spacing-xs;
+  }
+
+  &__empty {
+    padding: $spacing-lg $spacing-md;
+    color: var(--ink-muted);
+  }
+}
