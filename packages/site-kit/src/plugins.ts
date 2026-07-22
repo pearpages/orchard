@@ -2,7 +2,7 @@
 export const SITE = 'https://plugins.pearpages.com';
 
 export interface PluginMeta {
-  slug: 'focaccia' | 'cookiejar' | 'headerforge';
+  slug: 'begone' | 'focaccia' | 'cookiejar' | 'headerforge';
   name: string;
   tagline: string;
   /** Filename under each site's public/plugins/ (every site carries copies). */
@@ -10,6 +10,12 @@ export interface PluginMeta {
 }
 
 export const plugins: PluginMeta[] = [
+  {
+    slug: 'begone',
+    name: 'Begone',
+    tagline: 'Banishes unwanted elements the instant they appear.',
+    icon: 'begone.png',
+  },
   {
     slug: 'cookiejar',
     name: 'CookieJar',

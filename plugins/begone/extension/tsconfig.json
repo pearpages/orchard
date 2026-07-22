@@ -1,0 +1,7 @@
+{
+  "extends": "@browser-plugins/config/tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["chrome"]
+  },
+  "include": ["src"]
+}

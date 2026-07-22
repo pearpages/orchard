@@ -9,7 +9,7 @@ plugins/<name>/site         # optional Astro promo site (focaccia has one)
 plugins/<name>/CLAUDE.md    # plugin conventions + session log (root file = shared rules only)
 ```
 
-Plugins: **cookiejar** (`@cookiejar/extension`, React+Vite+crxjs), **focaccia** (`@focaccia/extension` vanilla TS + esbuild, `@focaccia/site` Astro), **headerforge** (`@headerforge/extension`, React+Vite+crxjs), **hopchase** (`@hopchase/extension`, React+Vite+crxjs — redirect-chain inspector).
+Plugins: **begone** (`@begone/extension`, vanilla TS + esbuild — user-managed CSS-selector element remover; `@begone/site` Astro), **cookiejar** (`@cookiejar/extension`, React+Vite+crxjs), **focaccia** (`@focaccia/extension` vanilla TS + esbuild, `@focaccia/site` Astro), **headerforge** (`@headerforge/extension`, React+Vite+crxjs), **hopchase** (`@hopchase/extension`, React+Vite+crxjs — redirect-chain inspector).
 
 ## Toolchain
 
@@ -21,6 +21,7 @@ Plugins: **cookiejar** (`@cookiejar/extension`, React+Vite+crxjs), **focaccia** 
 ## Commands
 
 - Root: `pnpm build` / `pnpm typecheck` / `pnpm test` / `pnpm test:e2e` (tests run with `--workspace-concurrency=1` — e2e suites bind fixed ports and persistent Chromium profiles, keep them serial).
+- `pnpm sites` runs all four promo-site dev servers in parallel on pinned ports (begone 4321, cookiejar 4322, focaccia 4323, headerforge 4324 — pinned in each site's `dev` script so the port↔site mapping is stable; the `./plugins/*/site` filter glob picks up future sites automatically).
 - Per plugin: `pnpm cookiejar <script>` / `pnpm focaccia <script>` / `pnpm headerforge <script>` (directory filters, forward any script), or cd into the package.
 - **Tests are always `vitest run`** — every package's `test` script is non-watch; use `test:watch` explicitly when you want watch mode. Never bare `vitest`/`pnpm test -w` in scripts.
 - **Never run `playwright test` from the repo root** — e2e fixtures resolve `dist/` from the package cwd; always go through the package's `test:e2e` script or a `--filter`.
@@ -36,6 +37,17 @@ Plugins: **cookiejar** (`@cookiejar/extension`, React+Vite+crxjs), **focaccia** 
 - Shared/monorepo decisions go in this file; plugin-specific conventions and session logs go in `plugins/<name>/CLAUDE.md`. Update the relevant CLAUDE.md at the end of each session (finished + pending TODOs).
 
 ## Session log
+
+### 2026-07-22 (night, later still) — `pnpm sites` root script
+- New root script `sites` (`pnpm -r --parallel --filter "./plugins/*/site" dev`) starts all four promo-site dev servers at once; each site's `dev` script now pins its port (4321–4324 alphabetical) so URLs are stable instead of racing Astro's auto-increment. Verified all four ports serve the right site (title check) and `pnpm -r build` stays green.
+
+### 2026-07-22 (night, later) — begone promo site + site-kit registry entry
+- New `plugins/begone/site` (`@begone/site`) on site-kit, cloned from cookiejar/site's shape. "Vanishing act" theme (`--be-*`): the extension's red `#c0392b` accent on minimal white/neutral tokens, mono for selectors; hero = faux browser window with struck-through banished DOM lines + rule chips; six text-only cards; dedication to Christophe in the AuthorCard slot. Begone added to `packages/site-kit/src/plugins.ts` (slug union + entry) and `begone.png` copied into cookiejar's + headerforge's + its own `public/plugins/`.
+- Verified: `pnpm -r build`/typecheck/test green (12 workspace projects, 137+72+30+53), site screenshot-checked light+dark over HTTP, sibling sites' OtherPlugins strip shows Begone. Deployment (base/site config, GH Pages) still parked monorepo-wide.
+
+### 2026-07-22 (night) — fifth plugin: Begone integrated from standalone repo
+- `plugins/begone` (user-managed CSS-selector element remover, popup + content script) arrived as a copied-in standalone npm repo — its nested `.git` made the monorepo see it as one opaque gitlink, so nothing inside was trackable. Deleted the nested `.git` (standalone history discarded, user's call) + npm lockfile/`node_modules`/local `.gitignore`/`.nvmrc`, moved the package to `plugins/begone/extension` (`@begone/extension`), and aligned it to focaccia's conventions: `scripts/build.mjs` (esbuild API + staticFiles), shared tsconfig base, monorepo dep versions, root `begone` filter script, pearpages credit footer in the popup. Deliberate delta: flat layout (statics at package root, not `src/`) and no tests yet — see `plugins/begone/CLAUDE.md`.
+- Verified: root build/typecheck green (11 workspace projects), unit tests 137+72+30+53 green, popup screenshot-checked light+dark via `--load-extension`. Not committed yet.
 
 ### 2026-07-22 (evening, later) — consistent pearpages credit in all four popups
 - Every extension popup now ends with the same footer credit: 16px pear icon + "Made by [pearpages](https://pearpages.com)" (popup-scale mirror of site-kit's `AuthorCard`; link text "pearpages" per focaccia's pre-existing credit). Focaccia had the text link already and gained the icon (asset at `src/popup/pearpages-icon.png` + `build.mjs` staticFiles entry); the three React plugins gained footer + icon (`public/pearpages-icon.png`, referenced as `/pearpages-icon.png`), styled per each plugin's own tokens (`.popup__credit` in cookiejar, `.credit` in headerforge/hopchase).

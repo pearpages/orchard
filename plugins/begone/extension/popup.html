@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Begone</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="popup">
+      <h1 class="popup__title">Begone</h1>
+      <form class="popup__form">
+        <input
+          type="text"
+          class="popup__input"
+          placeholder=".some-selector"
+          autocomplete="off"
+          autofocus
+        />
+        <button type="submit" class="popup__add">Add</button>
+      </form>
+      <p class="popup__error" hidden></p>
+      <ul class="popup__list"></ul>
+      <p class="popup__empty" hidden>No selectors yet.</p>
+      <footer class="popup__credit">
+        <img class="popup__credit-icon" src="pearpages-icon.png" alt="" width="16" height="16" />
+        Made by <a href="https://pearpages.com" target="_blank" rel="noopener">pearpages</a>
+      </footer>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

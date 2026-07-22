@@ -1,11 +1,11 @@
 {
-  "name": "@headerforge/site",
+  "name": "@begone/site",
   "version": "1.0.0",
   "private": true,
-  "description": "Static promo site for the HeaderForge Chrome extension.",
+  "description": "Static promo site for the Begone Chrome extension.",
   "type": "module",
   "scripts": {
-    "dev": "astro dev --port 4324",
+    "dev": "astro dev --port 4321",
     "build": "astro build",
     "preview": "astro preview"
   },

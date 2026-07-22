@@ -1,0 +1,68 @@
+/*
+ * Vanishing-act design tokens.
+ * Source of truth: plugins/begone/extension/popup.css — keep in sync by hand
+ * (the extension only defines the red #c0392b, greys #888/#eee, system-ui + mono).
+ */
+:root {
+  --be-bg: #fbfbfa;
+  --be-surface: #ffffff;
+  --be-border: #eaeaea;
+  --be-border-strong: #d8d8d8;
+  --be-ink: #242220;
+  --be-ink-muted: #888888;
+  --be-accent: #c0392b;
+  --be-accent-soft: #f9e9e7;
+  --be-accent-text: #96291d;
+  --be-shadow: rgba(36, 34, 32, 0.07);
+
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* site-kit component hooks */
+  --sk-surface: var(--be-surface);
+  --sk-border: var(--be-border);
+  --sk-ink: var(--be-ink);
+  --sk-ink-soft: var(--be-ink-muted);
+  --sk-accent: var(--be-accent-text);
+  --sk-code-bg: #242220;
+  --sk-code-ink: #f4ded9;
+  --sk-radius: 10px;
+  --sk-font-mono: var(--font-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --be-bg: #1b1a19;
+    --be-surface: #242322;
+    --be-border: #383634;
+    --be-border-strong: #4a4744;
+    --be-ink: #eceae7;
+    --be-ink-muted: #a29c95;
+    --be-accent: #e05a49;
+    --be-accent-soft: #3a2421;
+    --be-accent-text: #ea7f70;
+    --be-shadow: rgba(0, 0, 0, 0.4);
+
+    --sk-code-bg: #242322;
+    --sk-code-ink: #ea7f70;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--be-bg);
+  color: var(--be-ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-body);
+}
