@@ -1,0 +1,72 @@
+/*
+ * Pantry-jar design tokens.
+ * Source of truth: plugins/cookiejar/extension/src/styles/_variables.scss — keep in sync by hand.
+ */
+:root {
+  --cj-bg: #faf7f2;
+  --cj-surface: #ffffff;
+  --cj-border: #e8e1d6;
+  --cj-border-strong: #d5cbbb;
+  --cj-ink: #2d2a24;
+  --cj-ink-muted: #8a8171;
+  --cj-accent: #c07a2d;
+  --cj-accent-soft: #f7ead9;
+  --cj-accent-text: #935a1b;
+  --cj-shield: #4a6fa5;
+  --cj-shield-soft: #e9eff7;
+  --cj-shadow: rgba(45, 42, 36, 0.1);
+
+  --font-display: ui-serif, Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* site-kit component hooks */
+  --sk-surface: var(--cj-surface);
+  --sk-border: var(--cj-border);
+  --sk-ink: var(--cj-ink);
+  --sk-ink-soft: var(--cj-ink-muted);
+  --sk-accent: var(--cj-accent-text);
+  --sk-code-bg: #2d2a24;
+  --sk-code-ink: #f7ead9;
+  --sk-radius: 12px;
+  --sk-font-mono: var(--font-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cj-bg: #1c1a17;
+    --cj-surface: #262320;
+    --cj-border: #3a352f;
+    --cj-border-strong: #4c463d;
+    --cj-ink: #ece7de;
+    --cj-ink-muted: #a99f8d;
+    --cj-accent: #e0964a;
+    --cj-accent-soft: #3a2e1f;
+    --cj-accent-text: #e8ab6c;
+    --cj-shield: #7ea1d4;
+    --cj-shield-soft: #232c3a;
+    --cj-shadow: rgba(0, 0, 0, 0.4);
+
+    --sk-code-bg: #262320;
+    --sk-code-ink: #e8ab6c;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--cj-bg);
+  color: var(--cj-ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}

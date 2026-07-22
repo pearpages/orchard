@@ -1,0 +1,16 @@
+{
+  "name": "@cookiejar/site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static promo site for the CookieJar Chrome extension.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@browser-plugins/site-kit": "workspace:*",
+    "astro": "^7.1.1"
+  }
+}

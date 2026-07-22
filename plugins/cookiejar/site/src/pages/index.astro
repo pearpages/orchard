@@ -1,0 +1,293 @@
+---
+import '../styles/theme.css';
+import Layout from '@browser-plugins/site-kit/components/Layout.astro';
+import InstallSteps from '@browser-plugins/site-kit/components/InstallSteps.astro';
+import OtherPlugins from '@browser-plugins/site-kit/components/OtherPlugins.astro';
+import AuthorCard from '@browser-plugins/site-kit/components/AuthorCard.astro';
+---
+
+<Layout
+  title="CookieJar — a friendly cookie manager for developers"
+  description="See, search, edit, protect and export cookies across every domain in Chrome. JWT decoder, change timeline, cookies.txt and cURL interop — built for debugging auth flows."
+>
+  <header class="hero">
+    <svg class="jar" viewBox="0 0 200 230" aria-hidden="true">
+      <!-- lid -->
+      <rect x="52" y="10" width="96" height="20" rx="8" fill="var(--cj-accent)" />
+      <rect x="60" y="26" width="80" height="8" rx="4" fill="var(--cj-accent-text)" />
+      <!-- glass body -->
+      <path
+        d="M56 38 h88 c2 14 10 18 10 34 v118 a24 24 0 0 1 -24 24 h-60 a24 24 0 0 1 -24 -24 v-118 c0 -16 8 -20 10 -34 z"
+        fill="var(--cj-surface)"
+        stroke="var(--cj-border-strong)"
+        stroke-width="3"
+      />
+      <!-- glass highlight -->
+      <path
+        d="M64 60 v112"
+        stroke="var(--cj-accent-soft)"
+        stroke-width="7"
+        stroke-linecap="round"
+      />
+      <!-- cookies -->
+      <g>
+        <circle cx="86" cy="182" r="22" fill="#d9a05b" />
+        <circle cx="79" cy="176" r="3" fill="#6b4a2b" />
+        <circle cx="94" cy="184" r="3" fill="#6b4a2b" />
+        <circle cx="85" cy="192" r="2.5" fill="#6b4a2b" />
+        <circle cx="128" cy="188" r="19" fill="#c98f4b" />
+        <circle cx="122" cy="183" r="2.5" fill="#6b4a2b" />
+        <circle cx="134" cy="192" r="3" fill="#6b4a2b" />
+        <circle cx="110" cy="148" r="20" fill="#e0ac66" />
+        <circle cx="104" cy="143" r="3" fill="#6b4a2b" />
+        <circle cx="117" cy="151" r="2.5" fill="#6b4a2b" />
+        <circle cx="110" cy="157" r="2.5" fill="#6b4a2b" />
+      </g>
+      <!-- tied label -->
+      <g class="jar__label">
+        <line x1="148" y1="52" x2="168" y2="84" stroke="var(--cj-ink-muted)" stroke-width="2" />
+        <rect x="140" y="80" width="56" height="34" rx="6" fill="var(--cj-accent-soft)" stroke="var(--cj-accent)" stroke-width="2" transform="rotate(-8 168 97)" />
+        <text x="168" y="101" text-anchor="middle" font-family="var(--font-mono)" font-size="13" fill="var(--cj-accent-text)" transform="rotate(-8 168 97)">🍪 all</text>
+      </g>
+    </svg>
+    <h1 class="hero__title">CookieJar</h1>
+    <p class="hero__tagline">A friendly cookie manager for developers.</p>
+    <p class="hero__pitch">
+      See, search, edit, protect and export cookies across <strong>every domain</strong> in the
+      browser — for the days you're debugging an auth flow and the cookie that matters belongs to
+      someone else's domain.
+    </p>
+    <a class="hero__cta" href="#install">Put it in your toolbar</a>
+  </header>
+
+  <main class="features">
+    <section class="card">
+      <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="21" cy="21" r="12" fill="none" stroke="currentColor" stroke-width="2.5" />
+        <line x1="30" y1="30" x2="40" y2="40" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+      </svg>
+      <h2 class="card__title">The whole jar</h2>
+      <p class="card__body">
+        A popup for the current site (including parent-domain and sibling-subdomain cookies) and a
+        full-tab manager for everything, grouped by domain with
+        <code class="inline">domain:</code> and <code class="inline">name:</code> search prefixes.
+      </p>
+    </section>
+    <section class="card">
+      <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M12 36 L32 16 l4 4 L16 40 l-6 2 z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+        <path d="M29 19 l4 4" stroke="currentColor" stroke-width="2.5" />
+      </svg>
+      <h2 class="card__title">Edit without landmines</h2>
+      <p class="card__body">
+        A drawer editor that live-validates the tricky rules — <code class="inline">__Host-</code>
+        and <code class="inline">__Secure-</code> prefixes, SameSite=None ⇒ Secure, host-only versus
+        domain cookies — before Chrome silently rejects your edit.
+      </p>
+    </section>
+    <section class="card">
+      <svg class="card__icon card__icon--shield" viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 6 l14 6 v10 c0 10 -6 16 -14 20 c-8 -4 -14 -10 -14 -20 v-10 z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+        <path d="M18 24 l4 4 l8 -8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <h2 class="card__title">Protect &amp; pin</h2>
+      <p class="card__body">
+        Shield the cookies you can't afford to lose — bulk deletes skip them and report
+        "2 protected kept". Pin your important domains (your auth0 tenant, say) to the top of the
+        list.
+      </p>
+    </section>
+    <section class="card">
+      <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="6" y="10" width="36" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="2.5" />
+        <path d="M13 20 l6 5 -6 5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+        <line x1="24" y1="31" x2="34" y2="31" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+      </svg>
+      <h2 class="card__title">Plays nice with your terminal</h2>
+      <p class="card__body">
+        Export JSON, CSV, or Netscape <code class="inline">cookies.txt</code> that feeds straight
+        into <code class="inline">curl -b</code>, wget and yt-dlp. Copy a ready Cookie header or a
+        complete cURL command per domain. Imports EditThisCookie and Cookie&nbsp;Editor files as-is.
+      </p>
+    </section>
+    <section class="card">
+      <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="18" cy="24" r="8" fill="none" stroke="currentColor" stroke-width="2.5" />
+        <path d="M26 24 h14 M34 24 v6 M40 24 v4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+      </svg>
+      <h2 class="card__title">X-ray for tokens</h2>
+      <p class="card__body">
+        JWTs get a badge and an inline decoded panel — claims, expiry countdown, expired
+        highlighting — even URL-encoded or wrapped in JSON. The timeline records every cookie
+        change; snapshot before a login, diff after, and see exactly what your flow touched.
+      </p>
+    </section>
+    <section class="card">
+      <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 8 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
+        <path d="M36 28 l1.6 4.4 L42 34 l-4.4 1.6 L36 40 l-1.6 -4.4 L30 34 l4.4 -1.6 z" fill="currentColor" />
+      </svg>
+      <h2 class="card__title">"Explain this cookie"</h2>
+      <p class="card__body">
+        Ask what a cookie is for, answered by Chrome's on-device AI (or the Claude API with your own
+        key). <strong>Privacy-first: only metadata is sent — never the value.</strong> Length,
+        format, JWT claim names, timing; the content stays in your browser.
+      </p>
+    </section>
+  </main>
+
+  <section class="pantry">
+    <h2 class="pantry__title">Also in the jar</h2>
+    <ul class="pantry__chips">
+      <li>Storage inspector (localStorage + sessionStorage per tab)</li>
+      <li>Deep clean via <code class="inline">browsingData</code></li>
+      <li>Undo on every delete</li>
+      <li>Dark mode</li>
+      <li><code class="inline">/</code> focuses search</li>
+      <li>Remembers your last search</li>
+    </ul>
+  </section>
+
+  <InstallSteps
+    buildCommand="pnpm --filter @cookiejar/extension build"
+    distPath="plugins/cookiejar/extension/dist"
+  />
+
+  <OtherPlugins current="cookiejar" />
+
+  <AuthorCard>
+    <p>Built for the days auth cookies fight back.</p>
+  </AuthorCard>
+</Layout>
+
+<style>
+  .hero {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 56px;
+    text-align: center;
+  }
+
+  .jar {
+    width: 170px;
+    height: auto;
+    filter: drop-shadow(0 8px 16px var(--cj-shadow));
+  }
+
+  .hero__title {
+    margin: 18px 0 0;
+    font-size: clamp(38px, 7vw, 54px);
+    font-weight: 700;
+    letter-spacing: 0.005em;
+    color: var(--cj-accent-text);
+  }
+
+  .hero__tagline {
+    margin: 6px 0 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--cj-ink-muted);
+  }
+
+  .hero__pitch {
+    max-width: 560px;
+    margin: 26px auto 0;
+    font-size: 18px;
+  }
+
+  .hero__cta {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 12px 32px;
+    border-radius: 999px;
+    background: var(--cj-accent);
+    color: #fffdf8;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 2px 0 var(--cj-accent-text);
+  }
+
+  .hero__cta:hover {
+    background: var(--cj-accent-text);
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+  }
+
+  .card {
+    padding: 26px 28px;
+    background: var(--cj-surface);
+    border: 1px solid var(--cj-border);
+    border-radius: 12px;
+    box-shadow: 0 3px 10px var(--cj-shadow);
+  }
+
+  .card__icon {
+    width: 42px;
+    height: 42px;
+    color: var(--cj-accent);
+  }
+
+  .card__icon--shield {
+    color: var(--cj-shield);
+  }
+
+  .card__title {
+    margin: 10px 0 0;
+    font-size: 20px;
+    color: var(--cj-accent-text);
+  }
+
+  .card__body {
+    margin: 10px 0 0;
+    font-size: 15px;
+  }
+
+  .inline {
+    padding: 1px 5px;
+    background: var(--cj-accent-soft);
+    border-radius: 5px;
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    color: var(--cj-accent-text);
+  }
+
+  .pantry {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 56px;
+    text-align: center;
+  }
+
+  .pantry__title {
+    font-size: 20px;
+    color: var(--cj-ink-muted);
+  }
+
+  .pantry__chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pantry__chips li {
+    padding: 6px 14px;
+    background: var(--cj-surface);
+    border: 1px solid var(--cj-border);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--cj-ink-muted);
+  }
+</style>
