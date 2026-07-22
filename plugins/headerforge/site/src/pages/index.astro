@@ -1,0 +1,348 @@
+---
+import '../styles/theme.css';
+import Layout from '@browser-plugins/site-kit/components/Layout.astro';
+import InstallSteps from '@browser-plugins/site-kit/components/InstallSteps.astro';
+import OtherPlugins from '@browser-plugins/site-kit/components/OtherPlugins.astro';
+import AuthorCard from '@browser-plugins/site-kit/components/AuthorCard.astro';
+---
+
+<Layout
+  title="HeaderForge — rewrite request and response headers on the wire"
+  description="A ModHeader-style Chrome extension: modify HTTP request and response headers in profiles, scoped by URL filters, with presets and export/import. Verified on the wire, not in DevTools."
+>
+  <header class="hero">
+    <p class="hero__eyebrow">X-Made-With: <span>care</span></p>
+    <h1 class="hero__title">HeaderForge</h1>
+    <p class="hero__tagline">
+      Rewrite <span class="dir dir--request">request →</span> and <span class="dir dir--response">← response</span> headers. For real, on the wire.
+    </p>
+    <p class="hero__pitch">
+      Profiles of header rules, scoped by URL filters, applied by Chrome's declarative rules —
+      they keep working even while the extension sleeps.
+    </p>
+    <a class="hero__cta" href="#install">Forge your first header</a>
+
+    <figure class="wire" aria-label="An HTTP exchange showing headers added by HeaderForge">
+      <div class="wire__pane wire__pane--request">
+        <figcaption class="wire__caption">→ request</figcaption>
+        <pre class="wire__code">GET /headers HTTP/1.1
+Host: httpbin.org
+Accept: application/json
+<mark class="wire__added wire__added--request">Authorization: Bearer eyJhbGci…</mark>
+<mark class="wire__added wire__added--request">X-Env: staging</mark></pre>
+      </div>
+      <div class="wire__pane wire__pane--response">
+        <figcaption class="wire__caption">← response</figcaption>
+        <pre class="wire__code">HTTP/1.1 200 OK
+Content-Type: application/json
+<mark class="wire__added wire__added--response">Access-Control-Allow-Origin: *</mark>
+<del class="wire__removed">Content-Security-Policy: …</del></pre>
+      </div>
+      <figcaption class="wire__legend">highlighted lines = added or removed by HeaderForge</figcaption>
+    </figure>
+  </header>
+
+  <main class="features">
+    <section class="card card--request">
+      <h2 class="card__title">→ Request headers</h2>
+      <p class="card__body">
+        Set, remove or append on the way out — auth tokens, API keys, feature flags — each header
+        with its own on/off toggle.
+      </p>
+    </section>
+    <section class="card card--response">
+      <h2 class="card__title">← Response headers</h2>
+      <p class="card__body">
+        Same operations on the way back: add the CORS header a dev API forgot, or strip a
+        <code class="inline">Content-Security-Policy</code> while you debug.
+      </p>
+    </section>
+    <section class="card">
+      <h2 class="card__title">Profiles</h2>
+      <p class="card__body">
+        Named sets of rules — one per environment, client or bug hunt. All enabled profiles apply
+        at once; earlier profiles win conflicts, so the order is the policy.
+      </p>
+    </section>
+    <section class="card">
+      <h2 class="card__title">URL filters</h2>
+      <p class="card__body">
+        Scope each profile with "URL contains" substrings (DNR syntax like
+        <code class="inline">||example.com^</code> passes through) or RE2 regexes — validated live
+        as you type.
+      </p>
+    </section>
+    <section class="card">
+      <h2 class="card__title">Presets</h2>
+      <p class="card__body">
+        Common headers one click away — Bearer token, JSON content type, CORS allow-all, strip
+        CSP — and the name field autocompletes from well-known header names.
+      </p>
+    </section>
+    <section class="card">
+      <h2 class="card__title">Counted &amp; portable</h2>
+      <p class="card__body">
+        The toolbar badge shows how many headers are live (<code class="inline">!</code> flags a
+        rule error). Profiles export and import as validated JSON.
+      </p>
+    </section>
+  </main>
+
+  <section class="truth">
+    <h2 class="truth__title">DevTools lies about modified headers</h2>
+    <p class="truth__body">
+      <code class="inline">declarativeNetRequest</code> rewrites happen outside the render process,
+      so the Network panel often shows the <em>original</em> headers. The honest check is a real
+      server: add <code class="inline">X-Test: hello</code>, visit <a href="https://httpbin.org/headers">httpbin.org/headers</a>, and watch it come back in the
+      JSON — proof it went out on the wire. HeaderForge's own test suite verifies exactly this way,
+      against a local echo server.
+    </p>
+  </section>
+
+  <InstallSteps
+    buildCommand="pnpm --filter @headerforge/extension build"
+    distPath="plugins/headerforge/extension/dist"
+  />
+
+  <OtherPlugins current="headerforge" />
+
+  <AuthorCard>
+    <p>Verified on the wire, not in DevTools.</p>
+  </AuthorCard>
+</Layout>
+
+<style>
+  .hero {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 56px 24px 56px;
+    text-align: center;
+  }
+
+  .hero__eyebrow {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--hf-ink-muted);
+  }
+
+  .hero__eyebrow span {
+    color: var(--hf-response);
+  }
+
+  .hero__title {
+    margin: 8px 0 0;
+    font-size: clamp(38px, 7vw, 56px);
+    font-weight: 700;
+    color: var(--hf-ink);
+  }
+
+  .hero__tagline {
+    margin: 10px 0 0;
+    font-size: 18px;
+    color: var(--hf-ink-muted);
+  }
+
+  .dir {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .dir--request {
+    color: var(--hf-request);
+  }
+
+  .dir--response {
+    color: var(--hf-response);
+  }
+
+  .hero__pitch {
+    max-width: 560px;
+    margin: 22px auto 0;
+    font-size: 17px;
+  }
+
+  .hero__cta {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 12px 32px;
+    border-radius: 8px;
+    background: var(--hf-request);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .hero__cta:hover {
+    filter: brightness(1.12);
+  }
+
+  .wire {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 14px;
+    margin: 40px 0 0;
+    text-align: left;
+  }
+
+  .wire__pane {
+    border: 1px solid var(--hf-border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--hf-surface);
+  }
+
+  .wire__pane--request {
+    border-top: 3px solid var(--hf-request);
+  }
+
+  .wire__pane--response {
+    border-top: 3px solid var(--hf-response);
+  }
+
+  .wire__caption {
+    padding: 8px 14px 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--hf-ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .wire__pane--request .wire__caption {
+    color: var(--hf-request);
+  }
+
+  .wire__pane--response .wire__caption {
+    color: var(--hf-response);
+  }
+
+  .wire__code {
+    margin: 0;
+    padding: 10px 14px 14px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+
+  .wire__added {
+    display: inline-block;
+    padding: 0 6px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  .wire__added--request {
+    background: var(--hf-request-soft);
+    color: var(--hf-request);
+  }
+
+  .wire__added--response {
+    background: var(--hf-response-soft);
+    color: var(--hf-response);
+  }
+
+  .wire__removed {
+    display: inline-block;
+    padding: 0 6px;
+    border-radius: 4px;
+    background: var(--hf-danger-soft);
+    color: var(--hf-danger);
+    text-decoration: line-through;
+  }
+
+  .wire__legend {
+    grid-column: 1 / -1;
+    font-size: 12px;
+    color: var(--hf-ink-muted);
+    text-align: center;
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+  }
+
+  .card {
+    padding: 22px 24px;
+    background: var(--hf-surface);
+    border: 1px solid var(--hf-border);
+    border-left: 3px solid var(--hf-border);
+    border-radius: 10px;
+  }
+
+  .card--request {
+    border-left-color: var(--hf-request);
+  }
+
+  .card--response {
+    border-left-color: var(--hf-response);
+  }
+
+  .card__title {
+    margin: 0;
+    font-size: 17px;
+  }
+
+  .card--request .card__title {
+    color: var(--hf-request);
+  }
+
+  .card--response .card__title {
+    color: var(--hf-response);
+  }
+
+  .card__body {
+    margin: 10px 0 0;
+    font-size: 15px;
+  }
+
+  .inline {
+    padding: 1px 5px;
+    background: var(--hf-request-soft);
+    border-radius: 5px;
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+  }
+
+  .truth {
+    max-width: 720px;
+    margin: 0 auto 56px;
+    padding: 24px 28px;
+    border: 1px solid var(--hf-danger);
+    border-radius: 10px;
+    background: var(--hf-danger-soft);
+  }
+
+  .truth__title {
+    margin: 0;
+    font-size: 19px;
+    color: var(--hf-danger);
+  }
+
+  .truth__body {
+    margin: 10px 0 0;
+    font-size: 15px;
+  }
+
+  .truth__body a {
+    color: var(--hf-request);
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .truth {
+      margin-left: 24px;
+      margin-right: 24px;
+    }
+  }
+</style>

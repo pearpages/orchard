@@ -1,0 +1,70 @@
+/*
+ * Wire-truth design tokens.
+ * Source of truth: plugins/headerforge/extension/src/popup/styles/base.scss — keep in sync by hand.
+ */
+:root {
+  --hf-bg: #ffffff;
+  --hf-surface: #f4f6f9;
+  --hf-border: #dde2ea;
+  --hf-ink: #1c2128;
+  --hf-ink-muted: #68717f;
+  --hf-request: #3b6ef6;
+  --hf-request-soft: rgba(59, 110, 246, 0.08);
+  --hf-response: #0d9488;
+  --hf-response-soft: rgba(13, 148, 136, 0.08);
+  --hf-danger: #d64545;
+  --hf-danger-soft: rgba(214, 69, 69, 0.08);
+
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* site-kit component hooks */
+  --sk-surface: var(--hf-surface);
+  --sk-border: var(--hf-border);
+  --sk-ink: var(--hf-ink);
+  --sk-ink-soft: var(--hf-ink-muted);
+  --sk-accent: var(--hf-request);
+  --sk-code-bg: #1c2128;
+  --sk-code-ink: #e6e9ef;
+  --sk-radius: 10px;
+  --sk-font-mono: var(--font-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --hf-bg: #15181e;
+    --hf-surface: #1d222b;
+    --hf-border: #323a47;
+    --hf-ink: #e6e9ef;
+    --hf-ink-muted: #8b94a3;
+    --hf-request: #5b87ff;
+    --hf-request-soft: rgba(91, 135, 255, 0.14);
+    --hf-response: #22b8a6;
+    --hf-response-soft: rgba(34, 184, 166, 0.14);
+    --hf-danger: #f07171;
+    --hf-danger-soft: rgba(240, 113, 113, 0.14);
+
+    --sk-code-bg: #1d222b;
+    --sk-code-ink: #e6e9ef;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--hf-bg);
+  color: var(--hf-ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-mono);
+  letter-spacing: -0.01em;
+}
