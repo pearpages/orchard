@@ -38,6 +38,9 @@ Plugins: **begone** (`@begone/extension`, vanilla TS + esbuild — user-managed 
 
 ## Session log
 
+### 2026-07-22 (night, latest+1) — begone popup restyle (icon-blue theme)
+- Begone's popup was restyled after user feedback: `--be-*` tokens keyed to the app icon's flat blue `#2d9cdb` (user rejected red for the popup), dark mode added (no longer the light-only outlier), header mark is now an inline currentColor SVG ✕, focaccia-level polish throughout (pills, focus rings, card rows, hover strikethrough motif). Details in `plugins/begone/CLAUDE.md`. Open follow-up: begone's promo site still uses the red palette — now diverges from the popup.
+
 ### 2026-07-22 (night, latest) — branded popup headers in all plugins (focaccia pattern)
 - Monorepo-wide consistency pass: begone, cookiejar, headerforge, and hopchase popups now open with a focaccia-style branded header — full-bleed banner in each plugin's own accent color (begone red `#c0392b` gradient, cookiejar `--cj-accent` amber, headerforge `--accent-request` blue, hopchase `--accent` blue), holding the plugin's 26px app icon on a white chip, the name, and a static tagline ("Element remover" / "Cookie manager" / "Header editor" / "Redirect inspector"), white text, `rgba(0,0,0,0.18)` bottom border. Same philosophy as the credit footer: identical structure, per-plugin classes/tokens. Focaccia unchanged (its toggle/status header is the reference). Cookiejar's contextual site bar stays below the new `popup__brand`; hopchase's Tabs stay inside `app__header` under the new `app__brand` row.
 - Verified: root typecheck/build/test green (137+72+30+53), e2e green (hopchase 5, headerforge 3, cookiejar 19), all four popups screenshot-checked light+dark (begone light-only) via `--load-extension`.
