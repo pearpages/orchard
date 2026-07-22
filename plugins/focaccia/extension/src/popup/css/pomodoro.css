@@ -1,0 +1,133 @@
+.pomodoro__dial {
+  position: relative;
+  width: 176px;
+  margin: 2px auto 10px;
+}
+
+.dial {
+  display: block;
+  width: 100%;
+}
+
+.dial__tick {
+  stroke: var(--cream-deep);
+  stroke-width: 1;
+}
+
+.dial__tick--major {
+  stroke: var(--ink-soft);
+  stroke-width: 1.6;
+}
+
+.dial__track {
+  fill: none;
+  stroke: var(--cream-deep);
+  stroke-width: 8;
+}
+
+.dial__progress {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 60px 60px;
+  transition: stroke-dashoffset 400ms linear, stroke 200ms ease;
+}
+
+.dial--break .dial__progress {
+  stroke: var(--green);
+}
+
+.dial--idle .dial__progress {
+  stroke: var(--cream-deep);
+}
+
+.dial__center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.dial__time {
+  font-family: var(--font-mono);
+  font-size: 30px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+.dial--paused .dial__time {
+  animation: dial-blink 1.4s steps(2, jump-none) infinite;
+}
+
+@keyframes dial-blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.dial__phase {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.pomodoro__controls {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pomodoro__settings {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.field__label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.field__input {
+  width: 52px;
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-align: center;
+}
+
+.field__input:focus {
+  outline: 2px solid var(--red-deep);
+  outline-offset: -1px;
+  background: var(--paper);
+}
+
+.field__unit {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
