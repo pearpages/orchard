@@ -1,0 +1,52 @@
+@use '../styles/variables' as *;
+
+.profile-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  border-bottom: 1px solid var(--border);
+
+  &__title-input {
+    flex: 1;
+    min-width: 0;
+    padding: $spacing-xs $spacing-sm;
+    border: 1px solid transparent;
+    border-radius: $radius;
+    background: transparent;
+    font-size: $font-size-lg;
+    font-weight: 600;
+
+    &:hover,
+    &:focus {
+      outline: none;
+      border-color: var(--border);
+      background: var(--bg);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__delete-btn {
+    border: 1px solid var(--border);
+    border-radius: $radius;
+    background: transparent;
+    color: var(--danger);
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+
+    &:hover:not(:disabled) {
+      border-color: var(--danger);
+    }
+
+    &:disabled {
+      color: var(--ink-muted);
+      cursor: not-allowed;
+    }
+  }
+}

@@ -1,0 +1,14 @@
+// Color comes from CSS custom properties (see base.scss) so the popup can
+// follow the OS light/dark preference at runtime. SCSS keeps the static tokens.
+
+$radius: 6px;
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$spacing-lg: 16px;
+
+$font-size-sm: 11.5px;
+$font-size-md: 13px;
+$font-size-lg: 15px;
+
+$font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;

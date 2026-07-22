@@ -1,0 +1,78 @@
+@use '../styles/variables' as *;
+
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-xs 0 $spacing-xs $spacing-xs;
+  border-left: 2px solid transparent;
+  transition: border-color 0.12s ease;
+
+  &:hover,
+  &:focus-within {
+    border-left-color: var(--section-accent, var(--border));
+  }
+
+  &__name-input,
+  &__value-input {
+    min-width: 0;
+    padding: $spacing-xs $spacing-sm;
+    border: 1px solid var(--border);
+    border-radius: $radius;
+    background: var(--bg);
+    font-family: $font-mono;
+    font-size: $font-size-md;
+
+    &::placeholder {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--ink-muted);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--section-accent, var(--accent-request));
+    }
+  }
+
+  &__name-input {
+    flex: 0 1 220px;
+  }
+
+  &__colon {
+    font-family: $font-mono;
+    font-weight: 700;
+    color: var(--section-accent, var(--ink-muted));
+  }
+
+  &__value-input {
+    flex: 1;
+
+    &:disabled {
+      background: var(--surface);
+      color: var(--ink-muted);
+      border-style: dashed;
+    }
+  }
+
+  &__operation-select {
+    padding: $spacing-xs;
+    border: 1px solid var(--border);
+    border-radius: $radius;
+    background: var(--bg);
+    color: var(--ink-muted);
+    font-size: $font-size-sm;
+  }
+
+  &__delete-btn {
+    border: none;
+    background: none;
+    color: var(--ink-muted);
+    padding: $spacing-xs;
+    border-radius: $radius;
+
+    &:hover {
+      color: var(--danger);
+      background: var(--surface);
+    }
+  }
+}

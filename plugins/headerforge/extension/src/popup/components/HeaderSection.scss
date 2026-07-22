@@ -1,0 +1,66 @@
+@use '../styles/variables' as *;
+
+.header-section {
+  padding: $spacing-md $spacing-lg;
+  border-bottom: 1px solid var(--border);
+
+  &--request {
+    --section-accent: var(--accent-request);
+    --section-accent-soft: var(--accent-request-soft);
+  }
+
+  &--response {
+    --section-accent: var(--accent-response);
+    --section-accent-soft: var(--accent-response-soft);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+  }
+
+  &__direction {
+    color: var(--section-accent);
+    font-family: $font-mono;
+    font-size: $font-size-md;
+    font-weight: 700;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__add-btn {
+    border: none;
+    background: none;
+    color: var(--section-accent);
+    font-size: $font-size-sm;
+    font-weight: 600;
+    padding: 2px $spacing-xs;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__empty {
+    color: var(--ink-muted);
+    font-size: $font-size-sm;
+    padding: $spacing-xs 0;
+  }
+}
