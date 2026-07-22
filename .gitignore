@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.features-gen/
+.astro/
+test-results/
+playwright-report/
+blob-report/
+.pw-profile/
+*.local
+*.log
+.DS_Store
+tsconfig.tsbuildinfo
