@@ -1,5 +1,5 @@
 {
-  "name": "browser-plugins",
+  "name": "orchard",
   "private": true,
   "type": "module",
   "scripts": {

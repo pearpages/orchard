@@ -1,4 +1,4 @@
-# browser-plugins — monorepo conventions
+# orchard — monorepo conventions (dir: browser-plugins)
 
 pnpm-workspace monorepo of Chrome extensions (MV3). Layout:
 
@@ -16,6 +16,7 @@ Plugins: **cookiejar** (`@cookiejar/extension`, React+Vite+crxjs), **focaccia** 
 - Node 24 + pnpm 11 pinned in the root `mise.toml` (mise-managed; nothing is on the default non-interactive PATH — run commands via `mise x -- <cmd>` or activate mise). **pnpm only** — no npm/yarn anywhere. Always `pnpm install` from the root.
 - pnpm 11 blocks dependency build scripts by default; approved ones live under `allowBuilds` in the root `pnpm-workspace.yaml` (esbuild, @parcel/watcher). If `pnpm install` warns about ignored build scripts, extend that list deliberately.
 - Do not add per-package `pnpm-workspace.yaml`, lockfiles, `.node-version`, or `.tool-versions` — the root owns all of them (nearest-file-wins would silently override the root pins).
+- The repo is named **orchard** (root package.json; use it for the GitHub repo when created). The local folder deliberately stays `browser-plugins` — unpacked extension IDs are path-derived, so renaming the folder would orphan all dev `chrome.storage` data. Do not "fix" the mismatch. The internal `@browser-plugins/*` npm scope also stays (private, would churn ~10 config files for nothing).
 
 ## Commands
 
@@ -36,6 +37,10 @@ Plugins: **cookiejar** (`@cookiejar/extension`, React+Vite+crxjs), **focaccia** 
 
 ## Session log
 
+### 2026-07-22 (evening) — monorepo named "orchard" + HopChase parity pass
+- Named the monorepo **orchard** (pears → orchard → pearpages brand). Names-only scope: root package.json name, README title/tagline, this file's heading. Folder and `@browser-plugins/*` scope intentionally unchanged (see Toolchain note). Future GitHub repo: `orchard`.
+- HopChase reached full Redirect Path (Ayima) parity: added `core/export/text.ts` (plain-text chain copy) + "Copy chain" button, and server IP display in the hop's expanded panel. 53 unit + 5 e2e green. Safe to uninstall the original extension once HopChase is loaded unpacked.
+
 ### 2026-07-22 (later still) — new plugin: HopChase (redirect-chain inspector)
 - New `plugins/hopchase/extension` (`@hopchase/extension`), cloned structurally from headerforge (React 19 + Vite 8 + crxjs, vite port **5174**). Reconstructs main-frame redirect chains from observational `webRequest` events via a pure reducer in `src/core/` (zero chrome mocks — events are plain literals); client redirects (meta/JS) linked via `webNavigation` `client_redirect` qualifier + candidate/merge logic; 8 SEO issue rules; on-demand URL tracer (SW `fetch redirect:'follow'` + marker header self-observed through webRequest — `redirect:'manual'` is opaque by spec); JSON/CSV/HAR/curl exporters; history ring buffer. Live state in `storage.session`, history/settings in `storage.local`, storage-as-bus (single sendMessage exception for the trace trigger, documented in the plugin CLAUDE.md).
 - Verified: 51 unit + 5 e2e green (local redirect server: chain/loop/meta/tracer/canonical), root build/typecheck/test all-packages green, popup screenshot-checked light+dark.
@@ -47,7 +52,7 @@ Plugins: **cookiejar** (`@cookiejar/extension`, React+Vite+crxjs), **focaccia** 
 - New `plugins/cookiejar/site` (`@cookiejar/site`, pantry-jar theme: serif display, amber/warm-paper palette from the extension's `_variables.scss`, SVG glass-jar hero, dark via `prefers-color-scheme`) and `plugins/headerforge/site` (`@headerforge/site`, wire-truth theme: mono headings, request-blue/response-teal from the popup's `base.scss`, hero = HTTP exchange with injected headers highlighted, "DevTools lies" callout). Both seeded from the extension READMEs; each site's `public/` carries copies of all three 48px plugin icons + pearpages icon.
 - Astro gotcha (bit twice): a line break before an inline element inside prose collapses the preceding space ("enableDeveloper mode") — keep `text <strong>/<a>` on one line.
 - Verified: `pnpm -r build` green (3 extensions + 3 sites), typecheck green, unit 137+72+30 green; both sites screenshot-checked light+dark over HTTP.
-- **Decided & pending (next stage):** GitHub Pages hosting, path-based on ONE domain `plugins.pearpages.com/<slug>/` + minimal root index site (GoDaddy CNAME `plugins` → `pearpages.github.io`; subdomains rejected — GH Pages = one custom domain per repo). Still to do: refactor focaccia site onto site-kit (and fix its two stale `apps/extension` paths), `sites/index` root page, `base`/`site` in astro configs, `.github/workflows/deploy-sites.yml`, create GitHub repo + push, Pages + DNS setup. Also parked: product screenshots for the sites.
+- **Decided & pending (next stage):** GitHub Pages hosting, path-based on ONE domain `plugins.pearpages.com/<slug>/` + minimal root index site (GoDaddy CNAME `plugins` → `pearpages.github.io`; subdomains rejected — GH Pages = one custom domain per repo). Still to do: refactor focaccia site onto site-kit (and fix its two stale `apps/extension` paths), `sites/index` root page, `base`/`site` in astro configs, `.github/workflows/deploy-sites.yml`, create GitHub repo "orchard" + push, Pages + DNS setup. Also parked: product screenshots for the sites.
 
 ### 2026-07-22 — monorepo creation (three repos merged, history preserved)
 - Merged the three standalone repos (cookiejar, focaccia, modheader→headerforge) into this pnpm-workspace monorepo. Full git history of cookiejar and focaccia preserved via rename-only move commits + `git merge --allow-unrelated-histories` (verify with `git log --follow`); modheader had zero commits, so it got its first commit here. Layout `plugins/<name>/{extension,site}` anticipates an Astro site per plugin (focaccia's moved from `apps/*`).

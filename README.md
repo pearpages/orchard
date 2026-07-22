@@ -1,4 +1,6 @@
-# browser-plugins
+# orchard
+
+pearpages' grove of Chrome extensions — picked fresh from the orchard.
 
 A pnpm-workspace monorepo of Chrome extensions (Manifest V3), each with an optional Astro promo site.
 
