@@ -1,0 +1,136 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.ai-settings {
+  position: fixed;
+  inset: 0;
+  background: var(--cj-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 70;
+
+  &__panel {
+    background: var(--cj-surface-raised);
+    border: 1px solid var(--cj-border);
+    border-radius: $radius-lg;
+    box-shadow: 0 12px 40px var(--cj-shadow);
+    padding: $space-4;
+    width: min(440px, calc(100vw - #{$space-6}));
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $space-3;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: $text-lg;
+  }
+
+  &__close {
+    @include icon-button;
+    font-size: $text-xl;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+  }
+
+  &__label {
+    font-size: $text-sm;
+    font-weight: 600;
+    color: var(--cj-text-muted);
+  }
+
+  &__input {
+    @include input-base;
+    width: 100%;
+  }
+
+  &__hint {
+    font-size: $text-xs;
+    color: var(--cj-text-faint);
+  }
+
+  &__check {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    font-size: $text-sm;
+  }
+
+  &__builtin {
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+    padding: $space-2 $space-3;
+    background: var(--cj-bg);
+    border: 1px solid var(--cj-border);
+    border-radius: $radius-sm;
+  }
+
+  &__builtin-text {
+    margin: 0;
+    font-size: $text-xs;
+    color: var(--cj-text-muted);
+    line-height: 1.5;
+
+    &--ok {
+      color: var(--cj-success);
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0 0 $space-1;
+    }
+  }
+
+  &__code {
+    font-family: $font-mono;
+    font-size: $text-xs;
+    background: var(--cj-hover);
+    border-radius: $radius-sm;
+    padding: 0 2px;
+    user-select: all;
+    word-break: break-all;
+  }
+
+  &__download {
+    @include button-primary;
+    margin-top: $space-1;
+    font-size: $text-sm;
+  }
+
+  &__download-error {
+    margin: $space-1 0 0;
+    font-size: $text-xs;
+    color: var(--cj-danger);
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: $space-2;
+    margin-top: $space-4;
+  }
+
+  &__cancel {
+    @include button-base;
+  }
+
+  &__save {
+    @include button-primary;
+  }
+}

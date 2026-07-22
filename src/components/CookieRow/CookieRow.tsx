@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { bareDomain, type Cookie } from '../../lib/cookies';
 import { SAME_SITE_LABELS, formatExpiry, formatExpiryAbsolute, truncate } from '../../lib/format';
 import { detectToken } from '../../lib/token';
+import { AiPanel } from '../AiPanel/AiPanel';
 import { TokenPanel } from '../TokenPanel/TokenPanel';
 import './cookie-row.scss';
 
@@ -138,6 +139,7 @@ export function CookieRow({ cookie, isProtected, showDomain, onDelete, onEdit, o
               </>
             )}
           </dl>
+          <AiPanel cookie={cookie} />
         </div>
       )}
     </li>

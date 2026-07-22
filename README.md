@@ -11,6 +11,7 @@ A friendly cookie manager for developers, built as a Chrome extension (Manifest 
 - **Export / import** — JSON (lossless round-trip including CHIPS-partitioned cookies), **CSV** (spreadsheets), and **Netscape cookies.txt** (feeds straight into `curl -b`, `wget`, `yt-dlp`; HttpOnly cookies use curl's `#HttpOnly_` convention). Import auto-detects the format and accepts **EditThisCookie** and **Cookie Editor** exports as-is. Per-domain menu also copies a ready **Cookie header string** or a complete **cURL command**.
 - **Safe destructive actions** — single deletes are instant with an Undo toast; domain deletes ask for confirmation; "Delete all" requires typing `DELETE`. Protected cookies are always kept and reported ("2 protected kept").
 - **Dark mode** via `prefers-color-scheme`, keyboard shortcuts (`/` focuses search, `Esc` closes dialogs), **remembered search & view** across manager opens, and incremental rendering ("Show more") so even huge cookie jars stay snappy.
+- **AI "Explain this cookie"** — expand a cookie row and ask what it's for. Uses Chrome's on-device AI (Gemini Nano) when available, falling back to the Claude API with your own key. **Privacy-first: only cookie metadata is sent — never the value.** The value is described (length, detected format, and for JWTs the algorithm, claim *names*, and expiry timing) but its content never leaves the browser. Supports follow-up questions per cookie.
 - **Storage inspector** — localStorage + sessionStorage of every open tab, grouped by origin in the Manager (sessionStorage listed per tab, since it's tab-scoped); view/edit/delete/add keys, export per origin, clear with undo. The popup shows the current tab's storage. *(Chrome offers no API to read another origin's web storage without a tab — open tabs are the honest maximum.)*
 - **JWT / token decoder** — values containing a JWT (even URL-encoded or inside JSON wrappers) get a badge and an inline decoded panel: claims, `exp` countdown, expired highlighting. Base64-JSON blobs are decoded too. Works in cookie rows and storage rows.
 - **Timeline** — every cookie change in the browser (set/removed/overwritten/expired, which domain, when) recorded by the service worker into session memory; filterable, pausable. Plus **snapshot → run your flow → diff**: see exactly which cookies an auth flow added, removed or changed.
@@ -44,7 +45,8 @@ E2E scenarios live in `e2e/features/*.feature` (Given/When/Then), step definitio
 src/
 ├── lib/          # framework-free core — cookies.ts (chrome.cookies gotchas), pageStorage.ts
 │                 # (chrome.scripting injection), timeline.ts / snapshot.ts (storage.session),
-│                 # deepClean.ts (browsingData), token.ts (JWT decoding, pure)
+│                 # deepClean.ts (browsingData), token.ts (JWT decoding, pure), ai/ (metadata-only
+│                 # context + on-device/Claude backends)
 ├── hooks/        # useCookies (live via onChanged), useProtection, useTabStorage, useTimeline…
 ├── components/   # shared UI: each folder = Component.tsx + component.scss (BEM)
 ├── popup/        # toolbar popup (current site: cookies + storage tabs)
