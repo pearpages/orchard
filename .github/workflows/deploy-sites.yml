@@ -27,14 +27,7 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter "./sites/*" --filter "./plugins/*/site" build
-      - name: Assemble site
-        run: |
-          mkdir -p _site
-          cp -R sites/home/dist/. _site/
-          for slug in begone cookiejar focaccia headerforge hopchase; do
-            cp -R "plugins/$slug/site/dist" "_site/$slug"
-          done
+      - run: pnpm sites:build
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

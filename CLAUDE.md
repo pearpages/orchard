@@ -25,6 +25,7 @@ Plugins: **begone** (`@begone/extension`, vanilla TS + esbuild — user-managed 
 
 - Root: `pnpm build` / `pnpm typecheck` / `pnpm test` / `pnpm test:e2e` (tests run with `--workspace-concurrency=1` — e2e suites bind fixed ports and persistent Chromium profiles, keep them serial).
 - `pnpm sites` runs all six site dev servers in parallel on pinned ports (begone 4321, cookiejar 4322, focaccia 4323, headerforge 4324, hopchase 4325, home 4326 — pinned in each site's `dev` script so the port↔site mapping is stable; the `./plugins/*/site` + `./sites/*` filter globs pick up future sites automatically). Plugin-site dev URLs include the base path: `localhost:432x/<slug>/`.
+- `pnpm sites:build` builds all six sites and assembles the deployable tree into `_site/` (via `scripts/assemble-site.mjs`, gitignored); `pnpm sites:preview` serves `_site/` at `localhost:4330` (`scripts/serve-site.mjs`, no-dep static server) — the way to test path-based cross-site links before deploying.
 - Per plugin: `pnpm cookiejar <script>` / `pnpm focaccia <script>` / `pnpm headerforge <script>` (directory filters, forward any script), or cd into the package.
 - **Tests are always `vitest run`** — every package's `test` script is non-watch; use `test:watch` explicitly when you want watch mode. Never bare `vitest`/`pnpm test -w` in scripts.
 - **Never run `playwright test` from the repo root** — e2e fixtures resolve `dist/` from the package cwd; always go through the package's `test:e2e` script or a `--filter`.
@@ -39,7 +40,7 @@ Plugins: **begone** (`@begone/extension`, vanilla TS + esbuild — user-managed 
 
 - **One domain, path-based**: `https://orchard.pearpages.com/` (root directory page from `sites/home`) + `/<slug>/` per plugin site. Chosen because GH Pages allows one custom domain per repo; supersedes the earlier `plugins.pearpages.com` decision. `SITE` in `packages/site-kit/src/plugins.ts` is the canonical URL constant.
 - Each plugin site's `astro.config.mjs` sets `site: 'https://orchard.pearpages.com'` + `base: '/<slug>'`; the home site sets only `site`. Shared images (pear icon, plugin icons, favicons) are **ESM imports from `@browser-plugins/assets`** — hashed into `_astro/` with the base auto-prefixed; `withBase()` remains only for genuine per-site `public/` files (sole user today: focaccia's hero `focaccia-icon.png`). `OtherPlugins` sibling links are deliberately bare `/<slug>/` (path-root routing) and its footer links home (`/`).
-- `.github/workflows/deploy-sites.yml` (push to main + workflow_dispatch): builds all six sites, assembles `_site/` (home at root, each site dist under `/<slug>`), deploys via `upload-pages-artifact`/`deploy-pages`. `sites/home/public/CNAME` is self-documentation; the authoritative domain lives in repo Settings → Pages.
+- `.github/workflows/deploy-sites.yml` (push to main + workflow_dispatch): runs `pnpm sites:build` — the same script used locally — then deploys `_site/` via `upload-pages-artifact`/`deploy-pages`. Assembly logic lives ONLY in `scripts/assemble-site.mjs` (slugs derived from `plugins/*/site/dist` on disk, errors if a site package has no dist); keep the workflow free of assembly shell. `sites/home/public/CNAME` is self-documentation; the authoritative domain lives in repo Settings → Pages.
 - **Manual go-live steps (user, not yet done)**: (1) `git push origin main`; (2) GitHub → orchard → Settings → Pages → Source: **GitHub Actions**; (3) same page → Custom domain `orchard.pearpages.com`, then Enforce HTTPS once the cert issues; (4) GoDaddy DNS for pearpages.com: CNAME record host `orchard` → `pearpages.github.io`; (5) first deploy runs on the push (or workflow_dispatch).
 - Follow-up parked: og:image social cards (no 1200×630 art exists yet).
 
@@ -48,6 +49,11 @@ Plugins: **begone** (`@begone/extension`, vanilla TS + esbuild — user-managed 
 - Shared/monorepo decisions go in this file; plugin-specific conventions and session logs go in `plugins/<name>/CLAUDE.md`. Update the relevant CLAUDE.md at the end of each session (finished + pending TODOs).
 
 ## Session log
+
+### 2026-07-23 — `_site/` assembly extracted to a shared local script
+- New root scripts `sites:build` (builds all six sites, then `scripts/assemble-site.mjs` assembles `_site/`) and `sites:preview` (`scripts/serve-site.mjs`, no-dep static server on port 4330 with trailing-slash redirects). `deploy-sites.yml` now just runs `pnpm sites:build` — local rehearsal and CI can no longer drift, and the hardcoded five-slug list is gone (slugs derived from `plugins/*/site/dist`, hard error if a site package has no dist). `_site/` added to `.gitignore`.
+- Verified: `pnpm sites:build` green, all six pages + a hashed CSS asset 200 over `sites:preview`, `/hopchase` → `/hopchase/` 301, unknown path 404, missing-dist negative test exits 1.
+- Hardened `serve-site.mjs` after a stale orphan caused `EADDRINUSE`: friendly port-in-use error with the `lsof -ti :4330 | xargs kill` recovery one-liner, and SIGINT/SIGTERM/SIGHUP handlers that exit immediately (deliberately not `server.close()` — keep-alive connections would delay port release).
 
 ### 2026-07-23 — `@browser-plugins/assets`: shared images, ~40 duplicate files deleted
 - New `packages/assets` (source-shipped, subpath `exports`, no build): canonical `pearpages-icon.png` + `plugins/{slug}.png` (48px), seeded by `git mv` from existing copies (focaccia's 48px only existed as the site copy — its extension icons are build-generated). Killed the 12× pear-icon and 6-8× plugin-icon duplication.
