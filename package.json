@@ -10,6 +10,7 @@
     "sites": "pnpm -r --parallel --filter \"./plugins/*/site\" --filter \"./sites/*\" dev",
     "sites:build": "pnpm --filter \"./sites/*\" --filter \"./plugins/*/site\" build && node scripts/assemble-site.mjs",
     "sites:preview": "node scripts/serve-site.mjs",
+    "sites:og": "node scripts/generate-og.mjs",
     "begone": "pnpm --filter \"./plugins/begone/**\"",
     "cookiejar": "pnpm --filter \"./plugins/cookiejar/**\"",
     "focaccia": "pnpm --filter \"./plugins/focaccia/**\"",

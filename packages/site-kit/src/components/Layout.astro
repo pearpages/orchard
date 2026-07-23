@@ -1,4 +1,5 @@
 ---
+import type { ImageMetadata } from 'astro';
 import pearIcon from '@browser-plugins/assets/pearpages-icon.png';
 
 interface Props {
@@ -6,10 +7,13 @@ interface Props {
   description: string;
   /** Favicon href; defaults to the shared pear icon. */
   favicon?: string;
+  /** 1200×630 social card (ESM-imported); emits og:image + twitter tags when set. */
+  image?: ImageMetadata;
 }
 
-const { title, description, favicon = pearIcon.src } = Astro.props;
+const { title, description, favicon = pearIcon.src, image } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const ogImage = image && Astro.site ? new URL(image.src, Astro.site).href : undefined;
 ---
 
 <html lang="en">
@@ -22,8 +26,19 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : un
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="orchard" />
     {canonical && <link rel="canonical" href={canonical} />}
     {canonical && <meta property="og:url" content={canonical} />}
+    {ogImage && image && (
+      <>
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content={String(image.width)} />
+        <meta property="og:image:height" content={String(image.height)} />
+        <meta property="og:image:alt" content={title} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={ogImage} />
+      </>
+    )}
     <slot name="head" />
   </head>
   <body>

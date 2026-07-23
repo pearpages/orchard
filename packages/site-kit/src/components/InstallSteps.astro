@@ -11,12 +11,12 @@ interface Props {
 const {
   buildCommand,
   distPath,
-  repoUrl = '<this repo>',
+  repoUrl = 'https://github.com/pearpages/orchard',
   note = 'Not on the Chrome Web Store (yet) — you load it straight from the source, which also means you can read every line of what runs.',
 } = Astro.props;
 
 const cloneBlock = `git clone ${repoUrl}
-cd browser-plugins
+cd orchard
 pnpm install
 ${buildCommand}`;
 ---

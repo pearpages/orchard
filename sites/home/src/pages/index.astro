@@ -2,18 +2,16 @@
 import '../styles/theme.css';
 import Layout from '@browser-plugins/site-kit/components/Layout.astro';
 import AuthorCard from '@browser-plugins/site-kit/components/AuthorCard.astro';
-import { plugins } from '@browser-plugins/site-kit/plugins';
+import { plugins, homeCard } from '@browser-plugins/site-kit/plugins';
 import pearIcon from '@browser-plugins/assets/pearpages-icon.png';
+import ogImage from '../assets/og.png';
 ---
 
-<Layout
-  title="orchard — browser plugins by pearpages"
-  description="A small orchard of Chrome extensions — grown by hand, loaded unpacked. Element removal, cookies, headers, redirects and focus."
->
+<Layout title={homeCard.title} description={homeCard.description} image={ogImage}>
   <header class="hero">
     <img class="hero__icon" src={pearIcon.src} alt="" width="72" height="72" />
     <h1 class="hero__title">orchard</h1>
-    <p class="hero__tagline">A small orchard of Chrome extensions — grown by hand, loaded unpacked.</p>
+    <p class="hero__tagline">{homeCard.tagline}</p>
   </header>
 
   <main class="grove">

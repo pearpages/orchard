@@ -5,10 +5,12 @@ import InstallSteps from '@browser-plugins/site-kit/components/InstallSteps.astr
 import OtherPlugins from '@browser-plugins/site-kit/components/OtherPlugins.astro';
 import AuthorCard from '@browser-plugins/site-kit/components/AuthorCard.astro';
 import siteIcon from '@browser-plugins/assets/plugins/cookiejar.png';
+import ogImage from '../assets/og.png';
 ---
 
 <Layout
   favicon={siteIcon.src}
+  image={ogImage}
   title="CookieJar — a friendly cookie manager for developers"
   description="See, search, edit, protect and export cookies across every domain in Chrome. JWT decoder, change timeline, cookies.txt and cURL interop — built for debugging auth flows."
 >
