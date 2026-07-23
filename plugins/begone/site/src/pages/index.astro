@@ -4,9 +4,11 @@ import Layout from '@browser-plugins/site-kit/components/Layout.astro';
 import InstallSteps from '@browser-plugins/site-kit/components/InstallSteps.astro';
 import OtherPlugins from '@browser-plugins/site-kit/components/OtherPlugins.astro';
 import AuthorCard from '@browser-plugins/site-kit/components/AuthorCard.astro';
+import siteIcon from '@browser-plugins/assets/plugins/begone.png';
 ---
 
 <Layout
+  favicon={siteIcon.src}
   title="Begone — banish unwanted elements"
   description="Banishes unwanted elements the instant they appear. Add the CSS selectors of cookie banners, newsletter popups and other page noise — Begone removes them on every page, live."
 >

@@ -8,6 +8,8 @@ importers:
 
   .: {}
 
+  packages/assets: {}
+
   packages/config:
     devDependencies:
       '@playwright/test':
@@ -15,6 +17,10 @@ importers:
         version: 1.61.1
 
   packages/site-kit:
+    dependencies:
+      '@browser-plugins/assets':
+        specifier: workspace:*
+        version: link:../assets
     devDependencies:
       astro:
         specifier: ^7.1.1
@@ -22,6 +28,9 @@ importers:
 
   plugins/begone/extension:
     devDependencies:
+      '@browser-plugins/assets':
+        specifier: workspace:*
+        version: link:../../../packages/assets
       '@browser-plugins/config':
         specifier: workspace:*
         version: link:../../../packages/config
@@ -37,6 +46,9 @@ importers:
 
   plugins/begone/site:
     dependencies:
+      '@browser-plugins/assets':
+        specifier: workspace:*
+        version: link:../../../packages/assets
       '@browser-plugins/site-kit':
         specifier: workspace:*
         version: link:../../../packages/site-kit
@@ -49,6 +61,9 @@ importers:
       '@anthropic-ai/sdk':
         specifier: ^0.112.4
         version: 0.112.4(zod@4.4.3)
+      '@browser-plugins/assets':
+        specifier: workspace:*
+        version: link:../../../packages/assets
       react:
         specifier: ^19.2.7
         version: 19.2.7
@@ -110,6 +125,9 @@ importers:
 
   plugins/cookiejar/site:
     dependencies:
+      '@browser-plugins/assets':
+        specifier: workspace:*
+        version: link:../../../packages/assets
       '@browser-plugins/site-kit':
         specifier: workspace:*
         version: link:../../../packages/site-kit
@@ -119,6 +137,9 @@ importers:
 
   plugins/focaccia/extension:
     devDependencies:
+      '@browser-plugins/assets':
+        specifier: workspace:*
+        version: link:../../../packages/assets
       '@browser-plugins/config':
         specifier: workspace:*
         version: link:../../../packages/config
@@ -146,6 +167,9 @@ importers:
 
   plugins/focaccia/site:
     dependencies:
+      '@browser-plugins/assets':
+        specifier: workspace:*
+        version: link:../../../packages/assets
       '@browser-plugins/site-kit':
         specifier: workspace:*
         version: link:../../../packages/site-kit
@@ -155,6 +179,9 @@ importers:
 
   plugins/headerforge/extension:
     dependencies:
+      '@browser-plugins/assets':
+        specifier: workspace:*
+        version: link:../../../packages/assets
       react:
         specifier: ^19.2.7
         version: 19.2.7
@@ -201,6 +228,9 @@ importers:
 
   plugins/headerforge/site:
     dependencies:
+      '@browser-plugins/assets':
+        specifier: workspace:*
+        version: link:../../../packages/assets
       '@browser-plugins/site-kit':
         specifier: workspace:*
         version: link:../../../packages/site-kit
@@ -210,6 +240,9 @@ importers:
 
   plugins/hopchase/extension:
     dependencies:
+      '@browser-plugins/assets':
+        specifier: workspace:*
+        version: link:../../../packages/assets
       react:
         specifier: ^19.2.7
         version: 19.2.7
@@ -256,6 +289,9 @@ importers:
 
   plugins/hopchase/site:
     dependencies:
+      '@browser-plugins/assets':
+        specifier: workspace:*
+        version: link:../../../packages/assets
       '@browser-plugins/site-kit':
         specifier: workspace:*
         version: link:../../../packages/site-kit
@@ -265,6 +301,9 @@ importers:
 
   sites/home:
     dependencies:
+      '@browser-plugins/assets':
+        specifier: workspace:*
+        version: link:../../packages/assets
       '@browser-plugins/site-kit':
         specifier: workspace:*
         version: link:../../packages/site-kit

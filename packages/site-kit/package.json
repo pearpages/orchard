@@ -12,6 +12,9 @@
     "./components/AuthorCard.astro": "./src/components/AuthorCard.astro",
     "./components/InstallSteps.astro": "./src/components/InstallSteps.astro"
   },
+  "dependencies": {
+    "@browser-plugins/assets": "workspace:*"
+  },
   "peerDependencies": {
     "astro": "^7.1.1"
   },

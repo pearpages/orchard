@@ -12,9 +12,10 @@ apps/
 └── site/        Static promo site (Astro) — pnpm dev:site / pnpm build:site
 ```
 
-The site's `public/favicon.png` and `public/focaccia-icon.png` (shown in the hero sign) are copies
-of the generated extension icons (`pnpm icons`, then `dist/icons/icon48.png` / `icon128.png`) —
-re-copy them if the icon art changes.
+The site's favicon comes from the shared `@browser-plugins/assets` package (`plugins/focaccia.png`,
+a 48px render of the generated icon); `public/focaccia-icon.png` (shown in the hero sign) is a copy
+of the generated 128px icon (`pnpm icons`, then `dist/icons/icon128.png`). If the icon art changes,
+regenerate and re-copy both.
 
 All commands below run from the repo root and delegate into the right workspace; they work
 equally from inside `apps/extension`. Node and pnpm versions are pinned in `mise.toml`.

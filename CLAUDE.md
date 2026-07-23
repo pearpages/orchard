@@ -3,6 +3,7 @@
 pnpm-workspace monorepo of Chrome extensions (MV3). Layout:
 
 ```
+packages/assets/            # @browser-plugins/assets — shared images (pear icon + 48px plugin icons), source-shipped
 packages/config/            # @browser-plugins/config — shared tsconfig.base.json + playwright.base.js
 packages/site-kit/          # @browser-plugins/site-kit — shared Astro components + plugin registry
 plugins/<name>/extension    # the extension package
@@ -37,7 +38,7 @@ Plugins: **begone** (`@begone/extension`, vanilla TS + esbuild — user-managed 
 ## Deployment (sites)
 
 - **One domain, path-based**: `https://orchard.pearpages.com/` (root directory page from `sites/home`) + `/<slug>/` per plugin site. Chosen because GH Pages allows one custom domain per repo; supersedes the earlier `plugins.pearpages.com` decision. `SITE` in `packages/site-kit/src/plugins.ts` is the canonical URL constant.
-- Each plugin site's `astro.config.mjs` sets `site: 'https://orchard.pearpages.com'` + `base: '/<slug>'`; the home site sets only `site`. All asset refs must go through site-kit's `withBase()`; `OtherPlugins` sibling links are deliberately bare `/<slug>/` (path-root routing) and its footer links home (`/`).
+- Each plugin site's `astro.config.mjs` sets `site: 'https://orchard.pearpages.com'` + `base: '/<slug>'`; the home site sets only `site`. Shared images (pear icon, plugin icons, favicons) are **ESM imports from `@browser-plugins/assets`** — hashed into `_astro/` with the base auto-prefixed; `withBase()` remains only for genuine per-site `public/` files (sole user today: focaccia's hero `focaccia-icon.png`). `OtherPlugins` sibling links are deliberately bare `/<slug>/` (path-root routing) and its footer links home (`/`).
 - `.github/workflows/deploy-sites.yml` (push to main + workflow_dispatch): builds all six sites, assembles `_site/` (home at root, each site dist under `/<slug>`), deploys via `upload-pages-artifact`/`deploy-pages`. `sites/home/public/CNAME` is self-documentation; the authoritative domain lives in repo Settings → Pages.
 - **Manual go-live steps (user, not yet done)**: (1) `git push origin main`; (2) GitHub → orchard → Settings → Pages → Source: **GitHub Actions**; (3) same page → Custom domain `orchard.pearpages.com`, then Enforce HTTPS once the cert issues; (4) GoDaddy DNS for pearpages.com: CNAME record host `orchard` → `pearpages.github.io`; (5) first deploy runs on the push (or workflow_dispatch).
 - Follow-up parked: og:image social cards (no 1200×630 art exists yet).
@@ -47,6 +48,12 @@ Plugins: **begone** (`@begone/extension`, vanilla TS + esbuild — user-managed 
 - Shared/monorepo decisions go in this file; plugin-specific conventions and session logs go in `plugins/<name>/CLAUDE.md`. Update the relevant CLAUDE.md at the end of each session (finished + pending TODOs).
 
 ## Session log
+
+### 2026-07-23 — `@browser-plugins/assets`: shared images, ~40 duplicate files deleted
+- New `packages/assets` (source-shipped, subpath `exports`, no build): canonical `pearpages-icon.png` + `plugins/{slug}.png` (48px), seeded by `git mv` from existing copies (focaccia's 48px only existed as the site copy — its extension icons are build-generated). Killed the 12× pear-icon and 6-8× plugin-icon duplication.
+- Consumption per stack: **sites/site-kit** import the PNGs as ESM (registry `PluginMeta.icon` is now `ImageMetadata`; `OtherPlugins`/`AuthorCard` use `.src`; `Layout` gained a `favicon` prop defaulting to the pear — per-site `public/favicon.png` copies deleted, each site passes its own icon's `.src`). **React extensions** import the pear in the credit footer (`src={pearIcon}`, Vite emits hashed). **esbuild extensions** (begone/focaccia) copy it in `build.mjs` via `fileURLToPath(import.meta.resolve('@browser-plugins/assets/pearpages-icon.png'))`.
+- Deleted: every site's `public/plugins/` dir, `public/pearpages-icon.png`, `public/favicon.png`, and all five extension pear copies. Kept: `sites/home/public/CNAME`, focaccia's unique 128px `focaccia-icon.png` (still via `withBase`).
+- Verified: root build/typecheck/test green (137+72+30+53), `_site/` reassembled + served over HTTP (all six pages render, icons/favicons as hashed `/<base>/_astro/*` URLs, cross-links intact), pear icon confirmed in all five extension dists + popup screenshots. Not committed (changes staged).
 
 ### 2026-07-22 (night, latest+2) — sites deployment prepared (orchard.pearpages.com), hopchase site, focaccia on site-kit
 - Full deployment prep for path-based hosting at `orchard.pearpages.com` (see the new Deployment section above). site-kit: `SITE` constant updated, hopchase added to the registry, `Layout` gained canonical + og:url, `OtherPlugins` gained an "Explore the whole orchard →" home link. All plugin-site astro configs got `site` + `base: '/<slug>'`.

@@ -1,6 +1,5 @@
 ---
 import { plugins, type PluginMeta } from '../plugins';
-import { withBase } from '../paths';
 
 interface Props {
   current?: PluginMeta['slug'];
@@ -17,7 +16,7 @@ const others = plugins.filter((p) => p.slug !== current);
     {
       others.map((p) => (
         <a class="sk-others__item" href={`/${p.slug}/`}>
-          <img class="sk-others__icon" src={withBase(`plugins/${p.icon}`)} alt="" width="40" height="40" />
+          <img class="sk-others__icon" src={p.icon.src} alt="" width="40" height="40" />
           <span class="sk-others__text">
             <span class="sk-others__name">{p.name}</span>
             <span class="sk-others__tagline">{p.tagline}</span>

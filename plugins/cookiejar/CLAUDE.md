@@ -20,6 +20,9 @@ Chrome extension (MV3) cookie manager for developers. React 19 + TypeScript + Vi
 
 ## Session log
 
+### 2026-07-23 — shared assets package
+- Pear credit icon in the popup is now an ESM import from `@browser-plugins/assets` (Vite emits it hashed); `extension/public/pearpages-icon.png` and the site's `public/` copies (pear, favicon, `plugins/`) are deleted — site-kit imports shared images directly.
+
 ### 2026-07-22 — branded popup header (monorepo consistency pass)
 - Popup gained a `popup__brand` banner above the existing contextual `popup__header` (site bar, unchanged): full-bleed `var(--cj-accent)` amber, `/icons/icon32.png` at 26px on a white chip, "CookieJar" + tagline "Cookie manager", white text. Named `__brand` because `popup__header` was already taken by the site bar. Dark mode adapts via the token. 19 e2e + 137 unit green; screenshot-verified light+dark.
 

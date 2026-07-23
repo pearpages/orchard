@@ -6,6 +6,7 @@ import { TracerTab } from './components/TracerTab'
 import { useTargetTab } from './hooks/use-target-tab'
 import { useTrackerState } from './hooks/use-tracker-state'
 import './App.scss'
+import pearIcon from '@browser-plugins/assets/pearpages-icon.png'
 
 type TabId = 'current' | 'tracer' | 'history'
 
@@ -49,7 +50,7 @@ export function App() {
       {active === 'tracer' && <TracerTab />}
       {active === 'history' && <HistoryTab />}
       <footer className="credit">
-        <img className="credit__icon" src="/pearpages-icon.png" alt="" width="16" height="16" />
+        <img className="credit__icon" src={pearIcon} alt="" width="16" height="16" />
         Made by{' '}
         <a href="https://pearpages.com" target="_blank" rel="noopener">
           pearpages

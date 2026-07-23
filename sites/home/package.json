@@ -10,6 +10,7 @@
     "preview": "astro preview"
   },
   "dependencies": {
+    "@browser-plugins/assets": "workspace:*",
     "@browser-plugins/site-kit": "workspace:*",
     "astro": "^7.1.1"
   }

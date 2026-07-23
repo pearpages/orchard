@@ -4,9 +4,11 @@ import Layout from '@browser-plugins/site-kit/components/Layout.astro';
 import InstallSteps from '@browser-plugins/site-kit/components/InstallSteps.astro';
 import OtherPlugins from '@browser-plugins/site-kit/components/OtherPlugins.astro';
 import AuthorCard from '@browser-plugins/site-kit/components/AuthorCard.astro';
+import siteIcon from '@browser-plugins/assets/plugins/hopchase.png';
 ---
 
 <Layout
+  favicon={siteIcon.src}
   title="HopChase — see every redirect hop"
   description="Every redirect hop — statuses, headers, and the SEO issues they hide. HopChase reconstructs the full chain behind each page load: server redirects, meta refreshes, JS hops, with an on-demand tracer and exports."
 >

@@ -1,12 +1,14 @@
 ---
-import { withBase } from '../paths';
+import pearIcon from '@browser-plugins/assets/pearpages-icon.png';
 
 interface Props {
   title: string;
   description: string;
+  /** Favicon href; defaults to the shared pear icon. */
+  favicon?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, favicon = pearIcon.src } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 ---
 
@@ -16,7 +18,7 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : un
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="icon" type="image/png" href={withBase('favicon.png')} />
+    <link rel="icon" type="image/png" href={favicon} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />

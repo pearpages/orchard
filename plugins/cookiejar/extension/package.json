@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.112.4",
+    "@browser-plugins/assets": "workspace:*",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },

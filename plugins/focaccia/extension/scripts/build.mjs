@@ -31,7 +31,6 @@ await build({
 const staticFiles = [
   ['manifest.json', 'manifest.json'],
   ['popup/popup.html', 'popup/popup.html'],
-  ['popup/pearpages-icon.png', 'popup/pearpages-icon.png'],
   ['popup/css', 'popup/css'],
   ['blocked/blocked.html', 'blocked/blocked.html'],
   ['blocked/blocked.css', 'blocked/blocked.css'],
@@ -42,6 +41,10 @@ const staticFiles = [
 for (const [from, to] of staticFiles) {
   cpSync(join(src, from), join(dist, to), { recursive: true });
 }
+
+// Shared assets resolved from the workspace package.
+const pearIcon = fileURLToPath(import.meta.resolve('@browser-plugins/assets/pearpages-icon.png'));
+cpSync(pearIcon, join(dist, 'popup/pearpages-icon.png'));
 
 writeIcons(join(dist, 'icons'));
 

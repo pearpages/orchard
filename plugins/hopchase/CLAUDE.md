@@ -17,6 +17,9 @@ Redirect-chain inspector (MV3). See extension/README.md for user-facing docs and
 
 ## Session log
 
+### 2026-07-23 — shared assets package
+- Pear credit icon in the popup is now an ESM import from `@browser-plugins/assets` (Vite emits it hashed); `extension/public/pearpages-icon.png` and the site's `public/` copies (pear, favicon, `plugins/`) are deleted — site-kit imports shared images directly.
+
 ### 2026-07-22 (deployment prep) — promo site + registry entry
 - New `plugins/hopchase/site` (`@hopchase/site`, Astro on site-kit, dev port **4325**, base `/hopchase`): wire-blue `--hc-*` tokens hand-copied from `extension/src/popup/styles/base.scss` (accent + the four status colors; keep in sync by hand), hero = faux browser window showing a 4-hop redirect chain with colored status pills + issue chips, six feature cards from the README, InstallSteps/OtherPlugins/AuthorCard. Registered in site-kit's `plugins.ts`; `hopchase.png` (copy of `icon-48.png`) added to every site's `public/plugins/`. Closes the "promo site + registry entry" pending item. Deployment wiring is monorepo-wide — see root CLAUDE.md → Deployment.
 

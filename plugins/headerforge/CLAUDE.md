@@ -20,6 +20,9 @@ ModHeader-style Chrome extension (MV3). See README.md for user-facing docs and a
 
 ## Session log
 
+### 2026-07-23 — shared assets package
+- Pear credit icon in the popup is now an ESM import from `@browser-plugins/assets` (Vite emits it hashed); `extension/public/pearpages-icon.png` and the site's `public/` copies (pear, favicon, `plugins/`) are deleted — site-kit imports shared images directly.
+
 ### 2026-07-22 — branded popup header (monorepo consistency pass)
 - Popup gained an `app__header` banner before `ProfileTabs`: full-bleed `var(--accent-request)` blue, `/icons/icon.svg` at 26px on a white chip (`app__mark`), "HeaderForge" + tagline "Header editor", white text. Dark mode adapts via the token. 3 e2e + 30 unit green; screenshot-verified light+dark.
 

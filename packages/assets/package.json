@@ -1,0 +1,14 @@
+{
+  "name": "@browser-plugins/assets",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared static images: pear author icon + 48px plugin icons. Shipped as source, no build.",
+  "exports": {
+    "./pearpages-icon.png": "./pearpages-icon.png",
+    "./plugins/begone.png": "./plugins/begone.png",
+    "./plugins/cookiejar.png": "./plugins/cookiejar.png",
+    "./plugins/focaccia.png": "./plugins/focaccia.png",
+    "./plugins/headerforge.png": "./plugins/headerforge.png",
+    "./plugins/hopchase.png": "./plugins/hopchase.png"
+  }
+}

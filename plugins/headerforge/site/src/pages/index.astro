@@ -4,9 +4,11 @@ import Layout from '@browser-plugins/site-kit/components/Layout.astro';
 import InstallSteps from '@browser-plugins/site-kit/components/InstallSteps.astro';
 import OtherPlugins from '@browser-plugins/site-kit/components/OtherPlugins.astro';
 import AuthorCard from '@browser-plugins/site-kit/components/AuthorCard.astro';
+import siteIcon from '@browser-plugins/assets/plugins/headerforge.png';
 ---
 
 <Layout
+  favicon={siteIcon.src}
   title="HeaderForge — rewrite request and response headers on the wire"
   description="A ModHeader-style Chrome extension: modify HTTP request and response headers in profiles, scoped by URL filters, with presets and export/import. Verified on the wire, not in DevTools."
 >

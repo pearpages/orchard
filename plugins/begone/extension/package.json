@@ -2,13 +2,14 @@
   "name": "@begone/extension",
   "version": "1.0.0",
   "private": true,
-  "description": "Chrome extension: banishes unwanted elements the instant they appear — user-managed CSS selector list.",
+  "description": "Chrome extension: banishes unwanted elements the instant they appear \u2014 user-managed CSS selector list.",
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@browser-plugins/assets": "workspace:*",
     "@browser-plugins/config": "workspace:*",
     "@types/chrome": "^0.2.2",
     "esbuild": "^0.28.1",

@@ -14,6 +14,7 @@ import { ProfileTabs } from './components/ProfileTabs'
 import { ProfileToolbar } from './components/ProfileToolbar'
 import { UrlFilterSection } from './components/UrlFilterSection'
 import './App.scss'
+import pearIcon from '@browser-plugins/assets/pearpages-icon.png'
 
 type HeaderListKey = 'requestHeaders' | 'responseHeaders'
 
@@ -171,7 +172,7 @@ export function App() {
       />
       <ImportExport state={state} onImport={importProfiles} />
       <footer className="credit">
-        <img className="credit__icon" src="/pearpages-icon.png" alt="" width="16" height="16" />
+        <img className="credit__icon" src={pearIcon} alt="" width="16" height="16" />
         Made by{' '}
         <a href="https://pearpages.com" target="_blank" rel="noopener">
           pearpages

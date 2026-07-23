@@ -11,6 +11,7 @@ import { filterCookies } from '../lib/filter';
 import { partitionForBulkDelete } from '../lib/protection';
 import { PopupStorage } from './PopupStorage';
 import './popup.scss';
+import pearIcon from '@browser-plugins/assets/pearpages-icon.png';
 
 const MANAGER_PATH = 'src/manager/index.html';
 
@@ -165,7 +166,7 @@ export function Popup() {
       )}
 
       <footer className="popup__credit">
-        <img className="popup__credit-icon" src="/pearpages-icon.png" alt="" width="16" height="16" />
+        <img className="popup__credit-icon" src={pearIcon} alt="" width="16" height="16" />
         Made by{' '}
         <a href="https://pearpages.com" target="_blank" rel="noopener">
           pearpages

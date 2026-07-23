@@ -30,12 +30,15 @@ const staticFiles = [
   ['manifest.json', 'manifest.json'],
   ['popup.html', 'popup.html'],
   ['popup.css', 'popup.css'],
-  ['pearpages-icon.png', 'pearpages-icon.png'],
   ['icons', 'icons'],
 ];
 
 for (const [from, to] of staticFiles) {
   cpSync(join(root, from), join(dist, to), { recursive: true });
 }
+
+// Shared assets resolved from the workspace package.
+const pearIcon = fileURLToPath(import.meta.resolve('@browser-plugins/assets/pearpages-icon.png'));
+cpSync(pearIcon, join(dist, 'pearpages-icon.png'));
 
 console.log('Built to dist/ — load it via chrome://extensions → Load unpacked.');

@@ -4,10 +4,12 @@ import Layout from '@browser-plugins/site-kit/components/Layout.astro';
 import InstallSteps from '@browser-plugins/site-kit/components/InstallSteps.astro';
 import OtherPlugins from '@browser-plugins/site-kit/components/OtherPlugins.astro';
 import AuthorCard from '@browser-plugins/site-kit/components/AuthorCard.astro';
+import siteIcon from '@browser-plugins/assets/plugins/focaccia.png';
 import { withBase } from '@browser-plugins/site-kit/paths';
 ---
 
 <Layout
+  favicon={siteIcon.src}
   title="Focaccia — close the internet when it's time to work"
   description="A Chrome extension with an enamel kitchen-timer soul: block distracting sites with one switch and keep focus with a built-in Pomodoro timer."
 >
