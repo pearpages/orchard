@@ -14,18 +14,18 @@ import ogImage from '../assets/og.png';
     <p class="hero__tagline">{homeCard.tagline}</p>
   </header>
 
-  <main class="grove">
+  <main id="main" class="grove">
     {
       plugins.map((p) => (
         <a class="tree" href={`/${p.slug}/`}>
-          <span class="tree__head">
+          <div class="tree__head">
             <img class="tree__icon" src={p.icon.src} alt="" width="48" height="48" />
-            <span class="tree__text">
-              <span class="tree__name">{p.name}</span>
-              <span class="tree__tagline">{p.tagline}</span>
-            </span>
-          </span>
-          <span class="tree__desc">{p.description}</span>
+            <div class="tree__text">
+              <h2 class="tree__name">{p.name}</h2>
+              <p class="tree__tagline">{p.tagline}</p>
+            </div>
+          </div>
+          <p class="tree__desc">{p.description}</p>
         </a>
       ))
     }
@@ -114,16 +114,19 @@ import ogImage from '../assets/og.png';
   }
 
   .tree__name {
+    margin: 0;
     font-size: 18px;
     font-weight: 700;
   }
 
   .tree__tagline {
+    margin: 0;
     font-size: 14px;
     color: var(--oc-ink-muted);
   }
 
   .tree__desc {
+    margin: 0;
     font-size: 14px;
     line-height: 1.55;
     color: var(--oc-ink-muted);

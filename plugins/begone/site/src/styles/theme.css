@@ -9,10 +9,11 @@
   --be-border: #eaeaea;
   --be-border-strong: #d8d8d8;
   --be-ink: #242220;
-  --be-ink-muted: #888888;
+  --be-ink-muted: #6f6f6f; /* darkened from the extension's #888 for AA contrast */
   --be-accent: #c0392b;
   --be-accent-soft: #f9e9e7;
   --be-accent-text: #96291d;
+  --be-cta-ink: #fff8f6;
   --be-shadow: rgba(36, 34, 32, 0.07);
 
   --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -41,6 +42,7 @@
     --be-accent: #e05a49;
     --be-accent-soft: #3a2421;
     --be-accent-text: #ea7f70;
+    --be-cta-ink: #1b1a19; /* dark ink on the bright accent — white fails AA here */
     --be-shadow: rgba(0, 0, 0, 0.4);
 
     --sk-code-bg: #242322;

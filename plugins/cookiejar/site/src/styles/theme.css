@@ -8,10 +8,15 @@
   --cj-border: #e8e1d6;
   --cj-border-strong: #d5cbbb;
   --cj-ink: #2d2a24;
-  --cj-ink-muted: #8a8171;
+  --cj-ink-muted: #736a58; /* darkened from the extension's #8a8171 for AA contrast */
   --cj-accent: #c07a2d;
   --cj-accent-soft: #f7ead9;
   --cj-accent-text: #935a1b;
+  /* CTA: the amber accent fails AA under white text, so the button gets its own tokens */
+  --cj-cta-bg: #935a1b;
+  --cj-cta-ink: #ffffff;
+  --cj-cta-hover: #6f4114;
+  --cj-cta-edge: #6f4114;
   --cj-shield: #4a6fa5;
   --cj-shield-soft: #e9eff7;
   --cj-shadow: rgba(45, 42, 36, 0.1);
@@ -43,6 +48,10 @@
     --cj-accent: #e0964a;
     --cj-accent-soft: #3a2e1f;
     --cj-accent-text: #e8ab6c;
+    --cj-cta-bg: #e0964a;
+    --cj-cta-ink: #1c1a17; /* dark ink on the bright amber — white fails AA here */
+    --cj-cta-hover: #e8ab6c;
+    --cj-cta-edge: #935a1b;
     --cj-shield: #7ea1d4;
     --cj-shield-soft: #232c3a;
     --cj-shadow: rgba(0, 0, 0, 0.4);

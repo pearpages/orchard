@@ -24,7 +24,7 @@ import ogImage from '../assets/og.png';
     </p>
     <a class="hero__cta" href="#install">Banish something</a>
 
-    <figure class="page" aria-label="A page's DOM with the cookie banner and newsletter popup removed by Begone">
+    <figure class="page" role="img" aria-label="A page's DOM with the cookie banner and newsletter popup removed by Begone">
       <figcaption class="page__bar">
         <span class="page__dot"></span><span class="page__dot"></span><span class="page__dot"></span>
         <span class="page__url">somewhere-noisy.example</span>
@@ -42,7 +42,8 @@ import ogImage from '../assets/og.png';
     </figure>
   </header>
 
-  <main class="features">
+  <main id="main">
+    <div class="features">
     <section class="card">
       <h2 class="card__title">Your rules only</h2>
       <p class="card__body">
@@ -86,14 +87,15 @@ import ogImage from '../assets/og.png';
         content script of about a kilobyte. Small enough to read in one sitting.
       </p>
     </section>
+    </div>
+
+    <InstallSteps
+      buildCommand="pnpm --filter @begone/extension build"
+      distPath="plugins/begone/extension/dist"
+    />
+
+    <OtherPlugins current="begone" />
   </main>
-
-  <InstallSteps
-    buildCommand="pnpm --filter @begone/extension build"
-    distPath="plugins/begone/extension/dist"
-  />
-
-  <OtherPlugins current="begone" />
 
   <AuthorCard>
     <p>Dedicated to Christophe, who wanted the noise gone.</p>
@@ -146,7 +148,7 @@ import ogImage from '../assets/og.png';
     padding: 12px 32px;
     border-radius: 999px;
     background: var(--be-accent);
-    color: #fff8f6;
+    color: var(--be-cta-ink);
     font-size: 16px;
     font-weight: 700;
     text-decoration: none;

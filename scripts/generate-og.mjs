@@ -20,20 +20,20 @@ function fail(message) {
 }
 
 const THEMES = {
-  home: { bg: '#fbfaf7', ink: '#26251f', muted: '#85816f', accent: '#4a8f3c', rule: '#e8e5dc' },
-  begone: { bg: '#fbfbfa', ink: '#242220', muted: '#888888', accent: '#c0392b', rule: '#eaeaea' },
-  cookiejar: { bg: '#faf7f2', ink: '#2d2a24', muted: '#8a8171', accent: '#c07a2d', rule: '#e8e1d6' },
-  focaccia: { bg: '#fffdf4', ink: '#33261f', muted: '#8a7a66', accent: '#d9482b', rule: '#e3d5b2' },
+  home: { bg: '#fbfaf7', ink: '#26251f', muted: '#706c5a', accent: '#4a8f3c', rule: '#e8e5dc' },
+  begone: { bg: '#fbfbfa', ink: '#242220', muted: '#6f6f6f', accent: '#c0392b', rule: '#eaeaea' },
+  cookiejar: { bg: '#faf7f2', ink: '#2d2a24', muted: '#736a58', accent: '#c07a2d', rule: '#e8e1d6' },
+  focaccia: { bg: '#fffdf4', ink: '#33261f', muted: '#70614e', accent: '#d9482b', rule: '#e3d5b2' },
   headerforge: {
     bg: '#ffffff',
     ink: '#1c2128',
-    muted: '#68717f',
+    muted: '#5d6675',
     accent: '#3b6ef6',
     rule: '#dde2ea',
     // The only dual-accent site: request blue / response teal.
     bar: 'linear-gradient(90deg, #3b6ef6 50%, #0d9488 50%)',
   },
-  hopchase: { bg: '#f5f7fb', ink: '#1c2128', muted: '#68717f', accent: '#3b6ef6', rule: '#dde2ea' },
+  hopchase: { bg: '#f5f7fb', ink: '#1c2128', muted: '#5d6675', accent: '#3b6ef6', rule: '#dde2ea' },
 };
 
 // Native ≥128px icon sources (the shared assets package only has 48px copies).

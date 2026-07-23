@@ -64,7 +64,8 @@ import ogImage from '../assets/og.png';
     <a class="hero__cta" href="#install">Put it in your toolbar</a>
   </header>
 
-  <main class="features">
+  <main id="main">
+    <div class="features">
     <section class="card">
       <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true">
         <circle cx="21" cy="21" r="12" fill="none" stroke="currentColor" stroke-width="2.5" />
@@ -138,9 +139,9 @@ import ogImage from '../assets/og.png';
         format, JWT claim names, timing; the content stays in your browser.
       </p>
     </section>
-  </main>
+    </div>
 
-  <section class="pantry">
+    <section class="pantry">
     <h2 class="pantry__title">Also in the jar</h2>
     <ul class="pantry__chips">
       <li>Storage inspector (localStorage + sessionStorage per tab)</li>
@@ -149,15 +150,16 @@ import ogImage from '../assets/og.png';
       <li>Dark mode</li>
       <li><code class="inline">/</code> focuses search</li>
       <li>Remembers your last search</li>
-    </ul>
-  </section>
+      </ul>
+    </section>
 
-  <InstallSteps
-    buildCommand="pnpm --filter @cookiejar/extension build"
-    distPath="plugins/cookiejar/extension/dist"
-  />
+    <InstallSteps
+      buildCommand="pnpm --filter @cookiejar/extension build"
+      distPath="plugins/cookiejar/extension/dist"
+    />
 
-  <OtherPlugins current="cookiejar" />
+    <OtherPlugins current="cookiejar" />
+  </main>
 
   <AuthorCard>
     <p>Built for the days auth cookies fight back.</p>
@@ -214,16 +216,16 @@ import ogImage from '../assets/og.png';
     margin-top: 24px;
     padding: 12px 32px;
     border-radius: 999px;
-    background: var(--cj-accent);
-    color: #fffdf8;
+    background: var(--cj-cta-bg);
+    color: var(--cj-cta-ink);
     font-size: 16px;
     font-weight: 700;
     text-decoration: none;
-    box-shadow: 0 2px 0 var(--cj-accent-text);
+    box-shadow: 0 2px 0 var(--cj-cta-edge);
   }
 
   .hero__cta:hover {
-    background: var(--cj-accent-text);
+    background: var(--cj-cta-hover);
   }
 
   .features {

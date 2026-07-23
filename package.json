@@ -10,11 +10,16 @@
     "sites": "pnpm -r --parallel --filter \"./plugins/*/site\" --filter \"./sites/*\" dev",
     "sites:build": "pnpm --filter \"./sites/*\" --filter \"./plugins/*/site\" build && node scripts/assemble-site.mjs",
     "sites:preview": "node scripts/serve-site.mjs",
+    "sites:a11y": "node scripts/a11y-check.mjs",
     "sites:og": "node scripts/generate-og.mjs",
     "begone": "pnpm --filter \"./plugins/begone/**\"",
     "cookiejar": "pnpm --filter \"./plugins/cookiejar/**\"",
     "focaccia": "pnpm --filter \"./plugins/focaccia/**\"",
     "headerforge": "pnpm --filter \"./plugins/headerforge/**\"",
     "hopchase": "pnpm --filter \"./plugins/hopchase/**\""
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "^1.61.1"
   }
 }

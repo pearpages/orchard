@@ -42,6 +42,39 @@ const ogImage = image && Astro.site ? new URL(image.src, Astro.site).href : unde
     <slot name="head" />
   </head>
   <body>
+    <a class="sk-skip" href="#main">Skip to content</a>
     <slot />
   </body>
 </html>
+
+<style is:global>
+  :focus-visible {
+    outline: 3px solid var(--sk-accent, #4c66c0);
+    outline-offset: 2px;
+  }
+
+  .sk-skip {
+    position: absolute;
+    left: 12px;
+    top: -100px;
+    z-index: 10;
+    padding: 10px 16px;
+    background: var(--sk-ink, #222);
+    color: var(--sk-surface, #fff);
+    border-radius: 8px;
+    text-decoration: none;
+  }
+
+  .sk-skip:focus {
+    top: 12px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+</style>

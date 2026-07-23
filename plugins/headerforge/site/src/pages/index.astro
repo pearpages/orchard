@@ -26,9 +26,9 @@ import ogImage from '../assets/og.png';
     </p>
     <a class="hero__cta" href="#install">Forge your first header</a>
 
-    <figure class="wire" aria-label="An HTTP exchange showing headers added by HeaderForge">
+    <figure class="wire" role="img" aria-label="An HTTP exchange showing headers added by HeaderForge">
       <div class="wire__pane wire__pane--request">
-        <figcaption class="wire__caption">→ request</figcaption>
+        <p class="wire__caption">→ request</p>
         <pre class="wire__code">GET /headers HTTP/1.1
 Host: httpbin.org
 Accept: application/json
@@ -36,7 +36,7 @@ Accept: application/json
 <mark class="wire__added wire__added--request">X-Env: staging</mark></pre>
       </div>
       <div class="wire__pane wire__pane--response">
-        <figcaption class="wire__caption">← response</figcaption>
+        <p class="wire__caption">← response</p>
         <pre class="wire__code">HTTP/1.1 200 OK
 Content-Type: application/json
 <mark class="wire__added wire__added--response">Access-Control-Allow-Origin: *</mark>
@@ -46,7 +46,8 @@ Content-Type: application/json
     </figure>
   </header>
 
-  <main class="features">
+  <main id="main">
+    <div class="features">
     <section class="card card--request">
       <h2 class="card__title">→ Request headers</h2>
       <p class="card__body">
@@ -90,9 +91,9 @@ Content-Type: application/json
         rule error). Profiles export and import as validated JSON.
       </p>
     </section>
-  </main>
+    </div>
 
-  <section class="truth">
+    <section class="truth">
     <h2 class="truth__title">DevTools lies about modified headers</h2>
     <p class="truth__body">
       <code class="inline">declarativeNetRequest</code> rewrites happen outside the render process,
@@ -101,14 +102,15 @@ Content-Type: application/json
       JSON — proof it went out on the wire. HeaderForge's own test suite verifies exactly this way,
       against a local echo server.
     </p>
-  </section>
+    </section>
 
-  <InstallSteps
-    buildCommand="pnpm --filter @headerforge/extension build"
-    distPath="plugins/headerforge/extension/dist"
-  />
+    <InstallSteps
+      buildCommand="pnpm --filter @headerforge/extension build"
+      distPath="plugins/headerforge/extension/dist"
+    />
 
-  <OtherPlugins current="headerforge" />
+    <OtherPlugins current="headerforge" />
+  </main>
 
   <AuthorCard>
     <p>Verified on the wire, not in DevTools.</p>
@@ -131,7 +133,7 @@ Content-Type: application/json
   }
 
   .hero__eyebrow span {
-    color: var(--hf-response);
+    color: var(--hf-response-text);
   }
 
   .hero__title {
@@ -162,11 +164,11 @@ Content-Type: application/json
   }
 
   .dir--request {
-    color: var(--hf-request);
+    color: var(--hf-request-text);
   }
 
   .dir--response {
-    color: var(--hf-response);
+    color: var(--hf-response-text);
   }
 
   .hero__pitch {
@@ -180,8 +182,8 @@ Content-Type: application/json
     margin-top: 24px;
     padding: 12px 32px;
     border-radius: 8px;
-    background: var(--hf-request);
-    color: #fff;
+    background: var(--hf-cta-bg);
+    color: var(--hf-cta-ink);
     font-family: var(--font-mono);
     font-size: 15px;
     font-weight: 700;
@@ -189,7 +191,7 @@ Content-Type: application/json
   }
 
   .hero__cta:hover {
-    filter: brightness(1.12);
+    background: var(--hf-cta-hover);
   }
 
   .wire {
@@ -306,11 +308,11 @@ Content-Type: application/json
   }
 
   .card--request .card__title {
-    color: var(--hf-request);
+    color: var(--hf-request-text);
   }
 
   .card--response .card__title {
-    color: var(--hf-response);
+    color: var(--hf-response-text);
   }
 
   .card__body {
@@ -347,7 +349,7 @@ Content-Type: application/json
   }
 
   .truth__body a {
-    color: var(--hf-request);
+    color: var(--hf-request-text);
     font-weight: 600;
   }
 

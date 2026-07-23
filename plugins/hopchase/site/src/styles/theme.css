@@ -8,14 +8,20 @@
   --hc-panel: #f4f6f9;
   --hc-border: #dde2ea;
   --hc-ink: #1c2128;
-  --hc-ink-muted: #68717f;
+  --hc-ink-muted: #5d6675; /* darkened from the extension's #68717f for AA contrast */
   --hc-accent: #3b6ef6;
   --hc-accent-soft: rgba(59, 110, 246, 0.08);
   --hc-accent-text: #2a55c4;
-  --hc-2xx: #1d9e5f;
+  /* status colors darkened from the extension's for AA contrast on the soft tints */
+  --hc-2xx: #157a49;
   --hc-2xx-soft: rgba(29, 158, 95, 0.12);
-  --hc-3xx: #b97b0a;
+  --hc-3xx: #8a5c07;
   --hc-3xx-soft: rgba(240, 168, 50, 0.16);
+  /* CTA: the raw accent fails AA under white text, so the button gets its own tokens */
+  --hc-cta-bg: #2a55c4;
+  --hc-cta-ink: #ffffff;
+  --hc-cta-hover: #1f46a8;
+  --hc-cta-edge: #1f46a8;
   --hc-4xx: #d64545;
   --hc-4xx-soft: rgba(214, 69, 69, 0.12);
   --hc-client: #7c53c9;
@@ -57,6 +63,10 @@
     --hc-client: #a98cf0;
     --hc-client-soft: rgba(169, 140, 240, 0.16);
     --hc-shadow: rgba(0, 0, 0, 0.4);
+    --hc-cta-bg: #5b87ff;
+    --hc-cta-ink: #15181e; /* dark ink on the bright accent — white fails AA here */
+    --hc-cta-hover: #7d9fff;
+    --hc-cta-edge: #2a55c4;
 
     --sk-code-bg: #1d222b;
     --sk-code-ink: #c9d6f5;

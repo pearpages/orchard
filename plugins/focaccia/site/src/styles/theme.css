@@ -13,7 +13,7 @@
   --green: #5b8c51;
   --green-deep: #47703f;
   --ink: #33261f;
-  --ink-soft: #8a7a66;
+  --ink-soft: #70614e; /* darkened from the extension's #8a7a66 for AA contrast */
   --font-display: ui-rounded, "Hiragino Maru Gothic ProN", "Arial Rounded MT Bold", system-ui, sans-serif;
   --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;

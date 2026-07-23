@@ -37,7 +37,8 @@ import ogImage from '../assets/og.png';
     <a class="hero__cta" href="#install">Get it running in two minutes</a>
   </header>
 
-  <main class="features">
+  <main id="main">
+    <div class="features">
     <section class="card">
       <svg class="card__icon" viewBox="0 0 48 48" aria-hidden="true">
         <rect x="6" y="16" width="36" height="16" rx="8" fill="none" stroke="currentColor" stroke-width="2.5" />
@@ -83,14 +84,15 @@ import ogImage from '../assets/og.png';
         desktop notification, and the next phase starts on its own. Focus, break, repeat.
       </p>
     </section>
+    </div>
+
+    <InstallSteps
+      buildCommand="pnpm --filter @focaccia/extension build"
+      distPath="plugins/focaccia/extension/dist"
+    />
+
+    <OtherPlugins current="focaccia" />
   </main>
-
-  <InstallSteps
-    buildCommand="pnpm --filter @focaccia/extension build"
-    distPath="plugins/focaccia/extension/dist"
-  />
-
-  <OtherPlugins current="focaccia" />
 
   <AuthorCard>
     <p>Built with cream, tomato, and TypeScript.</p>
@@ -209,7 +211,7 @@ import ogImage from '../assets/og.png';
   }
 
   .hero__cta:hover {
-    background: var(--red);
+    background: var(--red-dark);
   }
 
   .features {

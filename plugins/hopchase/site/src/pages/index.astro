@@ -24,7 +24,11 @@ import ogImage from '../assets/og.png';
     </p>
     <a class="hero__cta" href="#install">Chase a redirect</a>
 
-    <figure class="trace" aria-label="A redirect chain of four hops as HopChase shows it">
+    <figure
+      class="trace"
+      role="img"
+      aria-label="A redirect chain of four hops as HopChase shows it — two 301s and a 302 before the final 200, with three SEO issues flagged"
+    >
       <figcaption class="trace__bar">
         <span class="trace__dot"></span><span class="trace__dot"></span><span class="trace__dot"></span>
         <span class="trace__url">where did this tab come from?</span>
@@ -59,7 +63,8 @@ import ogImage from '../assets/og.png';
     </figure>
   </header>
 
-  <main class="features">
+  <main id="main">
+    <div class="features">
     <section class="card">
       <h2 class="card__title">The whole chain, not the last stop</h2>
       <p class="card__body">
@@ -105,14 +110,15 @@ import ogImage from '../assets/og.png';
         and latency.
       </p>
     </section>
+    </div>
+
+    <InstallSteps
+      buildCommand="pnpm --filter @hopchase/extension build"
+      distPath="plugins/hopchase/extension/dist"
+    />
+
+    <OtherPlugins current="hopchase" />
   </main>
-
-  <InstallSteps
-    buildCommand="pnpm --filter @hopchase/extension build"
-    distPath="plugins/hopchase/extension/dist"
-  />
-
-  <OtherPlugins current="hopchase" />
 
   <AuthorCard>
     <p>Built for the tabs that arrive somewhere unexpected.</p>
@@ -165,16 +171,16 @@ import ogImage from '../assets/og.png';
     margin-top: 24px;
     padding: 12px 32px;
     border-radius: 999px;
-    background: var(--hc-accent);
-    color: #fff;
+    background: var(--hc-cta-bg);
+    color: var(--hc-cta-ink);
     font-size: 16px;
     font-weight: 700;
     text-decoration: none;
-    box-shadow: 0 2px 0 var(--hc-accent-text);
+    box-shadow: 0 2px 0 var(--hc-cta-edge);
   }
 
   .hero__cta:hover {
-    background: var(--hc-accent-text);
+    background: var(--hc-cta-hover);
   }
 
   .trace {

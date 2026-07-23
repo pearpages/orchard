@@ -5,7 +5,7 @@
   --oc-border: #e8e5dc;
   --oc-border-strong: #d6d2c4;
   --oc-ink: #26251f;
-  --oc-ink-muted: #85816f;
+  --oc-ink-muted: #706c5a; /* darkened for AA contrast on the warm paper bg */
   --oc-accent: #4a8f3c;
   --oc-accent-soft: #ebf4e7;
   --oc-accent-text: #38702d;
