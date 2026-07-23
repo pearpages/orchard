@@ -14,7 +14,7 @@ import siteIcon from '@browser-plugins/assets/plugins/headerforge.png';
 >
   <header class="hero">
     <p class="hero__eyebrow">X-Made-With: <span>care</span></p>
-    <h1 class="hero__title">HeaderForge</h1>
+    <h1 class="hero__title"><img class="hero__logo" src={siteIcon.src} alt="" width="48" height="48" />HeaderForge</h1>
     <p class="hero__tagline">
       Rewrite <span class="dir dir--request">request →</span> and <span class="dir dir--response">← response</span> headers. For real, on the wire.
     </p>
@@ -137,6 +137,14 @@ Content-Type: application/json
     font-size: clamp(38px, 7vw, 56px);
     font-weight: 700;
     color: var(--hf-ink);
+  }
+
+  .hero__logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    vertical-align: middle;
+    margin: -6px 14px 0 0;
   }
 
   .hero__tagline {

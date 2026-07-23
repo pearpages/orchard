@@ -13,7 +13,7 @@ import siteIcon from '@browser-plugins/assets/plugins/hopchase.png';
   description="Every redirect hop — statuses, headers, and the SEO issues they hide. HopChase reconstructs the full chain behind each page load: server redirects, meta refreshes, JS hops, with an on-demand tracer and exports."
 >
   <header class="hero">
-    <h1 class="hero__title">Hop<span class="hero__chase">Chase</span></h1>
+    <h1 class="hero__title"><img class="hero__logo" src={siteIcon.src} alt="" width="48" height="48" />Hop<span class="hero__chase">Chase</span></h1>
     <p class="hero__tagline">Every redirect hop — statuses, headers, and the SEO issues they hide.</p>
     <p class="hero__pitch">
       A page load is rarely one request. HopChase shows the whole journey — server redirects,
@@ -131,6 +131,15 @@ import siteIcon from '@browser-plugins/assets/plugins/hopchase.png';
     font-weight: 800;
     letter-spacing: -0.02em;
     font-family: var(--font-mono);
+  }
+
+  .hero__logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    vertical-align: middle;
+    margin: -6px 14px 0 0;
+    box-shadow: 0 3px 10px var(--hc-shadow);
   }
 
   .hero__chase {

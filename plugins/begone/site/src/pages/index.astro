@@ -13,7 +13,7 @@ import siteIcon from '@browser-plugins/assets/plugins/begone.png';
   description="Banishes unwanted elements the instant they appear. Add the CSS selectors of cookie banners, newsletter popups and other page noise — Begone removes them on every page, live."
 >
   <header class="hero">
-    <h1 class="hero__title">Begone<span class="hero__zap">.</span></h1>
+    <h1 class="hero__title"><img class="hero__logo" src={siteIcon.src} alt="" width="48" height="48" />Begone<span class="hero__zap">.</span></h1>
     <p class="hero__tagline">Banishes unwanted elements the instant they appear.</p>
     <p class="hero__pitch">
       Begone ships with <strong>no rules of its own</strong>. You add the CSS selectors — cookie
@@ -111,6 +111,15 @@ import siteIcon from '@browser-plugins/assets/plugins/begone.png';
     font-size: clamp(40px, 7vw, 56px);
     font-weight: 800;
     letter-spacing: -0.02em;
+  }
+
+  .hero__logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    vertical-align: middle;
+    margin: -6px 14px 0 0;
+    box-shadow: 0 3px 10px var(--be-shadow);
   }
 
   .hero__zap {

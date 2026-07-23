@@ -52,7 +52,7 @@ import siteIcon from '@browser-plugins/assets/plugins/cookiejar.png';
         <text x="168" y="101" text-anchor="middle" font-family="var(--font-mono)" font-size="13" fill="var(--cj-accent-text)" transform="rotate(-8 168 97)">🍪 all</text>
       </g>
     </svg>
-    <h1 class="hero__title">CookieJar</h1>
+    <h1 class="hero__title"><img class="hero__logo" src={siteIcon.src} alt="" width="48" height="48" />CookieJar</h1>
     <p class="hero__tagline">A friendly cookie manager for developers.</p>
     <p class="hero__pitch">
       See, search, edit, protect and export cookies across <strong>every domain</strong> in the
@@ -182,6 +182,15 @@ import siteIcon from '@browser-plugins/assets/plugins/cookiejar.png';
     font-weight: 700;
     letter-spacing: 0.005em;
     color: var(--cj-accent-text);
+  }
+
+  .hero__logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    vertical-align: middle;
+    margin: -6px 14px 0 0;
+    box-shadow: 0 3px 10px var(--cj-shadow);
   }
 
   .hero__tagline {

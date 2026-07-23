@@ -50,6 +50,11 @@ Plugins: **begone** (`@begone/extension`, vanilla TS + esbuild — user-managed 
 
 ## Session log
 
+### 2026-07-23 — site polish: hero logo lockups + home-card descriptions
+- The four logo-less plugin sites (begone, cookiejar, headerforge, hopchase) now show their 48px app icon inline before the hero `<h1>` (`.hero__logo`: inline `vertical-align: middle`, NOT flex on the h1 — flex would split multi-node wordmarks like `Hop<span>Chase</span>` apart with gaps; shadow via each site's token, none for headerforge which has no shadow token by design). Focaccia untouched (logo already on its sign).
+- `PluginMeta` gained `description` (a sentence or two beyond the tagline, copy cribbed from each site's own hero pitch); home cards restructured to icon+name+tagline header row with the description below (`.tree__head`/`.tree__desc`).
+- Verified: typecheck + `sites:build` green, all six pages screenshot-checked light+dark via Playwright against `sites:preview`.
+
 ### 2026-07-23 — `_site/` assembly extracted to a shared local script
 - New root scripts `sites:build` (builds all six sites, then `scripts/assemble-site.mjs` assembles `_site/`) and `sites:preview` (`scripts/serve-site.mjs`, no-dep static server on port 4330 with trailing-slash redirects). `deploy-sites.yml` now just runs `pnpm sites:build` — local rehearsal and CI can no longer drift, and the hardcoded five-slug list is gone (slugs derived from `plugins/*/site/dist`, hard error if a site package has no dist). `_site/` added to `.gitignore`.
 - Verified: `pnpm sites:build` green, all six pages + a hashed CSS asset 200 over `sites:preview`, `/hopchase` → `/hopchase/` 301, unknown path 404, missing-dist negative test exits 1.

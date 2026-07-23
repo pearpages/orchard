@@ -20,11 +20,14 @@ import pearIcon from '@browser-plugins/assets/pearpages-icon.png';
     {
       plugins.map((p) => (
         <a class="tree" href={`/${p.slug}/`}>
-          <img class="tree__icon" src={p.icon.src} alt="" width="56" height="56" />
-          <span class="tree__text">
-            <span class="tree__name">{p.name}</span>
-            <span class="tree__tagline">{p.tagline}</span>
+          <span class="tree__head">
+            <img class="tree__icon" src={p.icon.src} alt="" width="48" height="48" />
+            <span class="tree__text">
+              <span class="tree__name">{p.name}</span>
+              <span class="tree__tagline">{p.tagline}</span>
+            </span>
           </span>
+          <span class="tree__desc">{p.description}</span>
         </a>
       ))
     }
@@ -75,8 +78,8 @@ import pearIcon from '@browser-plugins/assets/pearpages-icon.png';
 
   .tree {
     display: flex;
-    align-items: center;
-    gap: 16px;
+    flex-direction: column;
+    gap: 12px;
     padding: 20px 22px;
     background: var(--oc-surface);
     border: 1px solid var(--oc-border);
@@ -92,10 +95,16 @@ import pearIcon from '@browser-plugins/assets/pearpages-icon.png';
     transform: translateY(-2px);
   }
 
+  .tree__head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
   .tree__icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
     flex-shrink: 0;
   }
 
@@ -113,6 +122,12 @@ import pearIcon from '@browser-plugins/assets/pearpages-icon.png';
 
   .tree__tagline {
     font-size: 14px;
+    color: var(--oc-ink-muted);
+  }
+
+  .tree__desc {
+    font-size: 14px;
+    line-height: 1.55;
     color: var(--oc-ink-muted);
   }
 
